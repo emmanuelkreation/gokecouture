@@ -1,1407 +1,2983 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Goke Couture — Premium Bespoke Tailoring, Lagos</title>
-<meta name="description" content="Goke Couture crafts bespoke garments of unrivalled precision. Bridal, Agbada, Suits, and beyond — made for those who demand the finest."/>
-<meta property="og:title" content="Goke Couture — Premium Bespoke Tailoring"/>
-<meta property="og:description" content="Where every stitch is a statement. Bespoke tailoring in Lagos, Nigeria."/>
-<meta property="og:image" content="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
-<style>
-/* ═══════════════════════════════════════════════
-   TOKENS
-═══════════════════════════════════════════════ */
-:root{
-  --ink:     #0A0A0A;
-  --ivory:   #F5F0E8;
-  --gold:    #C9A84C;
-  --gold-lt: #E8D48A;
-  --sage:    #2D5016;
-  --sage-lt: #3D6B1F;
-  --mist:    rgba(245,240,232,.06);
-  --glass:   rgba(10,10,10,.82);
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'Jost', system-ui, sans-serif;
-  --ease:  cubic-bezier(.25,.46,.45,.94);
-  --slow:  cubic-bezier(.16,1,.3,1);
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goke Couture — Premium Bespoke Tailoring, Ibadan</title>
+  <meta name="description" content="Goke Couture crafts bespoke garments of unrivalled precision. Bridal, Agbada, Suits, and beyond — made for those who demand the finest." />
+  <meta property="og:title" content="Goke Couture — Premium Bespoke Tailoring" />
+  <meta property="og:description" content="Where every stitch is a statement. Bespoke tailoring in Ibadan, Oyo State, Nigeria." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════
+       TOKENS
+    ═══════════════════════════════════════════════ */
+    :root {
+      --ink: #0A0A0A;
+      --ivory: #F5F0E8;
+      --gold: #C9A84C;
+      --gold-lt: #E8D48A;
+      --sage: #2D5016;
+      --sage-lt: #3D6B1F;
+      --mist: rgba(245, 240, 232, .06);
+      --glass: rgba(10, 10, 10, .82);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', system-ui, sans-serif;
+      --ease: cubic-bezier(.25, .46, .45, .94);
+      --slow: cubic-bezier(.16, 1, .3, 1);
+    }
 
-/* ═══════════════════════════════════════════════
-   RESET
-═══════════════════════════════════════════════ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
-body{
-  background:var(--ink);
-  color:var(--ivory);
-  font-family:var(--font-body);
-  font-weight:300;
-  overflow-x:hidden;
-  cursor:none;
-}
-img{display:block;max-width:100%}
-a{text-decoration:none;color:inherit}
-button{cursor:none;border:none;background:none;font-family:inherit}
-ul{list-style:none}
+    /* ═══════════════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px
+    }
+    body {
+      background: var(--ink);
+      color: var(--ivory);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    img {
+      display: block;
+      max-width: 100%
+    }
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+    button {
+      cursor: none;
+      border: none;
+      background: none;
+      font-family: inherit
+    }
+    ul {
+      list-style: none
+    }
 
-/* ═══════════════════════════════════════════════
-   CUSTOM CURSOR
-═══════════════════════════════════════════════ */
-#cursor-dot{
-  position:fixed;width:8px;height:8px;
-  background:var(--gold);border-radius:50%;
-  pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%);
-  transition:transform .1s var(--ease),width .3s var(--slow),height .3s var(--slow),background .3s;
-}
-#cursor-ring{
-  position:fixed;width:36px;height:36px;
-  border:1.5px solid rgba(201,168,76,.5);border-radius:50%;
-  pointer-events:none;z-index:9998;
-  transform:translate(-50%,-50%);
-  transition:transform .18s var(--ease),width .35s var(--slow),height .35s var(--slow),opacity .3s,border-color .3s;
-}
-body.cursor-hover #cursor-dot{width:12px;height:12px;background:var(--gold-lt)}
-body.cursor-hover #cursor-ring{width:54px;height:54px;border-color:var(--gold)}
-@media(hover:none){#cursor-dot,#cursor-ring{display:none}body{cursor:auto}}
+    /* ═══════════════════════════════════════════════
+       CUSTOM CURSOR
+    ═══════════════════════════════════════════════ */
+    #cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .1s var(--ease), width .3s var(--slow), height .3s var(--slow), background .3s;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(201, 168, 76, .5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform .18s var(--ease), width .35s var(--slow), height .35s var(--slow), opacity .3s, border-color .3s;
+    }
+    body.cursor-hover #cursor-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--gold-lt)
+    }
+    body.cursor-hover #cursor-ring {
+      width: 54px;
+      height: 54px;
+      border-color: var(--gold)
+    }
+    @media(hover:none) {
+      #cursor-dot,
+      #cursor-ring {
+        display: none
+      }
+      body {
+        cursor: auto
+      }
+    }
 
-/* ═══════════════════════════════════════════════
-   SCROLL PROGRESS
-═══════════════════════════════════════════════ */
-#scroll-bar{
-  position:fixed;top:0;left:0;height:2px;
-  background:linear-gradient(90deg,var(--sage),var(--gold));
-  width:0%;z-index:9000;transition:width .1s linear;
-}
+    /* ═══════════════════════════════════════════════
+       SCROLL PROGRESS
+    ═══════════════════════════════════════════════ */
+    #scroll-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--sage), var(--gold));
+      width: 0%;
+      z-index: 9000;
+      transition: width .1s linear;
+    }
 
-/* ═══════════════════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════════════════ */
-#nav{
-  position:fixed;top:0;left:0;right:0;z-index:800;
-  padding:0 3rem;
-  display:flex;align-items:center;justify-content:space-between;
-  height:80px;
-  transition:background .5s var(--ease),height .5s var(--ease),
-             backdrop-filter .5s;
-}
-#nav.scrolled{
-  background:rgba(10,10,10,.92);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  height:64px;
-  border-bottom:1px solid rgba(201,168,76,.15);
-}
+    /* ═══════════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 800;
+      padding: 0 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      transition: background .5s var(--ease), height .5s var(--ease),
+        backdrop-filter .5s;
+    }
+    #nav.scrolled {
+      background: rgba(10, 10, 10, .92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      height: 64px;
+      border-bottom: 1px solid rgba(201, 168, 76, .15);
+    }
 
-/* Logo SVG */
-.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-.nav-logo svg{height:44px;width:auto;transition:height .5s var(--ease)}
-#nav.scrolled .nav-logo svg{height:36px}
-.logo-wordmark{
-  font-family:var(--font-body);font-weight:200;
-  font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;
-  color:var(--ivory);line-height:1;
-}
-.logo-wordmark span{display:block;font-weight:400;letter-spacing:.12em;font-size:.55rem;color:var(--gold);margin-top:2px}
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo svg {
+      height: 44px;
+      width: auto;
+      transition: height .5s var(--ease);
+    }
+    #nav.scrolled .nav-logo svg {
+      height: 36px
+    }
+    .logo-wordmark {
+      font-family: var(--font-body);
+      font-weight: 200;
+      font-size: .72rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      line-height: 1;
+    }
+    .logo-wordmark span {
+      display: block;
+      font-weight: 400;
+      letter-spacing: .12em;
+      font-size: .55rem;
+      color: var(--gold);
+      margin-top: 2px
+    }
 
-.nav-links{display:flex;gap:2.5rem;align-items:center}
-.nav-links a{
-  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;
-  color:rgba(245,240,232,.75);
-  position:relative;
-  transition:color .3s;
-}
-.nav-links a::after{
-  content:'';position:absolute;bottom:-4px;left:0;right:100%;height:1px;
-  background:var(--gold);transition:right .35s var(--slow);
-}
-.nav-links a:hover{color:var(--ivory)}
-.nav-links a:hover::after{right:0}
-.nav-links a.active{color:var(--gold)}
-.nav-links a.active::after{right:0;background:var(--gold)}
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center
+    }
+    .nav-links a {
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: rgba(245, 240, 232, .75);
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 100%;
+      height: 1px;
+      background: var(--gold);
+      transition: right .35s var(--slow);
+    }
+    .nav-links a:hover {
+      color: var(--ivory)
+    }
+    .nav-links a:hover::after {
+      right: 0
+    }
+    .nav-links a.active {
+      color: var(--gold)
+    }
+    .nav-links a.active::after {
+      right: 0;
+      background: var(--gold)
+    }
 
-.nav-cta{
-  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;
-  padding:.65rem 1.6rem;
-  border:1px solid var(--gold);
-  color:var(--gold);
-  transition:background .3s,color .3s;
-}
-.nav-cta:hover{background:var(--gold);color:var(--ink)}
+    .nav-cta {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .65rem 1.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: background .3s, color .3s;
+      flex-shrink: 0;
+    }
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--ink)
+    }
 
-.nav-hamburger{display:none;flex-direction:column;gap:5px;padding:4px}
-.nav-hamburger span{
-  display:block;width:26px;height:1.5px;background:var(--ivory);
-  transition:transform .4s var(--slow),opacity .3s;
-}
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 801;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 1.5px;
+      background: var(--ivory);
+      transition: transform .4s var(--slow), opacity .3s;
+      transform-origin: center;
+    }
 
-/* Mobile nav overlay */
-#mobile-nav{
-  position:fixed;inset:0;z-index:700;
-  background:var(--ink);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;
-  opacity:0;pointer-events:none;
-  transition:opacity .4s var(--ease);
-}
-#mobile-nav.open{opacity:1;pointer-events:all}
-.mob-link{
-  font-family:var(--font-display);font-size:clamp(2rem,6vw,3.5rem);
-  font-weight:300;color:var(--ivory);letter-spacing:.05em;
-  opacity:0;transform:translateX(-30px);
-  transition:opacity .5s var(--slow),transform .5s var(--slow),color .3s;
-}
-#mobile-nav.open .mob-link{opacity:1;transform:none}
-#mobile-nav.open .mob-link:nth-child(1){transition-delay:.1s}
-#mobile-nav.open .mob-link:nth-child(2){transition-delay:.17s}
-#mobile-nav.open .mob-link:nth-child(3){transition-delay:.24s}
-#mobile-nav.open .mob-link:nth-child(4){transition-delay:.31s}
-#mobile-nav.open .mob-link:nth-child(5){transition-delay:.38s}
-#mobile-nav.open .mob-link:nth-child(6){transition-delay:.45s}
-#mobile-nav.open .mob-link:nth-child(7){transition-delay:.52s}
-.mob-link:hover{color:var(--gold)}
+    /* Mobile nav overlay */
+    #mobile-nav {
+      position: fixed;
+      inset: 0;
+      z-index: 700;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s var(--ease);
+      padding: 2rem;
+    }
+    #mobile-nav.open {
+      opacity: 1;
+      pointer-events: all
+    }
+    .mob-link {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 300;
+      color: var(--ivory);
+      letter-spacing: .05em;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity .5s var(--slow), transform .5s var(--slow), color .3s;
+    }
+    #mobile-nav.open .mob-link {
+      opacity: 1;
+      transform: none
+    }
+    #mobile-nav.open .mob-link:nth-child(1) {
+      transition-delay: .05s
+    }
+    #mobile-nav.open .mob-link:nth-child(2) {
+      transition-delay: .12s
+    }
+    #mobile-nav.open .mob-link:nth-child(3) {
+      transition-delay: .19s
+    }
+    #mobile-nav.open .mob-link:nth-child(4) {
+      transition-delay: .26s
+    }
+    #mobile-nav.open .mob-link:nth-child(5) {
+      transition-delay: .33s
+    }
+    #mobile-nav.open .mob-link:nth-child(6) {
+      transition-delay: .40s
+    }
+    #mobile-nav.open .mob-link:nth-child(7) {
+      transition-delay: .47s
+    }
+    .mob-link:hover {
+      color: var(--gold)
+    }
+    .mob-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2rem;
+      color: var(--ivory);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity .3s;
+    }
+    .mob-close:hover {
+      opacity: 1;
+    }
 
-/* ═══════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════ */
-#hero{
-  position:relative;height:100svh;min-height:600px;
-  overflow:hidden;display:flex;align-items:flex-end;
-}
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      height: 100svh;
+      min-height: 700px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding-top: 80px;
+      /* space for nav */
+    }
 
-/* Slides */
-.hero-slides{
-  position:absolute;inset:0;
-}
-.hero-slide{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  opacity:0;
-  transform:scale(1.08);
-  transition:opacity 1.4s var(--ease),transform 7s linear;
-}
-.hero-slide.active{
-  opacity:1;transform:scale(1);
-}
-.hero-slide::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(
-    to top,
-    rgba(10,10,10,.92) 0%,
-    rgba(10,10,10,.45) 45%,
-    rgba(10,10,10,.18) 100%
-  );
-}
+    .hero-slides {
+      position: absolute;
+      inset: 0;
+    }
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transform: scale(1.08);
+      transition: opacity 1.4s var(--ease), transform 7s linear;
+    }
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .hero-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top,
+          rgba(10, 10, 10, .92) 0%,
+          rgba(10, 10, 10, .45) 45%,
+          rgba(10, 10, 10, .18) 100%);
+    }
 
-/* Hero content */
-.hero-content{
-  position:relative;z-index:2;
-  padding:0 5vw 7vh;
-  max-width:900px;
-}
-.hero-eyebrow{
-  font-family:var(--font-body);font-weight:300;
-  font-size:.7rem;letter-spacing:.45em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:1.5rem;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .9s var(--slow) .3s,transform .9s var(--slow) .3s;
-}
-.hero-title{
-  font-family:var(--font-display);
-  font-size:clamp(3.2rem,8vw,7.5rem);
-  font-weight:300;line-height:.95;
-  letter-spacing:-.01em;
-  color:var(--ivory);
-  margin-bottom:2rem;
-}
-.hero-title em{
-  font-style:italic;color:var(--gold);display:block;
-  font-size:clamp(2.4rem,6vw,5.5rem);
-  margin-top:.1em;
-}
-.hero-title .word{
-  display:inline-block;overflow:hidden;
-}
-.hero-title .char{
-  display:inline-block;
-  opacity:0;transform:translateY(100%);
-  transition:opacity .7s var(--slow),transform .7s var(--slow);
-}
-.hero-sub{
-  font-size:clamp(.85rem,1.5vw,1rem);font-weight:300;
-  color:rgba(245,240,232,.7);letter-spacing:.06em;
-  max-width:520px;line-height:1.8;margin-bottom:3rem;
-  opacity:0;transform:translateY(20px);
-  transition:opacity 1s var(--slow) .9s,transform 1s var(--slow) .9s;
-}
-.hero-btns{
-  display:flex;gap:1.2rem;flex-wrap:wrap;
-  opacity:0;transform:translateY(20px);
-  transition:opacity 1s var(--slow) 1.1s,transform 1s var(--slow) 1.1s;
-}
-.hero.loaded .hero-eyebrow,
-.hero.loaded .hero-sub,
-.hero.loaded .hero-btns{opacity:1;transform:none}
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 4vh 5vw 7vh;
+      max-width: 900px;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: .7rem;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .9s var(--slow) .3s, transform .9s var(--slow) .3s;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 7vw, 6.5rem);
+      font-weight: 300;
+      line-height: .95;
+      letter-spacing: -.01em;
+      color: var(--ivory);
+      margin-bottom: 2rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+      display: block;
+      font-size: clamp(2rem, 5vw, 4.8rem);
+      margin-top: .1em;
+    }
+    .hero-title .word {
+      display: inline-block;
+      overflow: hidden;
+    }
+    .hero-title .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: opacity .7s var(--slow), transform .7s var(--slow);
+    }
+    .hero-sub {
+      font-size: clamp(.85rem, 1.5vw, 1.05rem);
+      font-weight: 300;
+      color: rgba(245, 240, 232, .7);
+      letter-spacing: .06em;
+      max-width: 520px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s var(--slow) .9s, transform 1s var(--slow) .9s;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s var(--slow) 1.1s, transform 1s var(--slow) 1.1s;
+    }
+    .hero.loaded .hero-eyebrow,
+    .hero.loaded .hero-sub,
+    .hero.loaded .hero-btns {
+      opacity: 1;
+      transform: none
+    }
 
-.btn-primary{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;
-  padding:.9rem 2.4rem;
-  background:var(--gold);color:var(--ink);
-  transition:background .3s,transform .3s var(--slow),letter-spacing .3s;
-}
-.btn-primary:hover{background:var(--gold-lt);transform:translateY(-2px);letter-spacing:.28em}
-.btn-ghost{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;
-  padding:.9rem 2.4rem;
-  border:1px solid rgba(245,240,232,.4);color:var(--ivory);
-  transition:border-color .3s,transform .3s var(--slow);
-}
-.btn-ghost:hover{border-color:var(--ivory);transform:translateY(-2px)}
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      background: var(--gold);
+      color: var(--ink);
+      transition: background .3s, transform .3s var(--slow), letter-spacing .3s;
+      border: none;
+      cursor: none;
+    }
+    .btn-primary:hover {
+      background: var(--gold-lt);
+      transform: translateY(-2px);
+      letter-spacing: .28em
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      border: 1px solid rgba(245, 240, 232, .4);
+      color: var(--ivory);
+      transition: border-color .3s, transform .3s var(--slow);
+      background: transparent;
+      cursor: none;
+    }
+    .btn-ghost:hover {
+      border-color: var(--ivory);
+      transform: translateY(-2px)
+    }
 
-/* Slide indicators */
-.hero-indicators{
-  position:absolute;bottom:2.5rem;right:5vw;z-index:3;
-  display:flex;flex-direction:column;gap:.7rem;align-items:center;
-}
-.hi{
-  width:1px;height:24px;background:rgba(245,240,232,.25);
-  transition:background .4s,height .4s var(--slow);
-  cursor:none;
-}
-.hi.active{background:var(--gold);height:40px}
+    .hero-indicators {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 5vw;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      align-items: center;
+    }
+    .hi {
+      width: 1px;
+      height: 24px;
+      background: rgba(245, 240, 232, .25);
+      transition: background .4s, height .4s var(--slow);
+      cursor: none;
+    }
+    .hi.active {
+      background: var(--gold);
+      height: 40px
+    }
 
-/* Scroll hint */
-.scroll-hint{
-  position:absolute;bottom:2.5rem;left:5vw;z-index:3;
-  display:flex;align-items:center;gap:.8rem;
-  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
-  color:rgba(245,240,232,.45);
-}
-.scroll-hint::before{
-  content:'';width:40px;height:1px;background:rgba(245,240,232,.3);
-  animation:scroll-line 2.2s var(--slow) infinite;
-}
-@keyframes scroll-line{
-  0%{width:0;opacity:0}50%{width:40px;opacity:1}100%{width:40px;opacity:0}
-}
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 5vw;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      font-size: .65rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .45);
+    }
+    .scroll-hint::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: rgba(245, 240, 232, .3);
+      animation: scroll-line 2.2s var(--slow) infinite;
+    }
+    @keyframes scroll-line {
+      0% {
+        width: 0;
+        opacity: 0
+      }
+      50% {
+        width: 40px;
+        opacity: 1
+      }
+      100% {
+        width: 40px;
+        opacity: 0
+      }
+    }
 
-/* ═══════════════════════════════════════════════
-   REVEAL ANIMATION SYSTEM
-═══════════════════════════════════════════════ */
-.reveal{
-  opacity:0;transform:translateY(40px);
-  transition:opacity .9s var(--slow),transform .9s var(--slow);
-}
-.reveal.visible{opacity:1;transform:none}
-.reveal-left{opacity:0;transform:translateX(-50px);transition:opacity .9s var(--slow),transform .9s var(--slow)}
-.reveal-left.visible{opacity:1;transform:none}
-.reveal-right{opacity:0;transform:translateX(50px);transition:opacity .9s var(--slow),transform .9s var(--slow)}
-.reveal-right.visible{opacity:1;transform:none}
-.stagger > *{opacity:0;transform:translateY(30px);transition:opacity .7s var(--slow),transform .7s var(--slow)}
-.stagger.visible > *:nth-child(1){opacity:1;transform:none;transition-delay:.05s}
-.stagger.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:.15s}
-.stagger.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:.25s}
-.stagger.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:.35s}
-.stagger.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:.45s}
-.stagger.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:.55s}
+    /* ═══════════════════════════════════════════════
+       REVEAL ANIMATION SYSTEM
+    ═══════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .9s var(--slow), transform .9s var(--slow);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity .9s var(--slow), transform .9s var(--slow);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: none
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity .9s var(--slow), transform .9s var(--slow);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: none
+    }
+    .stagger>* {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s var(--slow), transform .7s var(--slow);
+    }
+    .stagger.visible>*:nth-child(1) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .05s
+    }
+    .stagger.visible>*:nth-child(2) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .15s
+    }
+    .stagger.visible>*:nth-child(3) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .25s
+    }
+    .stagger.visible>*:nth-child(4) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .35s
+    }
+    .stagger.visible>*:nth-child(5) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .45s
+    }
+    .stagger.visible>*:nth-child(6) {
+      opacity: 1;
+      transform: none;
+      transition-delay: .55s
+    }
 
-/* ═══════════════════════════════════════════════
-   SECTION COMMONS
-═══════════════════════════════════════════════ */
-section{padding:8rem 5vw}
-.sec-eyebrow{
-  font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;font-weight:400;
-  color:var(--gold);margin-bottom:1.2rem;display:block;
-}
-.sec-title{
-  font-family:var(--font-display);
-  font-size:clamp(2.2rem,4.5vw,3.8rem);
-  font-weight:300;line-height:1.1;
-  color:var(--ivory);
-}
-.sec-title em{font-style:italic;color:var(--gold)}
-.divider-line{
-  width:60px;height:1px;background:var(--gold);
-  margin:2rem 0;
-}
+    /* ═══════════════════════════════════════════════
+       SECTION COMMONS
+    ═══════════════════════════════════════════════ */
+    section {
+      padding: 8rem 5vw
+    }
+    .sec-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ivory);
+    }
+    .sec-title em {
+      font-style: italic;
+      color: var(--gold)
+    }
+    .divider-line {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2rem 0;
+    }
 
-/* ═══════════════════════════════════════════════
-   MARQUEE STRIP
-═══════════════════════════════════════════════ */
-.marquee-strip{
-  background:var(--gold);
-  overflow:hidden;white-space:nowrap;
-  padding:.9rem 0;
-}
-.marquee-inner{
-  display:inline-flex;gap:3rem;
-  animation:marquee 28s linear infinite;
-}
-.marquee-inner span{
-  font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;
-  font-weight:500;color:var(--ink);
-}
-.marquee-inner .dot{color:var(--sage);font-size:.9rem}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    /* ═══════════════════════════════════════════════
+       MARQUEE STRIP
+    ═══════════════════════════════════════════════ */
+    .marquee-strip {
+      background: var(--gold);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: .9rem 0;
+    }
+    .marquee-inner {
+      display: inline-flex;
+      gap: 3rem;
+      animation: marquee 28s linear infinite;
+    }
+    .marquee-inner span {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .marquee-inner .dot {
+      color: var(--sage);
+      font-size: .9rem
+    }
+    @keyframes marquee {
+      0% {
+        transform: translateX(0)
+      }
+      100% {
+        transform: translateX(-50%)
+      }
+    }
 
-/* ═══════════════════════════════════════════════
-   ABOUT / BRAND STORY
-═══════════════════════════════════════════════ */
-#about{
-  display:grid;grid-template-columns:1fr 1fr;gap:6rem;
-  align-items:center;
-  background:var(--ink);
-}
-.about-img-wrap{
-  position:relative;
-}
-.about-img{
-  width:100%;height:580px;object-fit:cover;
-  filter:grayscale(15%);
-  transition:filter .6s var(--ease);
-}
-.about-img-wrap:hover .about-img{filter:grayscale(0%)}
-.about-img-accent{
-  position:absolute;bottom:-2rem;right:-2rem;
-  width:200px;height:200px;
-  border:1px solid rgba(201,168,76,.4);
-  pointer-events:none;
-}
-.about-img-tag{
-  position:absolute;top:2rem;left:-1.5rem;
-  background:var(--gold);color:var(--ink);
-  padding:.8rem 1.2rem;
-  font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;font-weight:500;
-  writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);
-}
-.about-text .sec-title{margin-bottom:1.5rem}
-.about-text p{
-  font-size:1rem;line-height:1.9;color:rgba(245,240,232,.72);
-  margin-bottom:1.4rem;font-weight:300;
-}
-.about-stats{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
-  margin-top:3rem;padding-top:2.5rem;
-  border-top:1px solid rgba(245,240,232,.1);
-}
-.stat-num{
-  font-family:var(--font-display);font-size:3rem;font-weight:300;
-  color:var(--gold);line-height:1;
-}
-.stat-lbl{
-  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(245,240,232,.5);margin-top:.4rem;
-}
+    /* ═══════════════════════════════════════════════
+       ABOUT / BRAND STORY
+    ═══════════════════════════════════════════════ */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      background: var(--ink);
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img {
+      width: 100%;
+      height: 580px;
+      object-fit: cover;
+      filter: grayscale(15%);
+      transition: filter .6s var(--ease);
+    }
+    .about-img-wrap:hover .about-img {
+      filter: grayscale(0%)
+    }
+    .about-img-accent {
+      position: absolute;
+      bottom: -2rem;
+      right: -2rem;
+      width: 200px;
+      height: 200px;
+      border: 1px solid rgba(201, 168, 76, .4);
+      pointer-events: none;
+    }
+    .about-img-tag {
+      position: absolute;
+      top: 2rem;
+      left: -1.5rem;
+      background: var(--gold);
+      color: var(--ink);
+      padding: .8rem 1.2rem;
+      font-size: .65rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      font-weight: 500;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+    }
+    .about-text .sec-title {
+      margin-bottom: 1.5rem
+    }
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(245, 240, 232, .72);
+      margin-bottom: 1.4rem;
+      font-weight: 300;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(245, 240, 232, .1);
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .5);
+      margin-top: .4rem;
+    }
 
-/* ═══════════════════════════════════════════════
-   SERVICES
-═══════════════════════════════════════════════ */
-#services{background:#0f0f0f}
-.services-header{max-width:600px;margin-bottom:5rem}
-.services-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;
-  background:rgba(201,168,76,.12);
-}
-.service-card{
-  background:var(--ink);
-  padding:3rem 2.5rem;
-  position:relative;overflow:hidden;
-  transition:background .4s;
-  cursor:none;
-}
-.service-card::before{
-  content:'';position:absolute;top:0;left:0;right:100%;height:2px;
-  background:var(--gold);
-  transition:right .5s var(--slow);
-}
-.service-card:hover{background:#111}
-.service-card:hover::before{right:0}
-.service-icon{
-  width:40px;height:40px;margin-bottom:2rem;
-  opacity:.5;
-  transition:opacity .4s;
-}
-.service-card:hover .service-icon{opacity:1}
-.service-num{
-  font-family:var(--font-display);font-size:5rem;font-weight:300;
-  color:rgba(201,168,76,.08);
-  position:absolute;top:1.5rem;right:2rem;line-height:1;
-  transition:color .4s;
-}
-.service-card:hover .service-num{color:rgba(201,168,76,.14)}
-.service-name{
-  font-family:var(--font-display);font-size:1.6rem;font-weight:400;
-  color:var(--ivory);margin-bottom:1rem;line-height:1.2;
-}
-.service-desc{
-  font-size:.88rem;line-height:1.8;color:rgba(245,240,232,.55);
-}
-.service-link{
-  display:inline-flex;align-items:center;gap:.5rem;
-  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;
-  color:var(--gold);margin-top:2rem;
-  transition:gap .3s var(--slow);
-}
-.service-card:hover .service-link{gap:.9rem}
+    /* ═══════════════════════════════════════════════
+       WHY CHOOSE US
+    ═══════════════════════════════════════════════ */
+    #why-us {
+      background: #0f0f0f;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .why-item {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border: 1px solid rgba(201, 168, 76, .08);
+      transition: border-color .4s, transform .4s var(--slow);
+    }
+    .why-item:hover {
+      border-color: var(--gold);
+      transform: translateY(-6px);
+    }
+    .why-item .why-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1.2rem;
+      color: var(--gold);
+      display: block;
+    }
+    .why-item h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: .6rem;
+    }
+    .why-item p {
+      font-size: .88rem;
+      line-height: 1.7;
+      color: rgba(245, 240, 232, .5);
+    }
 
-/* ═══════════════════════════════════════════════
-   COLLECTIONS PREVIEW
-═══════════════════════════════════════════════ */
-#collections{background:var(--ink)}
-.coll-header{
-  display:flex;justify-content:space-between;align-items:flex-end;
-  margin-bottom:4rem;
-}
-.coll-grid{
-  display:grid;
-  grid-template-columns:1.4fr 1fr 1fr;
-  grid-template-rows:auto auto;
-  gap:1.5px;
-  background:rgba(201,168,76,.12);
-}
-.coll-item{
-  position:relative;overflow:hidden;background:#111;
-  cursor:none;
-}
-.coll-item:first-child{grid-row:span 2}
-.coll-img{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform .9s var(--slow),filter .6s var(--ease);
-  filter:grayscale(20%);
-}
-.coll-item:first-child .coll-img{height:640px}
-.coll-item:not(:first-child) .coll-img{height:310px}
-.coll-item:hover .coll-img{transform:scale(1.07);filter:grayscale(0%)}
-.coll-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(10,10,10,.85) 0%,transparent 55%);
-  opacity:0;transition:opacity .5s var(--ease);
-}
-.coll-item:hover .coll-overlay{opacity:1}
-.coll-label{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:2rem 1.8rem;
-  transform:translateY(10px);opacity:0;
-  transition:opacity .5s var(--ease),transform .5s var(--slow);
-}
-.coll-item:hover .coll-label{opacity:1;transform:none}
-.coll-cat{
-  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:.4rem;
-}
-.coll-name{
-  font-family:var(--font-display);font-size:1.4rem;font-weight:400;
-  color:var(--ivory);
-}
+    /* ═══════════════════════════════════════════════
+       SERVICES
+    ═══════════════════════════════════════════════ */
+    #services {
+      background: #0a0a0a;
+    }
+    .services-header {
+      max-width: 600px;
+      margin-bottom: 5rem
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(201, 168, 76, .12);
+    }
+    .service-card {
+      background: var(--ink);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background .4s;
+      cursor: none;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 100%;
+      height: 2px;
+      background: var(--gold);
+      transition: right .5s var(--slow);
+    }
+    .service-card:hover {
+      background: #111
+    }
+    .service-card:hover::before {
+      right: 0
+    }
+    .service-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 2rem;
+      opacity: .5;
+      transition: opacity .4s;
+    }
+    .service-card:hover .service-icon {
+      opacity: 1
+    }
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 300;
+      color: rgba(201, 168, 76, .08);
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      line-height: 1;
+      transition: color .4s;
+    }
+    .service-card:hover .service-num {
+      color: rgba(201, 168, 76, .14)
+    }
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .service-desc {
+      font-size: .88rem;
+      line-height: 1.8;
+      color: rgba(245, 240, 232, .55);
+    }
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--gold);
+      margin-top: 2rem;
+      transition: gap .3s var(--slow);
+    }
+    .service-card:hover .service-link {
+      gap: .9rem
+    }
+    .service-cta-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1px solid rgba(201, 168, 76, .2);
+      background: var(--ink);
+      padding: 3rem 2rem;
+    }
+    .service-cta-box div {
+      max-width: 220px;
+    }
+    .service-cta-box .btn-primary {
+      margin-top: 1rem;
+    }
 
-/* ═══════════════════════════════════════════════
-   TESTIMONIALS
-═══════════════════════════════════════════════ */
-#testimonials{
-  background:#0a0a0a;
-  text-align:center;padding:8rem 5vw;
-}
-.testi-header{max-width:600px;margin:0 auto 5rem}
-.testi-slider{position:relative;overflow:hidden}
-.testi-track{
-  display:flex;transition:transform .8s var(--slow);
-}
-.testi-slide{
-  min-width:100%;padding:0 max(2rem,10vw);
-}
-.testi-quote{
-  font-family:var(--font-display);
-  font-size:clamp(1.3rem,2.5vw,1.9rem);
-  font-weight:300;font-style:italic;
-  line-height:1.6;color:var(--ivory);
-  margin-bottom:2.5rem;
-}
-.testi-quote::before{
-  content:'\201C';font-size:4rem;color:var(--gold);
-  display:block;line-height:.8;margin-bottom:1rem;
-  font-family:var(--font-display);
-}
-.testi-author{
-  font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:.3rem;
-}
-.testi-role{
-  font-size:.78rem;color:rgba(245,240,232,.45);
-}
-.testi-stars{margin-bottom:.8rem;color:var(--gold);font-size:.9rem}
-.testi-nav{
-  display:flex;justify-content:center;gap:1rem;margin-top:3.5rem;
-}
-.testi-dot{
-  width:32px;height:1.5px;background:rgba(245,240,232,.2);
-  transition:background .4s,width .4s var(--slow);cursor:none;
-}
-.testi-dot.active{background:var(--gold);width:48px}
+    /* ═══════════════════════════════════════════════
+       COLLECTIONS PREVIEW
+    ═══════════════════════════════════════════════ */
+    #collections {
+      background: var(--ink)
+    }
+    .coll-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .coll-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.5px;
+      background: rgba(201, 168, 76, .12);
+    }
+    .coll-item {
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      cursor: none;
+    }
+    .coll-item:first-child {
+      grid-row: span 2
+    }
+    .coll-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .9s var(--slow), filter .6s var(--ease);
+      filter: grayscale(20%);
+    }
+    .coll-item:first-child .coll-img {
+      height: 640px
+    }
+    .coll-item:not(:first-child) .coll-img {
+      height: 310px
+    }
+    .coll-item:hover .coll-img {
+      transform: scale(1.07);
+      filter: grayscale(0%)
+    }
+    .coll-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 10, 10, .85) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity .5s var(--ease);
+    }
+    .coll-item:hover .coll-overlay {
+      opacity: 1
+    }
+    .coll-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem 1.8rem;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: opacity .5s var(--ease), transform .5s var(--slow);
+    }
+    .coll-item:hover .coll-label {
+      opacity: 1;
+      transform: none
+    }
+    .coll-cat {
+      font-size: .65rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .4rem;
+    }
+    .coll-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--ivory);
+    }
 
-/* ═══════════════════════════════════════════════
-   PROCESS
-═══════════════════════════════════════════════ */
-#process{
-  background:#0f0f0f;
-}
-.process-inner{
-  display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:start;
-}
-.process-steps{
-  display:grid;gap:0;
-}
-.process-step{
-  padding:2.5rem 0;
-  border-bottom:1px solid rgba(245,240,232,.08);
-  display:grid;grid-template-columns:60px 1fr;gap:1.5rem;align-items:start;
-  cursor:none;
-  transition:padding .4s var(--slow);
-}
-.process-step:first-child{padding-top:0}
-.process-step.active .step-num{color:var(--gold)}
-.step-num{
-  font-family:var(--font-display);font-size:3rem;font-weight:300;
-  color:rgba(245,240,232,.15);line-height:1;
-  transition:color .4s;
-}
-.step-title{
-  font-family:var(--font-display);font-size:1.3rem;font-weight:400;
-  color:var(--ivory);margin-bottom:.6rem;
-}
-.step-desc{
-  font-size:.88rem;line-height:1.8;color:rgba(245,240,232,.5);
-}
-.process-visual{
-  position:sticky;top:120px;
-}
-.process-img{
-  width:100%;height:520px;object-fit:cover;
-}
-.process-img-cap{
-  margin-top:1.5rem;
-  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(245,240,232,.35);
-}
+    /* ── Additional collection (gallery) ── */
+    #gallery {
+      background: #0f0f0f;
+      padding: 6rem 5vw;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5px;
+      margin-top: 3rem;
+    }
+    .gallery-grid .gallery-item {
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-grid .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s var(--slow), filter .5s;
+      filter: grayscale(30%);
+    }
+    .gallery-grid .gallery-item:hover img {
+      transform: scale(1.08);
+      filter: grayscale(0%);
+    }
+    .gallery-grid .gallery-item .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, .4);
+      opacity: 0;
+      transition: opacity .4s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .gallery-grid .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
 
-/* ═══════════════════════════════════════════════
-   CTA BANNER
-═══════════════════════════════════════════════ */
-#cta-banner{
-  position:relative;padding:10rem 5vw;
-  overflow:hidden;text-align:center;
-}
-.cta-bg{
-  position:absolute;inset:0;
-  background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80&auto=format');
-  background-size:cover;background-position:center;
-  filter:brightness(.22) grayscale(30%);
-  transform:scale(1.05);
-  transition:transform .3s var(--ease);
-}
-#cta-banner::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(45,80,22,.4),rgba(10,10,10,.6));
-}
-.cta-inner{position:relative;z-index:1}
-.cta-title{
-  font-family:var(--font-display);
-  font-size:clamp(2.4rem,5vw,5rem);
-  font-weight:300;color:var(--ivory);
-  line-height:1.1;margin-bottom:1.5rem;
-}
-.cta-title em{font-style:italic;color:var(--gold)}
-.cta-sub{
-  font-size:.95rem;color:rgba(245,240,232,.65);
-  margin-bottom:3rem;letter-spacing:.05em;line-height:1.8;
-}
-.cta-divider{
-  width:1px;height:40px;background:var(--gold);
-  margin:0 auto 3rem;
-}
+    /* ═══════════════════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════════════════ */
+    #testimonials {
+      background: #0a0a0a;
+      text-align: center;
+      padding: 8rem 5vw;
+    }
+    .testi-header {
+      max-width: 600px;
+      margin: 0 auto 5rem
+    }
+    .testi-slider {
+      position: relative;
+      overflow: hidden
+    }
+    .testi-track {
+      display: flex;
+      transition: transform .8s var(--slow);
+    }
+    .testi-slide {
+      min-width: 100%;
+      padding: 0 max(2rem, 10vw);
+    }
+    .testi-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--ivory);
+      margin-bottom: 2.5rem;
+    }
+    .testi-quote::before {
+      content: '\201C';
+      font-size: 4rem;
+      color: var(--gold);
+      display: block;
+      line-height: .8;
+      margin-bottom: 1rem;
+      font-family: var(--font-display);
+    }
+    .testi-author {
+      font-size: .72rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+    }
+    .testi-role {
+      font-size: .78rem;
+      color: rgba(245, 240, 232, .45);
+    }
+    .testi-stars {
+      margin-bottom: .8rem;
+      color: var(--gold);
+      font-size: .9rem
+    }
+    .testi-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 3.5rem;
+    }
+    .testi-dot {
+      width: 32px;
+      height: 1.5px;
+      background: rgba(245, 240, 232, .2);
+      transition: background .4s, width .4s var(--slow);
+      cursor: none;
+    }
+    .testi-dot.active {
+      background: var(--gold);
+      width: 48px
+    }
 
-/* ═══════════════════════════════════════════════
-   INSTAGRAM STRIP
-═══════════════════════════════════════════════ */
-#insta{background:var(--ink);padding:5rem 0}
-.insta-header{
-  text-align:center;padding:0 5vw;margin-bottom:2.5rem;
-}
-.insta-handle{
-  font-size:.75rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;
-}
-.insta-grid{
-  display:grid;grid-template-columns:repeat(6,1fr);gap:3px;
-}
-.insta-cell{
-  position:relative;overflow:hidden;aspect-ratio:1;
-}
-.insta-cell img{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform .7s var(--slow),filter .5s;
-  filter:grayscale(30%);
-}
-.insta-cell:hover img{transform:scale(1.1);filter:grayscale(0%)}
-.insta-cell-overlay{
-  position:absolute;inset:0;
-  background:rgba(10,10,10,.5);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity .4s;
-}
-.insta-cell:hover .insta-cell-overlay{opacity:1}
-.insta-icon{color:var(--gold);font-size:1.4rem}
+    /* ═══════════════════════════════════════════════
+       PROCESS
+    ═══════════════════════════════════════════════ */
+    #process {
+      background: #0f0f0f;
+    }
+    .process-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .process-steps {
+      display: grid;
+      gap: 0;
+    }
+    .process-step {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid rgba(245, 240, 232, .08);
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      cursor: none;
+      transition: padding .4s var(--slow);
+    }
+    .process-step:first-child {
+      padding-top: 0
+    }
+    .process-step.active .step-num {
+      color: var(--gold)
+    }
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 300;
+      color: rgba(245, 240, 232, .15);
+      line-height: 1;
+      transition: color .4s;
+    }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: .6rem;
+    }
+    .step-desc {
+      font-size: .88rem;
+      line-height: 1.8;
+      color: rgba(245, 240, 232, .5);
+    }
+    .process-visual {
+      position: sticky;
+      top: 120px;
+    }
+    .process-img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      transition: opacity .4s ease;
+    }
+    .process-img-cap {
+      margin-top: 1.5rem;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .35);
+    }
 
-/* ═══════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════ */
-footer{
-  background:#050505;
-  border-top:1px solid rgba(201,168,76,.15);
-}
-.footer-top{
-  padding:6rem 5vw 4rem;
-  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:4rem;
-}
-.footer-brand p{
-  font-size:.88rem;line-height:1.9;
-  color:rgba(245,240,232,.45);margin:1.5rem 0 2rem;max-width:280px;
-}
-.footer-social{display:flex;gap:1rem}
-.soc-btn{
-  width:38px;height:38px;border:1px solid rgba(245,240,232,.15);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.85rem;color:rgba(245,240,232,.5);
-  transition:border-color .3s,color .3s,background .3s;
-}
-.soc-btn:hover{border-color:var(--gold);color:var(--gold)}
-.footer-col h4{
-  font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:1.8rem;font-weight:400;
-}
-.footer-col a{
-  display:block;font-size:.88rem;color:rgba(245,240,232,.45);
-  margin-bottom:.9rem;
-  transition:color .3s,paddingLeft .3s;
-}
-.footer-col a:hover{color:var(--ivory);padding-left:6px}
-.footer-contact-line{
-  display:flex;align-items:center;gap:.7rem;
-  font-size:.85rem;color:rgba(245,240,232,.45);
-  margin-bottom:.9rem;
-}
-.footer-contact-line svg{color:var(--gold);flex-shrink:0}
-.footer-bottom{
-  padding:1.8rem 5vw;
-  display:flex;justify-content:space-between;align-items:center;
-  border-top:1px solid rgba(245,240,232,.06);
-  flex-wrap:wrap;gap:1rem;
-}
-.footer-copy{font-size:.75rem;color:rgba(245,240,232,.3);letter-spacing:.05em}
-.footer-credit{font-size:.75rem;color:rgba(245,240,232,.3)}
-.footer-credit a{color:var(--gold);transition:opacity .3s}
-.footer-credit a:hover{opacity:.7}
+    /* ═══════════════════════════════════════════════
+       FAQ
+    ═══════════════════════════════════════════════ */
+    #faq {
+      background: var(--ink);
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem 6rem;
+      margin-top: 4rem;
+    }
+    .faq-item {
+      border-bottom: 1px solid rgba(245, 240, 232, .06);
+      padding-bottom: 1.8rem;
+      cursor: pointer;
+    }
+    .faq-item .faq-q {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--ivory);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color .3s;
+    }
+    .faq-item .faq-q:hover {
+      color: var(--gold);
+    }
+    .faq-item .faq-q .faq-toggle {
+      font-size: 1.2rem;
+      color: var(--gold);
+      transition: transform .3s var(--slow);
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+    .faq-item.active .faq-q .faq-toggle {
+      transform: rotate(45deg);
+    }
+    .faq-item .faq-a {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: rgba(245, 240, 232, .55);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .5s var(--slow), padding .3s var(--ease);
+      padding-top: 0;
+    }
+    .faq-item.active .faq-a {
+      max-height: 300px;
+      padding-top: 1.2rem;
+    }
 
-/* ═══════════════════════════════════════════════
-   WHATSAPP FLOAT
-═══════════════════════════════════════════════ */
-#wa-float{
-  position:fixed;bottom:2.5rem;right:2.5rem;z-index:600;
-  width:54px;height:54px;border-radius:50%;
-  background:#25D366;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 24px rgba(37,211,102,.35);
-  animation:wa-pulse 3s ease-in-out infinite;
-  transition:transform .3s var(--slow),box-shadow .3s;
-}
-#wa-float:hover{transform:scale(1.12);box-shadow:0 8px 32px rgba(37,211,102,.5)}
-@keyframes wa-pulse{
-  0%,100%{box-shadow:0 4px 24px rgba(37,211,102,.35),0 0 0 0 rgba(37,211,102,.3)}
-  50%{box-shadow:0 4px 24px rgba(37,211,102,.35),0 0 0 12px rgba(37,211,102,0)}
-}
+    /* ═══════════════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════════════ */
+    #contact {
+      background: #0f0f0f;
+    }
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 3rem;
+    }
+    .contact-info .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .contact-info .contact-detail svg {
+      flex-shrink: 0;
+      margin-top: .2rem;
+      color: var(--gold);
+    }
+    .contact-info .contact-detail h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: .2rem;
+    }
+    .contact-info .contact-detail p {
+      font-size: .9rem;
+      color: rgba(245, 240, 232, .5);
+      line-height: 1.6;
+    }
+    .contact-info .contact-detail a {
+      color: var(--gold);
+      transition: opacity .3s;
+    }
+    .contact-info .contact-detail a:hover {
+      opacity: .7;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-form .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .contact-form label {
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .4);
+      display: block;
+      margin-bottom: .4rem;
+    }
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(245, 240, 232, .12);
+      padding: .9rem 1.2rem;
+      font-family: var(--font-body);
+      font-size: .9rem;
+      color: var(--ivory);
+      transition: border-color .3s, background .3s;
+      outline: none;
+      border-radius: 0;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form select:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, .07);
+    }
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+    .contact-form .btn-primary {
+      align-self: flex-start;
+      border: none;
+      cursor: none;
+    }
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════ */
-@media(max-width:1024px){
-  #about{grid-template-columns:1fr;gap:3rem}
-  .about-img-wrap{order:-1}
-  .about-img{height:420px}
-  .services-grid{grid-template-columns:1fr 1fr}
-  .coll-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-  .coll-item:first-child{grid-row:span 1}
-  .coll-item:first-child .coll-img{height:310px}
-  .process-inner{grid-template-columns:1fr}
-  .process-visual{display:none}
-  .footer-top{grid-template-columns:1fr 1fr;gap:3rem}
-  .insta-grid{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:768px){
-  section{padding:5rem 5vw}
-  #nav{padding:0 1.5rem}
-  .nav-links,.nav-cta{display:none}
-  .nav-hamburger{display:flex}
-  #about{gap:2.5rem}
-  .about-stats{grid-template-columns:1fr 1fr}
-  .services-grid{grid-template-columns:1fr}
-  .coll-grid{grid-template-columns:1fr}
-  .coll-header{flex-direction:column;align-items:flex-start;gap:1.5rem}
-  .footer-top{grid-template-columns:1fr;gap:2.5rem}
-  .insta-grid{grid-template-columns:repeat(3,1fr)}
-  .footer-bottom{flex-direction:column;text-align:center}
-  .hero-btns{flex-direction:column;align-items:flex-start}
-}
-@media(prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
-}
-</style>
+    /* ═══════════════════════════════════════════════
+       CTA BANNER
+    ═══════════════════════════════════════════════ */
+    #cta-banner {
+      position: relative;
+      padding: 10rem 5vw;
+      overflow: hidden;
+      text-align: center;
+    }
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80&auto=format');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(.22) grayscale(30%);
+      transform: scale(1.05);
+      transition: transform .3s var(--ease);
+    }
+    #cta-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(45, 80, 22, .4), rgba(10, 10, 10, .6));
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 1
+    }
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      font-weight: 300;
+      color: var(--ivory);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .cta-title em {
+      font-style: italic;
+      color: var(--gold)
+    }
+    .cta-sub {
+      font-size: .95rem;
+      color: rgba(245, 240, 232, .65);
+      margin-bottom: 3rem;
+      letter-spacing: .05em;
+      line-height: 1.8;
+    }
+    .cta-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--gold);
+      margin: 0 auto 3rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       INSTAGRAM STRIP
+    ═══════════════════════════════════════════════ */
+    #insta {
+      background: var(--ink);
+      padding: 5rem 0
+    }
+    .insta-header {
+      text-align: center;
+      padding: 0 5vw;
+      margin-bottom: 2.5rem;
+    }
+    .insta-handle {
+      font-size: .75rem;
+      letter-spacing: .3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 3px;
+    }
+    .insta-cell {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+    .insta-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s var(--slow), filter .5s;
+      filter: grayscale(30%);
+    }
+    .insta-cell:hover img {
+      transform: scale(1.1);
+      filter: grayscale(0%)
+    }
+    .insta-cell-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, .5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .4s;
+    }
+    .insta-cell:hover .insta-cell-overlay {
+      opacity: 1
+    }
+    .insta-icon {
+      color: var(--gold);
+      font-size: 1.4rem
+    }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      background: #050505;
+      border-top: 1px solid rgba(201, 168, 76, .15);
+    }
+    .footer-top {
+      padding: 6rem 5vw 4rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 4rem;
+    }
+    .footer-brand p {
+      font-size: .88rem;
+      line-height: 1.9;
+      color: rgba(245, 240, 232, .45);
+      margin: 1.5rem 0 2rem;
+      max-width: 280px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem
+    }
+    .soc-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(245, 240, 232, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .5);
+      transition: border-color .3s, color .3s, background .3s;
+    }
+    .soc-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+    .footer-col h4 {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      font-weight: 400;
+    }
+    .footer-col a {
+      display: block;
+      font-size: .88rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+      transition: color .3s, paddingLeft .3s;
+    }
+    .footer-col a:hover {
+      color: var(--ivory);
+      padding-left: 6px
+    }
+    .footer-contact-line {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+    }
+    .footer-contact-line svg {
+      color: var(--gold);
+      flex-shrink: 0
+    }
+    .footer-contact-line a {
+      color: var(--gold);
+      transition: opacity .3s;
+      margin: 0;
+      padding: 0;
+    }
+    .footer-contact-line a:hover {
+      opacity: .7;
+      padding-left: 0;
+    }
+    .footer-bottom {
+      padding: 1.8rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(245, 240, 232, .06);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+      letter-spacing: .05em;
+    }
+    .footer-credit {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+    }
+    .footer-credit a {
+      color: var(--gold);
+      transition: opacity .3s;
+    }
+    .footer-credit a:hover {
+      opacity: .7
+    }
+
+    /* ═══════════════════════════════════════════════
+       WHATSAPP FLOAT
+    ═══════════════════════════════════════════════ */
+    #wa-float {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      z-index: 600;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, .35);
+      animation: wa-pulse 3s ease-in-out infinite;
+      transition: transform .3s var(--slow), box-shadow .3s;
+    }
+    #wa-float:hover {
+      transform: scale(1.12);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
+    }
+    @keyframes wa-pulse {
+      0%,
+      100% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
+      }
+      50% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
+      }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media(max-width:1024px) {
+      #about {
+        grid-template-columns: 1fr;
+        gap: 3rem
+      }
+      .about-img-wrap {
+        order: -1
+      }
+      .about-img {
+        height: 420px
+      }
+      .services-grid {
+        grid-template-columns: 1fr 1fr
+      }
+      .coll-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto
+      }
+      .coll-item:first-child {
+        grid-row: span 1
+      }
+      .coll-item:first-child .coll-img {
+        height: 310px
+      }
+      .process-inner {
+        grid-template-columns: 1fr
+      }
+      .process-visual {
+        display: none
+      }
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem
+      }
+      .insta-grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+      .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .contact-wrap {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .contact-form .form-row {
+        grid-template-columns: 1fr;
+      }
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:768px) {
+      section {
+        padding: 4rem 5vw
+      }
+      #nav {
+        padding: 0 1.2rem;
+        height: 68px;
+      }
+      #nav.scrolled {
+        height: 56px;
+      }
+      .nav-links,
+      .nav-cta {
+        display: none
+      }
+      .nav-hamburger {
+        display: flex
+      }
+      #hero {
+        min-height: 600px;
+        padding-top: 68px;
+      }
+      .hero-content {
+        padding: 3vh 5vw 5vh;
+      }
+      .hero-title {
+        font-size: clamp(2.2rem, 10vw, 3.4rem);
+      }
+      .hero-title em {
+        font-size: clamp(1.6rem, 7vw, 2.6rem);
+      }
+      .hero-indicators {
+        bottom: 1.5rem;
+        right: 4vw;
+      }
+      .hero-indicators .hi {
+        height: 16px;
+        width: 1px;
+      }
+      .hero-indicators .hi.active {
+        height: 26px;
+      }
+      .scroll-hint {
+        display: none;
+      }
+      #about {
+        gap: 2rem
+      }
+      .about-img {
+        height: 300px
+      }
+      .about-img-accent {
+        display: none;
+      }
+      .about-img-tag {
+        left: 0;
+        top: 1rem;
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: .55rem;
+        padding: .4rem .8rem;
+      }
+      .about-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .about-stats .stat-num {
+        font-size: 2.2rem;
+      }
+      .services-grid {
+        grid-template-columns: 1fr
+      }
+      .service-card {
+        padding: 2rem 1.5rem;
+      }
+      .service-name {
+        font-size: 1.3rem;
+      }
+      .coll-grid {
+        grid-template-columns: 1fr
+      }
+      .coll-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem
+      }
+      .coll-item:first-child .coll-img,
+      .coll-item:not(:first-child) .coll-img {
+        height: 240px;
+      }
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 4rem 5vw 2rem;
+      }
+      .insta-grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center
+      }
+      .hero-btns {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+      }
+      .hero-btns .btn-primary,
+      .hero-btns .btn-ghost {
+        width: 100%;
+        justify-content: center;
+      }
+      .faq-grid {
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+      }
+      .faq-item .faq-q {
+        font-size: 1rem;
+      }
+      .contact-wrap {
+        gap: 2.5rem;
+      }
+      .contact-info .contact-detail {
+        gap: .8rem;
+      }
+      #cta-banner {
+        padding: 6rem 5vw;
+      }
+      .cta-title {
+        font-size: clamp(2rem, 8vw, 2.8rem);
+      }
+      #testimonials {
+        padding: 4rem 5vw;
+      }
+      .testi-slide {
+        padding: 0 1rem;
+      }
+      .testi-quote {
+        font-size: 1.1rem;
+      }
+      .process-step {
+        grid-template-columns: 40px 1fr;
+        gap: 1rem;
+        padding: 1.8rem 0;
+      }
+      .step-num {
+        font-size: 2rem;
+      }
+      .step-title {
+        font-size: 1.1rem;
+      }
+      #wa-float {
+        width: 48px;
+        height: 48px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+      #wa-float svg {
+        width: 22px;
+        height: 22px;
+      }
+      .why-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .why-item {
+        padding: 1.5rem 1rem;
+      }
+      .why-item .why-icon {
+        font-size: 2rem;
+      }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media(max-width:480px) {
+      #nav {
+        padding: 0 1rem;
+        height: 60px;
+      }
+      #nav.scrolled {
+        height: 52px;
+      }
+      #hero {
+        min-height: 520px;
+        padding-top: 60px;
+      }
+      .hero-content {
+        padding: 2vh 4vw 4vh;
+      }
+      .hero-title {
+        font-size: clamp(1.8rem, 9vw, 2.6rem);
+      }
+      .hero-title em {
+        font-size: clamp(1.4rem, 6vw, 2rem);
+      }
+      .hero-eyebrow {
+        font-size: .6rem;
+        margin-bottom: 1rem;
+      }
+      .hero-sub {
+        font-size: .8rem;
+        margin-bottom: 1.8rem;
+      }
+      .hero-btns .btn-primary,
+      .hero-btns .btn-ghost {
+        font-size: .65rem;
+        padding: .75rem 1.6rem;
+      }
+      .sec-title {
+        font-size: clamp(1.6rem, 8vw, 2.2rem);
+      }
+      .services-header {
+        margin-bottom: 3rem;
+      }
+      .service-card {
+        padding: 1.8rem 1.2rem;
+      }
+      .service-num {
+        font-size: 3rem;
+        top: 1rem;
+        right: 1.2rem;
+      }
+      .service-icon {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 1.2rem;
+      }
+      .service-name {
+        font-size: 1.1rem;
+      }
+      .service-desc {
+        font-size: .8rem;
+      }
+      .coll-label {
+        padding: 1.2rem 1.2rem;
+      }
+      .coll-name {
+        font-size: 1.1rem;
+      }
+      .coll-cat {
+        font-size: .55rem;
+      }
+      .about-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: .8rem;
+      }
+      .about-stats .stat-num {
+        font-size: 1.8rem;
+      }
+      .about-stats .stat-lbl {
+        font-size: .55rem;
+      }
+      .footer-brand p {
+        font-size: .8rem;
+      }
+      .footer-col h4 {
+        font-size: .6rem;
+        margin-bottom: 1.2rem;
+      }
+      .footer-col a {
+        font-size: .8rem;
+        margin-bottom: .6rem;
+      }
+      .footer-contact-line {
+        font-size: .78rem;
+      }
+      .insta-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+      }
+      .faq-item .faq-q {
+        font-size: .9rem;
+      }
+      .faq-item .faq-a {
+        font-size: .85rem;
+      }
+      .contact-form input,
+      .contact-form textarea,
+      .contact-form select {
+        padding: .7rem 1rem;
+        font-size: .8rem;
+      }
+      .contact-form .btn-primary {
+        width: 100%;
+        justify-content: center;
+      }
+      .testi-quote {
+        font-size: 1rem;
+      }
+      .testi-quote::before {
+        font-size: 2.8rem;
+      }
+      .testi-dot {
+        width: 24px;
+      }
+      .testi-dot.active {
+        width: 36px;
+      }
+      #cursor-dot,
+      #cursor-ring {
+        display: none;
+      }
+      body {
+        cursor: auto;
+      }
+      .btn-primary,
+      .btn-ghost,
+      .service-card,
+      .coll-item,
+      .insta-cell,
+      .testi-dot,
+      .hi,
+      .process-step,
+      .faq-item,
+      .nav-hamburger,
+      #wa-float {
+        cursor: auto;
+      }
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    /* ── Fix hero overlap on desktop ── */
+    @media(min-width:769px) {
+      #hero {
+        padding-top: 80px;
+      }
+      .hero-content {
+        padding-top: 6vh;
+      }
+    }
+
+    /* ── Additional polish ── */
+    .contact-form select option {
+      background: var(--ink);
+      color: var(--ivory);
+    }
+    .mob-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2.2rem;
+      color: var(--ivory);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity .3s, transform .3s;
+      line-height: 1;
+      padding: 0.5rem;
+    }
+    .mob-close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+    @media(max-width:768px) {
+      .mob-close {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Cursor -->
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
-<div id="scroll-bar"></div>
+  <!-- Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="scroll-bar"></div>
 
-<!-- WhatsApp Float -->
-<a id="wa-float" href="https://wa.me/2340000000000?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20Goke%20Couture%20services." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
-
-<!-- ── NAVIGATION ── -->
-<nav id="nav" role="navigation" aria-label="Main navigation">
-  <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
-    <!-- LOGO SVG -->
-    <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
-      <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
-      <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif"
-        font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
-    </svg>
-    <div class="logo-wordmark">
-      Goke Couture
-      <span>Lagos · Nigeria</span>
-    </div>
+  <!-- WhatsApp Float -->
+  <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20Goke%20Couture%20services." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 
-  <ul class="nav-links" role="list">
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="services.html">Services</a></li>
-    <li><a href="collections.html">Collections</a></li>
-    <li><a href="portfolio.html">Portfolio</a></li>
-    <li><a href="reviews.html">Reviews</a></li>
-  </ul>
-  <a href="booking.html" class="nav-cta">Book a Fitting</a>
-
-  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- Mobile Nav -->
-<div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
-  <a href="index.html" class="mob-link">Home</a>
-  <a href="about.html" class="mob-link">About</a>
-  <a href="services.html" class="mob-link">Services</a>
-  <a href="collections.html" class="mob-link">Collections</a>
-  <a href="portfolio.html" class="mob-link">Portfolio</a>
-  <a href="reviews.html" class="mob-link">Reviews</a>
-  <a href="booking.html" class="mob-link">Book a Fitting</a>
-</div>
-
-<!-- ── HERO ── -->
-<section id="hero" aria-label="Hero banner">
-  <div class="hero-slides" aria-hidden="true">
-    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1800&q=85&auto=format&fit=crop')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1800&q=85&auto=format&fit=crop')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=1800&q=85&auto=format&fit=crop')"></div>
-  </div>
-
-  <div class="hero-content">
-    <p class="hero-eyebrow">Bespoke Tailoring · Lagos, Nigeria</p>
-    <h1 class="hero-title">
-      <span id="hero-line1">Where Every</span><br>
-      <span id="hero-line2">Stitch Tells</span><br>
-      <em id="hero-line3">Your Story</em>
-    </h1>
-    <p class="hero-sub">Premium garments crafted with precision, passion, and an obsession with perfection — for those who wear their identity.</p>
-    <div class="hero-btns">
-      <a href="booking.html" class="btn-primary">
-        <span>Book a Fitting</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="collections.html" class="btn-ghost">View Collections</a>
-    </div>
-  </div>
-
-  <div class="hero-indicators" aria-label="Slide indicators" aria-hidden="true">
-    <div class="hi active" data-slide="0"></div>
-    <div class="hi" data-slide="1"></div>
-    <div class="hi" data-slide="2"></div>
-    <div class="hi" data-slide="3"></div>
-  </div>
-
-  <div class="scroll-hint" aria-hidden="true">Scroll</div>
-</section>
-
-<!-- ── MARQUEE ── -->
-<div class="marquee-strip" aria-hidden="true">
-  <div class="marquee-inner">
-    <span>Bespoke Tailoring</span><span class="dot">◆</span>
-    <span>Bridal Couture</span><span class="dot">◆</span>
-    <span>Agbada & Native</span><span class="dot">◆</span>
-    <span>Premium Suits</span><span class="dot">◆</span>
-    <span>Corporate Wear</span><span class="dot">◆</span>
-    <span>Made to Measure</span><span class="dot">◆</span>
-    <span>Lagos · Nigeria</span><span class="dot">◆</span>
-    <span>Bespoke Tailoring</span><span class="dot">◆</span>
-    <span>Bridal Couture</span><span class="dot">◆</span>
-    <span>Agbada & Native</span><span class="dot">◆</span>
-    <span>Premium Suits</span><span class="dot">◆</span>
-    <span>Corporate Wear</span><span class="dot">◆</span>
-    <span>Made to Measure</span><span class="dot">◆</span>
-    <span>Lagos · Nigeria</span><span class="dot">◆</span>
-  </div>
-</div>
-
-<!-- ── ABOUT ── -->
-<section id="about" aria-label="About Goke Couture">
-  <div class="about-img-wrap reveal-left">
-    <img class="about-img" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=900&q=85&auto=format&fit=crop" alt="Tailor carefully crafting a bespoke garment" loading="lazy"/>
-    <div class="about-img-accent" aria-hidden="true"></div>
-    <div class="about-img-tag" aria-hidden="true">Est. Lagos</div>
-  </div>
-  <div class="about-text reveal-right">
-    <span class="sec-eyebrow">Our Story</span>
-    <h2 class="sec-title">Crafted for the<br><em>Exceptional</em></h2>
-    <div class="divider-line"></div>
-    <p>Goke Couture was born from a belief that every individual deserves garments that speak their truth. In the heart of Lagos, we fuse precision tailoring with the rich heritage of African fashion — creating pieces that do not merely fit the body, but amplify the person within.</p>
-    <p>From the first measurement to the final stitch, every garment passes through hands that have spent years mastering the craft. We work with the finest fabrics, the sharpest patterns, and an attention to detail that borders on obsession.</p>
-    <a href="about.html" class="btn-ghost" style="margin-top:1rem">Our Full Story</a>
-    <div class="about-stats stagger">
-      <div>
-        <div class="stat-num" data-count="500">0</div>
-        <div class="stat-lbl">Garments Made</div>
+  <!-- ── NAVIGATION ── -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+        <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+        <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+      </svg>
+      <div class="logo-wordmark">
+        Goke Couture
+        <span>Ibadan · Oyo, Nigeria</span>
       </div>
-      <div>
-        <div class="stat-num" data-count="8">0</div>
-        <div class="stat-lbl">Years of Craft</div>
-      </div>
-      <div>
-        <div class="stat-num" data-count="98">0</div>
-        <div class="stat-lbl">% Client Return</div>
-      </div>
-    </div>
-  </div>
-</section>
+    </a>
 
-<!-- ── SERVICES ── -->
-<section id="services" aria-label="Our services">
-  <div class="services-header">
-    <span class="sec-eyebrow reveal">What We Create</span>
-    <h2 class="sec-title reveal">Garments Built<br>for <em>Every Occasion</em></h2>
-  </div>
-  <div class="services-grid stagger">
-    <article class="service-card">
-      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><path d="M20 4C20 4 12 10 8 20s4 16 12 16 16-6 12-16S20 4 20 4z"/><path d="M20 4v32M8 20h24"/></svg>
-      <div class="service-num" aria-hidden="true">01</div>
-      <h3 class="service-name">Bridal<br>Couture</h3>
-      <p class="service-desc">Your wedding day deserves a gown that is entirely, unmistakably yours. We craft bespoke bridal wear with lace, beadwork, and silhouettes tailored to your vision.</p>
-      <a href="services.html#bridal" class="service-link">
-        Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </article>
-    <article class="service-card">
-      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><rect x="8" y="8" width="24" height="24" rx="2"/><path d="M14 8v24M26 8v24"/></svg>
-      <div class="service-num" aria-hidden="true">02</div>
-      <h3 class="service-name">Agbada &<br>Traditional</h3>
-      <p class="service-desc">Command any room in a masterfully draped Agbada or Senator. Our traditional wear blends heritage with modern precision — a statement of culture and class.</p>
-      <a href="services.html#agbada" class="service-link">
-        Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </article>
-    <article class="service-card">
-      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><path d="M12 8h16v4l4 4v12H8V16l4-4V8z"/><path d="M16 8v6h8V8"/></svg>
-      <div class="service-num" aria-hidden="true">03</div>
-      <h3 class="service-name">Suits &<br>Corporate Wear</h3>
-      <p class="service-desc">A suit that fits perfectly is armour. We engineer bespoke suits, tuxedos, and corporate wear that project authority and elegance in equal measure.</p>
-      <a href="services.html#suits" class="service-link">
-        Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </article>
-    <article class="service-card">
-      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><circle cx="20" cy="14" r="6"/><path d="M8 36c0-6.627 5.373-12 12-12s12 5.373 12 12"/></svg>
-      <div class="service-num" aria-hidden="true">04</div>
-      <h3 class="service-name">Casual &<br>Everyday Luxury</h3>
-      <p class="service-desc">Luxury should not be reserved for special occasions. Our casual collection brings the same bespoke precision to pieces you live in every day.</p>
-      <a href="services.html#casual" class="service-link">
-        Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </article>
-    <article class="service-card">
-      <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><path d="M20 6L6 20l14 14 14-14L20 6z"/><circle cx="20" cy="20" r="4"/></svg>
-      <div class="service-num" aria-hidden="true">05</div>
-      <h3 class="service-name">Alterations &<br>Restoration</h3>
-      <p class="service-desc">A cherished garment deserves a second life. We restore, resize, and recraft clothing with the same care given to a new commission.</p>
-      <a href="services.html#alterations" class="service-link">
-        Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </article>
-    <article class="service-card" style="display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid rgba(201,168,76,.2)">
-      <div>
-        <div style="font-family:var(--font-display);font-size:1.2rem;color:var(--ivory);margin-bottom:1rem">Not sure which<br>service you need?</div>
-        <a href="booking.html" class="btn-primary">Book a Consultation</a>
-      </div>
-    </article>
-  </div>
-</section>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Book a Fitting</a>
 
-<!-- ── COLLECTIONS ── -->
-<section id="collections" aria-label="Featured collections">
-  <div class="coll-header">
-    <div>
-      <span class="sec-eyebrow reveal">Featured Work</span>
-      <h2 class="sec-title reveal">Our Latest<br><em>Collections</em></h2>
-    </div>
-    <a href="collections.html" class="btn-ghost reveal" style="flex-shrink:0">View All</a>
-  </div>
-  <div class="coll-grid stagger" role="list">
-    <div class="coll-item" role="listitem">
-      <img class="coll-img" src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=900&q=80&auto=format&fit=crop" alt="Signature bridal collection piece" loading="lazy"/>
-      <div class="coll-overlay" aria-hidden="true"></div>
-      <div class="coll-label" aria-hidden="true">
-        <div class="coll-cat">2025 Collection</div>
-        <div class="coll-name">The Ivory Bridal Series</div>
-      </div>
-    </div>
-    <div class="coll-item" role="listitem">
-      <img class="coll-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80&auto=format&fit=crop" alt="Premium bespoke suit" loading="lazy"/>
-      <div class="coll-overlay" aria-hidden="true"></div>
-      <div class="coll-label" aria-hidden="true">
-        <div class="coll-cat">Menswear</div>
-        <div class="coll-name">The Executive Collection</div>
-      </div>
-    </div>
-    <div class="coll-item" role="listitem">
-      <img class="coll-img" src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=700&q=80&auto=format&fit=crop" alt="Traditional Agbada" loading="lazy"/>
-      <div class="coll-overlay" aria-hidden="true"></div>
-      <div class="coll-label" aria-hidden="true">
-        <div class="coll-cat">Traditional</div>
-        <div class="coll-name">Heritage Agbada Series</div>
-      </div>
-    </div>
-    <div class="coll-item" role="listitem">
-      <img class="coll-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=700&q=80&auto=format&fit=crop" alt="Elegant evening wear" loading="lazy"/>
-      <div class="coll-overlay" aria-hidden="true"></div>
-      <div class="coll-label" aria-hidden="true">
-        <div class="coll-cat">Evening Wear</div>
-        <div class="coll-name">The Gold Evening Edit</div>
-      </div>
-    </div>
-    <div class="coll-item" role="listitem">
-      <img class="coll-img" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=700&q=80&auto=format&fit=crop" alt="Luxury fabric detail" loading="lazy"/>
-      <div class="coll-overlay" aria-hidden="true"></div>
-      <div class="coll-label" aria-hidden="true">
-        <div class="coll-cat">Detail</div>
-        <div class="coll-name">The Craft Series</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-<!-- ── TESTIMONIALS ── -->
-<section id="testimonials" aria-label="Client testimonials">
-  <div class="testi-header">
-    <span class="sec-eyebrow reveal">Testimonials</span>
-    <h2 class="sec-title reveal">Words from<br><em>Our Clients</em></h2>
+  <!-- Mobile Nav -->
+  <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+    <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
+    <a href="index.html" class="mob-link">Home</a>
+    <a href="#about" class="mob-link">About</a>
+    <a href="#services" class="mob-link">Services</a>
+    <a href="#collections" class="mob-link">Collections</a>
+    <a href="#testimonials" class="mob-link">Reviews</a>
+    <a href="#contact" class="mob-link">Contact</a>
+    <a href="#contact" class="mob-link">Book a Fitting</a>
   </div>
-  <div class="testi-slider" role="region" aria-label="Client reviews slider">
-    <div class="testi-track" id="testi-track">
-      <div class="testi-slide" role="group" aria-label="Review 1 of 4">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">Goke Couture delivered a bridal gown that made every guest stop and stare. The attention to every seam, every bead — I have never worn something that fit my body and my spirit so perfectly.</p>
-        <div class="testi-author">Adaeze Okonkwo</div>
-        <div class="testi-role">Bride — Lagos, 2024</div>
-      </div>
-      <div class="testi-slide" role="group" aria-label="Review 2 of 4">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">The Agbada they made for my son's wedding ceremony was beyond anything I imagined. I have worn many agbadas in my life, but this was in another class entirely. Absolute mastery.</p>
-        <div class="testi-author">Chief Emeka Balogun</div>
-        <div class="testi-role">Client — Abuja, 2024</div>
-      </div>
-      <div class="testi-slide" role="group" aria-label="Review 3 of 4">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">I have used tailors all over Lagos and London. Goke Couture is in a different category. My suit for my Board presentation drew comments all day. That confidence is priceless.</p>
-        <div class="testi-author">Tunde Adeyemi</div>
-        <div class="testi-role">CEO — Victoria Island, 2025</div>
-      </div>
-      <div class="testi-slide" role="group" aria-label="Review 4 of 4">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">From the first measurement to the delivery, the experience was seamless and deeply professional. The dress was a work of art. I will never go anywhere else.</p>
-        <div class="testi-author">Chidinma Eze</div>
-        <div class="testi-role">Client — Lekki, 2025</div>
-      </div>
-    </div>
-  </div>
-  <div class="testi-nav" role="tablist" aria-label="Select review">
-    <div class="testi-dot active" data-idx="0" role="tab" aria-selected="true" tabindex="0" aria-label="Review 1"></div>
-    <div class="testi-dot" data-idx="1" role="tab" aria-selected="false" tabindex="0" aria-label="Review 2"></div>
-    <div class="testi-dot" data-idx="2" role="tab" aria-selected="false" tabindex="0" aria-label="Review 3"></div>
-    <div class="testi-dot" data-idx="3" role="tab" aria-selected="false" tabindex="0" aria-label="Review 4"></div>
-  </div>
-</section>
 
-<!-- ── PROCESS ── -->
-<section id="process" aria-label="Our tailoring process">
-  <div class="process-inner">
-    <div>
-      <span class="sec-eyebrow reveal">The Process</span>
-      <h2 class="sec-title reveal">Crafted in<br><em>Four Steps</em></h2>
-      <div class="divider-line reveal"></div>
-      <div class="process-steps">
-        <div class="process-step active reveal" data-img="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop">
-          <div class="step-num" aria-hidden="true">01</div>
-          <div>
-            <h3 class="step-title">Consultation</h3>
-            <p class="step-desc">We begin with a deep conversation about your vision, occasion, preferences, and personality. No detail is too small — this is where your garment is born.</p>
-          </div>
-        </div>
-        <div class="process-step reveal" data-img="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=900&q=80&auto=format&fit=crop">
-          <div class="step-num" aria-hidden="true">02</div>
-          <div>
-            <h3 class="step-title">Measurement & Design</h3>
-            <p class="step-desc">Precise measurements are taken. A bespoke pattern is drafted — unique to your body, not an adjusted template. Fabrics and designs are selected together.</p>
-          </div>
-        </div>
-        <div class="process-step reveal" data-img="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80&auto=format&fit=crop">
-          <div class="step-num" aria-hidden="true">03</div>
-          <div>
-            <h3 class="step-title">Crafting</h3>
-            <p class="step-desc">Our craftsmen bring the design to life — cutting, stitching, and refining until every element is perfect. Fitting sessions ensure the garment evolves with you.</p>
-          </div>
-        </div>
-        <div class="process-step reveal" data-img="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&q=80&auto=format&fit=crop">
-          <div class="step-num" aria-hidden="true">04</div>
-          <div>
-            <h3 class="step-title">Delivery</h3>
-            <p class="step-desc">Your finished garment is pressed, packaged with care, and delivered on time. The experience does not end at delivery — we stand behind every piece we make.</p>
-          </div>
-        </div>
-      </div>
+  <!-- ── HERO ── -->
+  <section id="hero" aria-label="Hero banner">
+    <div class="hero-slides" aria-hidden="true">
+      <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1800&q=85&auto=format&fit=crop')"></div>
     </div>
-    <div class="process-visual">
-      <img class="process-img" id="process-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop" alt="Tailoring process" loading="lazy"/>
-      <p class="process-img-cap">Every garment — a unique journey</p>
-    </div>
-  </div>
-</section>
 
-<!-- ── CTA BANNER ── -->
-<section id="cta-banner" aria-label="Book a consultation">
-  <div class="cta-bg" aria-hidden="true"></div>
-  <div class="cta-inner">
-    <div class="cta-divider" aria-hidden="true"></div>
-    <h2 class="cta-title reveal">Ready to Wear<br><em>Something Extraordinary?</em></h2>
-    <p class="cta-sub reveal">Your next statement piece is a conversation away.<br>Book a consultation and let us begin.</p>
-    <div class="reveal">
-      <a href="booking.html" class="btn-primary" style="font-size:.78rem;padding:1.1rem 3rem">
-        Book Your Fitting
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ── INSTAGRAM ── -->
-<section id="insta" aria-label="Instagram feed">
-  <div class="insta-header">
-    <span class="sec-eyebrow reveal">Follow the Journey</span>
-    <h2 class="sec-title reveal" style="font-size:clamp(1.6rem,3vw,2.5rem)">
-      <em>@gokecouture</em>
-    </h2>
-    <a href="https://instagram.com/gokecouture" target="_blank" rel="noopener" class="insta-handle" style="display:inline-block;margin-top:.8rem">Follow on Instagram →</a>
-  </div>
-  <div class="insta-grid" aria-label="Instagram photo grid">
-    <div class="insta-cell">
-      <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
-      <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
-    </div>
-    <div class="insta-cell">
-      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
-      <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
-    </div>
-    <div class="insta-cell">
-      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
-      <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
-    </div>
-    <div class="insta-cell">
-      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
-      <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
-    </div>
-    <div class="insta-cell">
-      <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
-      <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
-    </div>
-    <div class="insta-cell">
-      <img src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
-      <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
-        <svg viewBox="0 0 56 56" fill="none" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
-          <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
-          <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
-        </svg>
-        <div class="logo-wordmark">Goke Couture<span>Lagos · Nigeria</span></div>
-      </a>
-      <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
-      <div class="footer-social" aria-label="Social media links">
-        <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Bespoke Tailoring · Ibadan, Oyo State</p>
+      <h1 class="hero-title">
+        <span id="hero-line1">Where Every</span><br>
+        <span id="hero-line2">Stitch Tells</span><br>
+        <em id="hero-line3">Your Story</em>
+      </h1>
+      <p class="hero-sub">Premium garments crafted with precision, passion, and an obsession with perfection — for those who wear their identity.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">
+          <span>Book a Fitting</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
-        </a>
-        <a href="https://wa.me/2340000000000" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </a>
+        <a href="#collections" class="btn-ghost">View Collections</a>
       </div>
     </div>
-    <div class="footer-col">
-      <h4>Navigation</h4>
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="services.html">Services</a>
-      <a href="collections.html">Collections</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="booking.html">Book a Fitting</a>
+
+    <div class="hero-indicators" aria-label="Slide indicators" aria-hidden="true">
+      <div class="hi active" data-slide="0"></div>
+      <div class="hi" data-slide="1"></div>
+      <div class="hi" data-slide="2"></div>
+      <div class="hi" data-slide="3"></div>
+      <div class="hi" data-slide="4"></div>
     </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <a href="services.html#bridal">Bridal Couture</a>
-      <a href="services.html#agbada">Agbada & Traditional</a>
-      <a href="services.html#suits">Suits & Corporate</a>
-      <a href="services.html#casual">Casual Luxury</a>
-      <a href="services.html#alterations">Alterations</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <div class="footer-contact-line">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
-        <span>+234 000 000 0000</span>
-      </div>
-      <div class="footer-contact-line">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        <span>info@gokecouture.com</span>
-      </div>
-      <div class="footer-contact-line">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>Lagos, Nigeria</span>
-      </div>
-      <div class="footer-contact-line" style="margin-top:.4rem">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span>Mon – Sat: 9am – 7pm</span>
-      </div>
+
+    <div class="scroll-hint" aria-hidden="true">Scroll</div>
+  </section>
+
+  <!-- ── MARQUEE ── -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-inner">
+      <span>Bespoke Tailoring</span><span class="dot">◆</span>
+      <span>Bridal Couture</span><span class="dot">◆</span>
+      <span>Agbada & Native</span><span class="dot">◆</span>
+      <span>Premium Suits</span><span class="dot">◆</span>
+      <span>Corporate Wear</span><span class="dot">◆</span>
+      <span>Made to Measure</span><span class="dot">◆</span>
+      <span>Ibadan · Oyo</span><span class="dot">◆</span>
+      <span>Bespoke Tailoring</span><span class="dot">◆</span>
+      <span>Bridal Couture</span><span class="dot">◆</span>
+      <span>Agbada & Native</span><span class="dot">◆</span>
+      <span>Premium Suits</span><span class="dot">◆</span>
+      <span>Corporate Wear</span><span class="dot">◆</span>
+      <span>Made to Measure</span><span class="dot">◆</span>
+      <span>Ibadan · Oyo</span><span class="dot">◆</span>
     </div>
   </div>
-  <div class="footer-bottom">
-    <p class="footer-copy">© 2025 Goke Couture. All rights reserved.</p>
-    <p class="footer-credit">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" rel="noopener">Kreation Digitals</a></p>
-  </div>
-</footer>
 
-<!-- ═══════════════════════════════════════════════
-   JAVASCRIPT
-═══════════════════════════════════════════════ -->
-<script>
-// ── Cursor ──────────────────────────────────────
-const dot = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  dot.style.left=mx+'px';dot.style.top=my+'px';
-});
-function animRing(){
-  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-  ring.style.left=rx+'px';ring.style.top=ry+'px';
-  requestAnimationFrame(animRing);
-}animAnimRing=()=>{};
-(function(){requestAnimationFrame(animRing)})();
-document.querySelectorAll('a,button,.service-card,.coll-item,.insta-cell,.testi-dot,.hi,.process-step')
-  .forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
-  });
+  <!-- ── ABOUT ── -->
+  <section id="about" aria-label="About Goke Couture">
+    <div class="about-img-wrap reveal-left">
+      <img class="about-img" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=900&q=85&auto=format&fit=crop" alt="Tailor carefully crafting a bespoke garment" loading="lazy"/>
+      <div class="about-img-accent" aria-hidden="true"></div>
+      <div class="about-img-tag" aria-hidden="true">Est. Ibadan</div>
+    </div>
+    <div class="about-text reveal-right">
+      <span class="sec-eyebrow">Our Story</span>
+      <h2 class="sec-title">Crafted for the<br><em>Exceptional</em></h2>
+      <div class="divider-line"></div>
+      <p>Goke Couture was born from a belief that every individual deserves garments that speak their truth. In the heart of Ibadan, we fuse precision tailoring with the rich heritage of African fashion — creating pieces that do not merely fit the body, but amplify the person within.</p>
+      <p>From the first measurement to the final stitch, every garment passes through hands that have spent years mastering the craft. We work with the finest fabrics, the sharpest patterns, and an attention to detail that borders on obsession.</p>
+      <a href="#about" class="btn-ghost" style="margin-top:1rem">Our Full Story</a>
+      <div class="about-stats stagger">
+        <div>
+          <div class="stat-num" data-count="500">0</div>
+          <div class="stat-lbl">Garments Made</div>
+        </div>
+        <div>
+          <div class="stat-num" data-count="8">0</div>
+          <div class="stat-lbl">Years of Craft</div>
+        </div>
+        <div>
+          <div class="stat-num" data-count="98">0</div>
+          <div class="stat-lbl">% Client Return</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-// ── Scroll progress ──────────────────────────────
-const sbar=document.getElementById('scroll-bar');
-window.addEventListener('scroll',()=>{
-  const h=document.documentElement;
-  const pct=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
-  sbar.style.width=pct+'%';
-},{ passive:true });
+  <!-- ── WHY CHOOSE US ── -->
+  <section id="why-us" aria-label="Why choose us">
+    <div class="services-header" style="max-width:700px;margin:0 auto 4rem;text-align:center;">
+      <span class="sec-eyebrow reveal">Why Goke Couture</span>
+      <h2 class="sec-title reveal">The <em>Pillars</em> of Our Craft</h2>
+    </div>
+    <div class="why-grid stagger">
+      <div class="why-item">
+        <span class="why-icon">✧</span>
+        <h3>Unrivalled Precision</h3>
+        <p>Every stitch, every seam, every cut is executed with surgical accuracy — because perfection is not an option, it's our standard.</p>
+      </div>
+      <div class="why-item">
+        <span class="why-icon">✦</span>
+        <h3>Finest Fabrics</h3>
+        <p>We source from the world's best mills and weavers. From Italian wools to luxurious Aso-oke, only the finest touch your skin.</p>
+      </div>
+      <div class="why-item">
+        <span class="why-icon">◈</span>
+        <h3>Bespoke Fit</h3>
+        <p>Your body is unique — your garments should be too. We draft custom patterns for every client, ensuring a fit that feels like a second skin.</p>
+      </div>
+      <div class="why-item">
+        <span class="why-icon">❖</span>
+        <h3>Timeless Heritage</h3>
+        <p>We blend contemporary design with the rich textile traditions of Nigeria, creating pieces that honour culture while embracing modernity.</p>
+      </div>
+    </div>
+  </section>
 
-// ── Sticky nav ───────────────────────────────────
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>{
-  nav.classList.toggle('scrolled',window.scrollY>60);
-},{ passive:true });
+  <!-- ── SERVICES ── -->
+  <section id="services" aria-label="Our services">
+    <div class="services-header">
+      <span class="sec-eyebrow reveal">What We Create</span>
+      <h2 class="sec-title reveal">Garments Built<br>for <em>Every Occasion</em></h2>
+    </div>
+    <div class="services-grid stagger">
+      <article class="service-card">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><path d="M20 4C20 4 12 10 8 20s4 16 12 16 16-6 12-16S20 4 20 4z"/><path d="M20 4v32M8 20h24"/></svg>
+        <div class="service-num" aria-hidden="true">01</div>
+        <h3 class="service-name">Bridal<br>Couture</h3>
+        <p class="service-desc">Your wedding day deserves a gown that is entirely, unmistakably yours. We craft bespoke bridal wear with lace, beadwork, and silhouettes tailored to your vision.</p>
+        <a href="#services" class="service-link">
+          Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+      <article class="service-card">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><rect x="8" y="8" width="24" height="24" rx="2"/><path d="M14 8v24M26 8v24"/></svg>
+        <div class="service-num" aria-hidden="true">02</div>
+        <h3 class="service-name">Agbada &<br>Traditional</h3>
+        <p class="service-desc">Command any room in a masterfully draped Agbada or Senator. Our traditional wear blends heritage with modern precision — a statement of culture and class.</p>
+        <a href="#services" class="service-link">
+          Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+      <article class="service-card">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><path d="M12 8h16v4l4 4v12H8V16l4-4V8z"/><path d="M16 8v6h8V8"/></svg>
+        <div class="service-num" aria-hidden="true">03</div>
+        <h3 class="service-name">Suits &<br>Corporate Wear</h3>
+        <p class="service-desc">A suit that fits perfectly is armour. We engineer bespoke suits, tuxedos, and corporate wear that project authority and elegance in equal measure.</p>
+        <a href="#services" class="service-link">
+          Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+      <article class="service-card">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><circle cx="20" cy="14" r="6"/><path d="M8 36c0-6.627 5.373-12 12-12s12 5.373 12 12"/></svg>
+        <div class="service-num" aria-hidden="true">04</div>
+        <h3 class="service-name">Casual &<br>Everyday Luxury</h3>
+        <p class="service-desc">Luxury should not be reserved for special occasions. Our casual collection brings the same bespoke precision to pieces you live in every day.</p>
+        <a href="#services" class="service-link">
+          Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+      <article class="service-card">
+        <svg class="service-icon" viewBox="0 0 40 40" fill="none" stroke="#C9A84C" stroke-width="1.2" aria-hidden="true"><path d="M20 6L6 20l14 14 14-14L20 6z"/><circle cx="20" cy="20" r="4"/></svg>
+        <div class="service-num" aria-hidden="true">05</div>
+        <h3 class="service-name">Alterations &<br>Restoration</h3>
+        <p class="service-desc">A cherished garment deserves a second life. We restore, resize, and recraft clothing with the same care given to a new commission.</p>
+        <a href="#services" class="service-link">
+          Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+      <div class="service-card service-cta-box">
+        <div>
+          <div style="font-family:var(--font-display);font-size:1.2rem;color:var(--ivory);margin-bottom:1rem">Not sure which<br>service you need?</div>
+          <a href="#contact" class="btn-primary">Book a Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-// ── Mobile menu ──────────────────────────────────
-const ham=document.getElementById('hamburger');
-const mNav=document.getElementById('mobile-nav');
-let mOpen=false;
-ham.addEventListener('click',()=>{
-  mOpen=!mOpen;
-  mNav.classList.toggle('open',mOpen);
-  ham.setAttribute('aria-expanded',mOpen);
-  const spans=ham.querySelectorAll('span');
-  if(mOpen){
-    spans[0].style.transform='translateY(6.5px) rotate(45deg)';
-    spans[1].style.opacity='0';
-    spans[2].style.transform='translateY(-6.5px) rotate(-45deg)';
-  }else{
-    spans[0].style.transform='';spans[1].style.opacity='';spans[2].style.transform='';
-  }
-});
-mNav.querySelectorAll('.mob-link').forEach(l=>l.addEventListener('click',()=>{
-  mOpen=false;mNav.classList.remove('open');
-  ham.setAttribute('aria-expanded','false');
-  const spans=ham.querySelectorAll('span');
-  spans[0].style.transform='';spans[1].style.opacity='';spans[2].style.transform='';
-}));
+  <!-- ── COLLECTIONS ── -->
+  <section id="collections" aria-label="Featured collections">
+    <div class="coll-header">
+      <div>
+        <span class="sec-eyebrow reveal">Featured Work</span>
+        <h2 class="sec-title reveal">Our Latest<br><em>Collections</em></h2>
+      </div>
+      <a href="#collections" class="btn-ghost reveal" style="flex-shrink:0">View All</a>
+    </div>
+    <div class="coll-grid stagger" role="list">
+      <div class="coll-item" role="listitem">
+        <img class="coll-img" src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=900&q=80&auto=format&fit=crop" alt="Signature bridal collection piece" loading="lazy"/>
+        <div class="coll-overlay" aria-hidden="true"></div>
+        <div class="coll-label" aria-hidden="true">
+          <div class="coll-cat">2025 Collection</div>
+          <div class="coll-name">The Ivory Bridal Series</div>
+        </div>
+      </div>
+      <div class="coll-item" role="listitem">
+        <img class="coll-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80&auto=format&fit=crop" alt="Premium bespoke suit" loading="lazy"/>
+        <div class="coll-overlay" aria-hidden="true"></div>
+        <div class="coll-label" aria-hidden="true">
+          <div class="coll-cat">Menswear</div>
+          <div class="coll-name">The Executive Collection</div>
+        </div>
+      </div>
+      <div class="coll-item" role="listitem">
+        <img class="coll-img" src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=700&q=80&auto=format&fit=crop" alt="Traditional Agbada" loading="lazy"/>
+        <div class="coll-overlay" aria-hidden="true"></div>
+        <div class="coll-label" aria-hidden="true">
+          <div class="coll-cat">Traditional</div>
+          <div class="coll-name">Heritage Agbada Series</div>
+        </div>
+      </div>
+      <div class="coll-item" role="listitem">
+        <img class="coll-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=700&q=80&auto=format&fit=crop" alt="Elegant evening wear" loading="lazy"/>
+        <div class="coll-overlay" aria-hidden="true"></div>
+        <div class="coll-label" aria-hidden="true">
+          <div class="coll-cat">Evening Wear</div>
+          <div class="coll-name">The Gold Evening Edit</div>
+        </div>
+      </div>
+      <div class="coll-item" role="listitem">
+        <img class="coll-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop" alt="Luxury fabric detail" loading="lazy"/>
+        <div class="coll-overlay" aria-hidden="true"></div>
+        <div class="coll-label" aria-hidden="true">
+          <div class="coll-cat">Detail</div>
+          <div class="coll-name">The Craft Series</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-// ── Hero slideshow ───────────────────────────────
-const slides=document.querySelectorAll('.hero-slide');
-const indicators=document.querySelectorAll('.hi');
-let cur=0;
-function goSlide(n){
-  slides[cur].classList.remove('active');
-  indicators[cur].classList.remove('active');
-  cur=(n+slides.length)%slides.length;
-  slides[cur].classList.add('active');
-  indicators[cur].classList.add('active');
-}
-indicators.forEach(ind=>{
-  ind.addEventListener('click',()=>goSlide(parseInt(ind.dataset.slide)));
-});
-setInterval(()=>goSlide(cur+1),5500);
+  <!-- ── GALLERY ── -->
+  <section id="gallery" aria-label="Image gallery">
+    <div class="services-header" style="max-width:700px;margin:0 auto 3rem;text-align:center;">
+      <span class="sec-eyebrow reveal">Visual Inspiration</span>
+      <h2 class="sec-title reveal">A Glimpse Into<br><em>Our World</em></h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Tailoring detail" loading="lazy"/><div class="gallery-overlay">Craftsmanship</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80&auto=format&fit=crop" alt="Fabric selection" loading="lazy"/><div class="gallery-overlay">Fabrics</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&auto=format&fit=crop" alt="Suit tailoring" loading="lazy"/><div class="gallery-overlay">Bespoke Suits</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=80&auto=format&fit=crop" alt="Bridal gown" loading="lazy"/><div class="gallery-overlay">Bridal</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=600&q=80&auto=format&fit=crop" alt="Agbada" loading="lazy"/><div class="gallery-overlay">Agbada</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80&auto=format&fit=crop" alt="Evening wear" loading="lazy"/><div class="gallery-overlay">Evening</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=600&q=80&auto=format&fit=crop" alt="Detail shot" loading="lazy"/><div class="gallery-overlay">Details</div></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Fabric texture" loading="lazy"/><div class="gallery-overlay">Texture</div></div>
+    </div>
+  </section>
 
-// ── Hero text animation ─────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('hero').classList.add('hero');
-  // Animate hero eyebrow, sub, btns by adding loaded class
-  setTimeout(()=>{
-    document.querySelector('.hero-eyebrow').style.cssText='opacity:1;transform:none';
-    document.querySelector('.hero-sub').style.cssText='opacity:1;transform:none';
-    document.querySelector('.hero-btns').style.cssText='opacity:1;transform:none';
-  },400);
-  // Character animation for hero title lines
-  ['hero-line1','hero-line2','hero-line3'].forEach((id,li)=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    const text=el.textContent;
-    el.innerHTML='';
-    [...text].forEach((ch,i)=>{
-      const s=document.createElement('span');
-      s.textContent=ch===''?' ':ch;
-      s.style.cssText=`display:inline-block;opacity:0;transform:translateY(60%);
-        transition:opacity .6s cubic-bezier(.16,1,.3,1) ${(li*0.2+i*0.03+0.5)}s,
-                   transform .6s cubic-bezier(.16,1,.3,1) ${(li*0.2+i*0.03+0.5)}s`;
-      el.appendChild(s);
-    });
-    setTimeout(()=>{
-      el.querySelectorAll('span').forEach(s=>{
-        s.style.opacity='1';s.style.transform='none';
+  <!-- ── TESTIMONIALS ── -->
+  <section id="testimonials" aria-label="Client testimonials">
+    <div class="testi-header">
+      <span class="sec-eyebrow reveal">Testimonials</span>
+      <h2 class="sec-title reveal">Words from<br><em>Our Clients</em></h2>
+    </div>
+    <div class="testi-slider" role="region" aria-label="Client reviews slider">
+      <div class="testi-track" id="testi-track">
+        <div class="testi-slide" role="group" aria-label="Review 1 of 4">
+          <div class="testi-stars" aria-label="5 stars">★★★★★</div>
+          <p class="testi-quote">Goke Couture delivered a bridal gown that made every guest stop and stare. The attention to every seam, every bead — I have never worn something that fit my body and my spirit so perfectly.</p>
+          <div class="testi-author">Adaeze Okonkwo</div>
+          <div class="testi-role">Bride — Lagos, 2024</div>
+        </div>
+        <div class="testi-slide" role="group" aria-label="Review 2 of 4">
+          <div class="testi-stars" aria-label="5 stars">★★★★★</div>
+          <p class="testi-quote">The Agbada they made for my son's wedding ceremony was beyond anything I imagined. I have worn many agbadas in my life, but this was in another class entirely. Absolute mastery.</p>
+          <div class="testi-author">Chief Emeka Balogun</div>
+          <div class="testi-role">Client — Abuja, 2024</div>
+        </div>
+        <div class="testi-slide" role="group" aria-label="Review 3 of 4">
+          <div class="testi-stars" aria-label="5 stars">★★★★★</div>
+          <p class="testi-quote">I have used tailors all over Lagos and London. Goke Couture is in a different category. My suit for my Board presentation drew comments all day. That confidence is priceless.</p>
+          <div class="testi-author">Tunde Adeyemi</div>
+          <div class="testi-role">CEO — Victoria Island, 2025</div>
+        </div>
+        <div class="testi-slide" role="group" aria-label="Review 4 of 4">
+          <div class="testi-stars" aria-label="5 stars">★★★★★</div>
+          <p class="testi-quote">From the first measurement to the delivery, the experience was seamless and deeply professional. The dress was a work of art. I will never go anywhere else.</p>
+          <div class="testi-author">Chidinma Eze</div>
+          <div class="testi-role">Client — Lekki, 2025</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-nav" role="tablist" aria-label="Select review">
+      <div class="testi-dot active" data-idx="0" role="tab" aria-selected="true" tabindex="0" aria-label="Review 1"></div>
+      <div class="testi-dot" data-idx="1" role="tab" aria-selected="false" tabindex="0" aria-label="Review 2"></div>
+      <div class="testi-dot" data-idx="2" role="tab" aria-selected="false" tabindex="0" aria-label="Review 3"></div>
+      <div class="testi-dot" data-idx="3" role="tab" aria-selected="false" tabindex="0" aria-label="Review 4"></div>
+    </div>
+  </section>
+
+  <!-- ── PROCESS ── -->
+  <section id="process" aria-label="Our tailoring process">
+    <div class="process-inner">
+      <div>
+        <span class="sec-eyebrow reveal">The Process</span>
+        <h2 class="sec-title reveal">Crafted in<br><em>Four Steps</em></h2>
+        <div class="divider-line reveal"></div>
+        <div class="process-steps">
+          <div class="process-step active reveal" data-img="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop">
+            <div class="step-num" aria-hidden="true">01</div>
+            <div>
+              <h3 class="step-title">Consultation</h3>
+              <p class="step-desc">We begin with a deep conversation about your vision, occasion, preferences, and personality. No detail is too small — this is where your garment is born.</p>
+            </div>
+          </div>
+          <div class="process-step reveal" data-img="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=900&q=80&auto=format&fit=crop">
+            <div class="step-num" aria-hidden="true">02</div>
+            <div>
+              <h3 class="step-title">Measurement & Design</h3>
+              <p class="step-desc">Precise measurements are taken. A bespoke pattern is drafted — unique to your body, not an adjusted template. Fabrics and designs are selected together.</p>
+            </div>
+          </div>
+          <div class="process-step reveal" data-img="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80&auto=format&fit=crop">
+            <div class="step-num" aria-hidden="true">03</div>
+            <div>
+              <h3 class="step-title">Crafting</h3>
+              <p class="step-desc">Our craftsmen bring the design to life — cutting, stitching, and refining until every element is perfect. Fitting sessions ensure the garment evolves with you.</p>
+            </div>
+          </div>
+          <div class="process-step reveal" data-img="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&q=80&auto=format&fit=crop">
+            <div class="step-num" aria-hidden="true">04</div>
+            <div>
+              <h3 class="step-title">Delivery</h3>
+              <p class="step-desc">Your finished garment is pressed, packaged with care, and delivered on time. The experience does not end at delivery — we stand behind every piece we make.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="process-visual">
+        <img class="process-img" id="process-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop" alt="Tailoring process" loading="lazy"/>
+        <p class="process-img-cap">Every garment — a unique journey</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section id="faq" aria-label="Frequently asked questions">
+    <div class="services-header" style="max-width:700px;margin:0 auto 4rem;text-align:center;">
+      <span class="sec-eyebrow reveal">Got Questions?</span>
+      <h2 class="sec-title reveal">Frequently Asked<br><em>Questions</em></h2>
+    </div>
+    <div class="faq-grid reveal stagger">
+      <div class="faq-item active">
+        <div class="faq-q">
+          How long does a bespoke garment take?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">Typically 2–4 weeks depending on the complexity of the garment and the number of fittings required. Bridal gowns and heavily embroidered Agbadas may take 4–6 weeks. We always provide a clear timeline during consultation.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          What fabrics do you work with?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">We source the finest fabrics globally — from Italian wool and silk to African Aso-oke, lace, and Ankara. We also work with premium cotton, linen, and blends. Every fabric is hand-selected to match your vision and the occasion.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          Do you offer fittings?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">Yes, we offer multiple fitting sessions throughout the crafting process. We believe a garment should be perfected on your body, not just on a mannequin. We schedule fittings at key stages to ensure a flawless fit.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          Can I bring my own fabric?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">Absolutely. We are happy to work with fabrics you provide. We will advise on the suitability for your chosen design and ensure the final result is nothing short of exceptional.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          Do you cater to international clients?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">Yes. We have worked with clients across the UK, USA, and Europe. We offer virtual consultations, detailed measurement guides, and secure international shipping for your finished garments.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          What is your pricing range?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-a">Pricing varies based on fabric, design complexity, and garment type. We provide a transparent quote after the initial consultation, with no hidden costs. We offer bespoke solutions for every budget.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact" aria-label="Contact us">
+    <div class="services-header" style="max-width:700px;margin:0 auto 4rem;text-align:center;">
+      <span class="sec-eyebrow reveal">Get in Touch</span>
+      <h2 class="sec-title reveal">Let's Begin Your<br><em>Tailoring Journey</em></h2>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-info reveal-left">
+        <div class="contact-detail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+          <div>
+            <h4>Call / WhatsApp</h4>
+            <p><a href="tel:+2348057059898">+234 805 705 9898</a></p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <div>
+            <h4>Email</h4>
+            <p><a href="mailto:info@gokecouture.com">info@gokecouture.com</a></p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div>
+            <h4>Visit Us</h4>
+            <p>Seventh day road, opposite Omi Tuntun New Shopping complex,<br>Iyaganku area, Ibadan, Oyo State, Nigeria.</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div>
+            <h4>Working Hours</h4>
+            <p>Monday – Saturday: 9am – 7pm<br>Sunday: By appointment only</p>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form reveal-right" id="contact-form" action="#" method="POST">
+        <div class="form-row">
+          <div>
+            <label for="cf-name">Full Name</label>
+            <input type="text" id="cf-name" name="name" placeholder="Your full name" required />
+          </div>
+          <div>
+            <label for="cf-email">Email Address</label>
+            <input type="email" id="cf-email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div>
+          <label for="cf-phone">Phone Number</label>
+          <input type="tel" id="cf-phone" name="phone" placeholder="+234 800 000 0000" />
+        </div>
+        <div>
+          <label for="cf-service">Service Interested In</label>
+          <select id="cf-service" name="service">
+            <option value="">Select a service…</option>
+            <option value="bridal">Bridal Couture</option>
+            <option value="agbada">Agbada & Traditional</option>
+            <option value="suits">Suits & Corporate Wear</option>
+            <option value="casual">Casual Luxury</option>
+            <option value="alterations">Alterations & Restoration</option>
+            <option value="other">Other / Not sure</option>
+          </select>
+        </div>
+        <div>
+          <label for="cf-message">Your Message</label>
+          <textarea id="cf-message" name="message" placeholder="Tell us about your vision, occasion, or any questions…" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">
+          <span>Send Enquiry</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p style="font-size:.7rem;color:rgba(245,240,232,.3);margin-top:.2rem;">We'll respond within 24 hours. Your privacy is respected.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ── -->
+  <section id="cta-banner" aria-label="Book a consultation">
+    <div class="cta-bg" aria-hidden="true"></div>
+    <div class="cta-inner">
+      <div class="cta-divider" aria-hidden="true"></div>
+      <h2 class="cta-title reveal">Ready to Wear<br><em>Something Extraordinary?</em></h2>
+      <p class="cta-sub reveal">Your next statement piece is a conversation away.<br>Book a consultation and let us begin.</p>
+      <div class="reveal">
+        <a href="#contact" class="btn-primary" style="font-size:.78rem;padding:1.1rem 3rem">
+          Book Your Fitting
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INSTAGRAM ── -->
+  <section id="insta" aria-label="Instagram feed">
+    <div class="insta-header">
+      <span class="sec-eyebrow reveal">Follow the Journey</span>
+      <h2 class="sec-title reveal" style="font-size:clamp(1.6rem,3vw,2.5rem)">
+        <em>@gokecouture</em>
+      </h2>
+      <a href="https://instagram.com/gokecouture" target="_blank" rel="noopener" class="insta-handle" style="display:inline-block;margin-top:.8rem">Follow on Instagram →</a>
+    </div>
+    <div class="insta-grid" aria-label="Instagram photo grid">
+      <div class="insta-cell">
+        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
+        <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
+      </div>
+      <div class="insta-cell">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
+        <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
+      </div>
+      <div class="insta-cell">
+        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
+        <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
+      </div>
+      <div class="insta-cell">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
+        <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
+      </div>
+      <div class="insta-cell">
+        <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
+        <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
+      </div>
+      <div class="insta-cell">
+        <img src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=400&q=75&auto=format&fit=crop" alt="Fashion post" loading="lazy"/>
+        <div class="insta-cell-overlay" aria-hidden="true"><span class="insta-icon">♡</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+          <svg viewBox="0 0 56 56" fill="none" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+            <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+            <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+          </svg>
+          <div class="logo-wordmark">Goke Couture<span>Ibadan · Oyo, Nigeria</span></div>
+        </a>
+        <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
+          </a>
+          <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="index.html">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#services">Services</a>
+        <a href="#collections">Collections</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="#services">Bridal Couture</a>
+        <a href="#services">Agbada & Traditional</a>
+        <a href="#services">Suits & Corporate</a>
+        <a href="#services">Casual Luxury</a>
+        <a href="#services">Alterations</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+          <a href="tel:+2348057059898">+234 805 705 9898</a>
+        </div>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:info@gokecouture.com">info@gokecouture.com</a>
+        </div>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span>
+        </div>
+        <div class="footer-contact-line" style="margin-top:.4rem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Sat: 9am – 7pm</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Goke Couture. All rights reserved.</p>
+      <p class="footer-credit">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" rel="noopener">Kreation Digitals</a></p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Cursor ──────────────────────────────────────
+    (function() {
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      if (dot && ring) {
+        document.addEventListener('mousemove', function(e) {
+          mx = e.clientX;
+          my = e.clientY;
+          dot.style.left = mx + 'px';
+          dot.style.top = my + 'px';
+        });
+
+        function animRing() {
+          rx += (mx - rx) * .12;
+          ry += (my - ry) * .12;
+          ring.style.left = rx + 'px';
+          ring.style.top = ry + 'px';
+          requestAnimationFrame(animRing);
+        }
+        animRing();
+
+        document.querySelectorAll('a,button,.service-card,.coll-item,.insta-cell,.testi-dot,.hi,.process-step,.faq-item')
+          .forEach(function(el) {
+            el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+            el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+          });
+      }
+    })();
+
+    // ── Scroll progress ──────────────────────────────
+    (function() {
+      const sbar = document.getElementById('scroll-bar');
+      window.addEventListener('scroll', function() {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        if (sbar) sbar.style.width = pct + '%';
+      }, { passive: true });
+    })();
+
+    // ── Sticky nav ───────────────────────────────────
+    (function() {
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
+      }, { passive: true });
+    })();
+
+    // ── Mobile menu ──────────────────────────────────
+    (function() {
+      const ham = document.getElementById('hamburger');
+      const mNav = document.getElementById('mobile-nav');
+      const closeBtn = document.getElementById('mob-close');
+      let mOpen = false;
+
+      function toggleMenu(open) {
+        mOpen = (open !== undefined) ? open : !mOpen;
+        if (mNav) mNav.classList.toggle('open', mOpen);
+        if (ham) ham.setAttribute('aria-expanded', mOpen);
+        const spans = ham ? ham.querySelectorAll('span') : [];
+        if (mOpen) {
+          if (spans[0]) spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+          if (spans[1]) spans[1].style.opacity = '0';
+          if (spans[2]) spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+        } else {
+          if (spans[0]) spans[0].style.transform = '';
+          if (spans[1]) spans[1].style.opacity = '';
+          if (spans[2]) spans[2].style.transform = '';
+        }
+      }
+
+      if (ham) {
+        ham.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleMenu();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function() { toggleMenu(false); });
+      }
+      if (mNav) {
+        mNav.querySelectorAll('.mob-link').forEach(function(l) {
+          l.addEventListener('click', function() { toggleMenu(false); });
+        });
+        mNav.addEventListener('click', function(e) {
+          if (e.target === mNav) toggleMenu(false);
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mOpen) toggleMenu(false);
       });
-    },100);
-  });
-});
+    })();
 
-// ── Scroll reveal ────────────────────────────────
-const revealObs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      revealObs.unobserve(e.target);
-    }
-  });
-},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger')
-  .forEach(el=>revealObs.observe(el));
+    // ── Hero slideshow ───────────────────────────────
+    (function() {
+      const slides = document.querySelectorAll('.hero-slide');
+      const indicators = document.querySelectorAll('.hi');
+      let cur = 0;
+      if (!slides.length) return;
 
-// ── Counter animation ─────────────────────────────
-function animateCounter(el,target,duration=1800){
-  let start=0,startTime=null;
-  function step(ts){
-    if(!startTime)startTime=ts;
-    const progress=Math.min((ts-startTime)/duration,1);
-    const eased=1-Math.pow(1-progress,3);
-    el.textContent=Math.floor(eased*target)+(target===98?'%':'+');
-    if(progress<1)requestAnimationFrame(step);
-    else el.textContent=target+(target===98?'%':'+');
-  }
-  requestAnimationFrame(step);
-}
-const statObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const els=document.querySelectorAll('[data-count]');
-      els.forEach(el=>animateCounter(el,parseInt(el.dataset.count)));
-      statObs.disconnect();
-    }
-  });
-},{threshold:.3});
-const statsSection=document.querySelector('.about-stats');
-if(statsSection)statObs.observe(statsSection);
+      function goSlide(n) {
+        if (slides[cur]) slides[cur].classList.remove('active');
+        if (indicators[cur]) indicators[cur].classList.remove('active');
+        cur = (n + slides.length) % slides.length;
+        if (slides[cur]) slides[cur].classList.add('active');
+        if (indicators[cur]) indicators[cur].classList.add('active');
+      }
+      indicators.forEach(function(ind) {
+        ind.addEventListener('click', function() {
+          goSlide(parseInt(ind.dataset.slide));
+        });
+      });
+      setInterval(function() { goSlide(cur + 1); }, 5500);
+    })();
 
-// ── Testimonial slider ───────────────────────────
-const track=document.getElementById('testi-track');
-const dots=document.querySelectorAll('.testi-dot');
-let tidx=0,tTimer;
-function goTesti(n){
-  dots[tidx].classList.remove('active');
-  dots[tidx].setAttribute('aria-selected','false');
-  tidx=n;
-  track.style.transform=`translateX(-${tidx*100}%)`;
-  dots[tidx].classList.add('active');
-  dots[tidx].setAttribute('aria-selected','true');
-}
-dots.forEach((d,i)=>{
-  d.addEventListener('click',()=>{clearInterval(tTimer);goTesti(i);startTTimer()});
-  d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){clearInterval(tTimer);goTesti(i);startTTimer()}});
-});
-function startTTimer(){tTimer=setInterval(()=>goTesti((tidx+1)%dots.length),6000)}
-startTTimer();
+    // ── Hero text animation ─────────────────────────
+    (function() {
+      document.addEventListener('DOMContentLoaded', function() {
+        var hero = document.getElementById('hero');
+        if (hero) hero.classList.add('hero');
+        setTimeout(function() {
+          var eyebrow = document.querySelector('.hero-eyebrow');
+          var sub = document.querySelector('.hero-sub');
+          var btns = document.querySelector('.hero-btns');
+          if (eyebrow) { eyebrow.style.cssText = 'opacity:1;transform:none'; }
+          if (sub) { sub.style.cssText = 'opacity:1;transform:none'; }
+          if (btns) { btns.style.cssText = 'opacity:1;transform:none'; }
+        }, 400);
 
-// ── Process step interaction ──────────────────────
-const pSteps=document.querySelectorAll('.process-step');
-const pImg=document.getElementById('process-img');
-pSteps.forEach(step=>{
-  step.addEventListener('mouseenter',()=>{
-    pSteps.forEach(s=>s.classList.remove('active'));
-    step.classList.add('active');
-    if(pImg&&step.dataset.img){
-      pImg.style.opacity='0';
-      setTimeout(()=>{pImg.src=step.dataset.img;pImg.style.opacity='1';},200);
-    }
-  });
-});
-if(pImg)pImg.style.transition='opacity .4s ease';
-</script>
+        ['hero-line1', 'hero-line2', 'hero-line3'].forEach(function(id, li) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          var text = el.textContent;
+          el.innerHTML = '';
+          var chars = text.split('');
+          chars.forEach(function(ch, i) {
+            var s = document.createElement('span');
+            s.textContent = ch === ' ' ? '\u00A0' : ch;
+            var delay = (li * 0.2 + i * 0.03 + 0.5);
+            s.style.cssText = 'display:inline-block;opacity:0;transform:translateY(60%);transition:opacity .6s cubic-bezier(.16,1,.3,1) ' +
+              delay + 's, transform .6s cubic-bezier(.16,1,.3,1) ' + delay + 's';
+            el.appendChild(s);
+          });
+          setTimeout(function() {
+            var spans = el.querySelectorAll('span');
+            spans.forEach(function(s) {
+              s.style.opacity = '1';
+              s.style.transform = 'none';
+            });
+          }, 100);
+        });
+      });
+    })();
+
+    // ── Scroll reveal ────────────────────────────────
+    (function() {
+      var revealObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            revealObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.stagger')
+        .forEach(function(el) { revealObs.observe(el); });
+    })();
+
+    // ── Counter animation ─────────────────────────────
+    (function() {
+      function animateCounter(el, target, duration) {
+        duration = duration || 1800;
+        var start = 0,
+          startTime = null;
+
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          var progress = Math.min((ts - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var val = Math.floor(eased * target);
+          el.textContent = val + (target === 98 ? '%' : '+');
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = target + (target === 98 ? '%' : '+');
+        }
+        requestAnimationFrame(step);
+      }
+      var statObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            var els = document.querySelectorAll('[data-count]');
+            els.forEach(function(el) {
+              animateCounter(el, parseInt(el.dataset.count));
+            });
+            statObs.disconnect();
+          }
+        });
+      }, { threshold: .3 });
+      var statsSection = document.querySelector('.about-stats');
+      if (statsSection) statObs.observe(statsSection);
+    })();
+
+    // ── Testimonial slider ───────────────────────────
+    (function() {
+      var track = document.getElementById('testi-track');
+      var dots = document.querySelectorAll('.testi-dot');
+      if (!track || !dots.length) return;
+      var tidx = 0,
+        tTimer;
+
+      function goTesti(n) {
+        if (dots[tidx]) { dots[tidx].classList.remove('active');
+          dots[tidx].setAttribute('aria-selected', 'false'); }
+        tidx = n;
+        track.style.transform = 'translateX(-' + (tidx * 100) + '%)';
+        if (dots[tidx]) { dots[tidx].classList.add('active');
+          dots[tidx].setAttribute('aria-selected', 'true'); }
+      }
+
+      dots.forEach(function(d, i) {
+        d.addEventListener('click', function() {
+          clearInterval(tTimer);
+          goTesti(i);
+          startTTimer();
+        });
+        d.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            clearInterval(tTimer);
+            goTesti(i);
+            startTTimer();
+          }
+        });
+      });
+
+      function startTTimer() {
+        tTimer = setInterval(function() { goTesti((tidx + 1) % dots.length); }, 6000);
+      }
+      startTTimer();
+    })();
+
+    // ── Process step interaction ──────────────────────
+    (function() {
+      var pSteps = document.querySelectorAll('.process-step');
+      var pImg = document.getElementById('process-img');
+      if (pImg) pImg.style.transition = 'opacity .4s ease';
+      pSteps.forEach(function(step) {
+        step.addEventListener('mouseenter', function() {
+          pSteps.forEach(function(s) { s.classList.remove('active'); });
+          step.classList.add('active');
+          if (pImg && step.dataset.img) {
+            pImg.style.opacity = '0';
+            setTimeout(function() {
+              pImg.src = step.dataset.img;
+              pImg.style.opacity = '1';
+            }, 200);
+          }
+        });
+      });
+      // touch fallback
+      pSteps.forEach(function(step) {
+        step.addEventListener('click', function() {
+          var wasActive = step.classList.contains('active');
+          pSteps.forEach(function(s) { s.classList.remove('active'); });
+          if (!wasActive) {
+            step.classList.add('active');
+            if (pImg && step.dataset.img) {
+              pImg.style.opacity = '0';
+              setTimeout(function() {
+                pImg.src = step.dataset.img;
+                pImg.style.opacity = '1';
+              }, 200);
+            }
+          } else {
+            if (pSteps[0]) {
+              pSteps[0].classList.add('active');
+              if (pImg && pSteps[0].dataset.img) {
+                pImg.style.opacity = '0';
+                setTimeout(function() {
+                  pImg.src = pSteps[0].dataset.img;
+                  pImg.style.opacity = '1';
+                }, 200);
+              }
+            }
+          }
+        });
+      });
+    })();
+
+    // ── FAQ accordion ─────────────────────────────────
+    (function() {
+      var faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(function(item) {
+        var q = item.querySelector('.faq-q');
+        if (q) {
+          q.addEventListener('click', function() {
+            var wasActive = item.classList.contains('active');
+            faqItems.forEach(function(i) { i.classList.remove('active'); });
+            if (!wasActive) item.classList.add('active');
+          });
+        }
+      });
+      if (faqItems.length && !document.querySelector('.faq-item.active')) {
+        if (faqItems[0]) faqItems[0].classList.add('active');
+      }
+    })();
+
+    // ── Contact form ──────────────────────────────────
+    (function() {
+      var form = document.getElementById('contact-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          alert('Thank you for your enquiry! We will get back to you within 24 hours.');
+          form.reset();
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
