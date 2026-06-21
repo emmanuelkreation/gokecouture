@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Goke Couture | Premium Bespoke Tailoring</title>
+  <meta name="description" content="Explore Goke Couture's premium bespoke services — Bridal, Agbada, Suits, Casual, and Alterations. Book your consultation today." />
+  <meta property="og:title" content="Services — Goke Couture" />
+  <meta property="og:description" content="Premium bespoke tailoring services crafted for the exceptional." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════
+       TOKENS
+    ═══════════════════════════════════════════════ */
+    :root {
+      --ink: #0A0A0A;
+      --ivory: #F5F0E8;
+      --gold: #C9A84C;
+      --gold-lt: #E8D48A;
+      --sage: #2D5016;
+      --sage-lt: #3D6B1F;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', system-ui, sans-serif;
+      --ease: cubic-bezier(.25, .46, .45, .94);
+      --slow: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px
+    }
+    body {
+      background: var(--ink);
+      color: var(--ivory);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    img {
+      display: block;
+      max-width: 100%
+    }
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+    button {
+      cursor: none;
+      border: none;
+      background: none;
+      font-family: inherit
+    }
+    ul {
+      list-style: none
+    }
+
+    /* ═══════════════════════════════════════════════
+       CUSTOM CURSOR
+    ═══════════════════════════════════════════════ */
+    #cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .1s var(--ease), width .3s var(--slow), height .3s var(--slow), background .3s;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(201, 168, 76, .5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform .18s var(--ease), width .35s var(--slow), height .35s var(--slow), opacity .3s, border-color .3s;
+    }
+    body.cursor-hover #cursor-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--gold-lt)
+    }
+    body.cursor-hover #cursor-ring {
+      width: 54px;
+      height: 54px;
+      border-color: var(--gold)
+    }
+    @media(hover:none) {
+      #cursor-dot,
+      #cursor-ring {
+        display: none
+      }
+      body {
+        cursor: auto
+      }
+    }
+
+    /* ═══════════════════════════════════════════════
+       SCROLL PROGRESS
+    ═══════════════════════════════════════════════ */
+    #scroll-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--sage), var(--gold));
+      width: 0%;
+      z-index: 9000;
+      transition: width .1s linear;
+    }
+
+    /* ═══════════════════════════════════════════════
+       NAVIGATION (same as homepage)
+    ═══════════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 800;
+      padding: 0 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      transition: background .5s var(--ease), height .5s var(--ease), backdrop-filter .5s;
+    }
+    #nav.scrolled {
+      background: rgba(10, 10, 10, .92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      height: 64px;
+      border-bottom: 1px solid rgba(201, 168, 76, .15);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo svg {
+      height: 44px;
+      width: auto;
+      transition: height .5s var(--ease);
+    }
+    #nav.scrolled .nav-logo svg {
+      height: 36px
+    }
+    .logo-wordmark {
+      font-family: var(--font-body);
+      font-weight: 200;
+      font-size: .72rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      line-height: 1;
+    }
+    .logo-wordmark span {
+      display: block;
+      font-weight: 400;
+      letter-spacing: .12em;
+      font-size: .55rem;
+      color: var(--gold);
+      margin-top: 2px
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center
+    }
+    .nav-links a {
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: rgba(245, 240, 232, .75);
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 100%;
+      height: 1px;
+      background: var(--gold);
+      transition: right .35s var(--slow);
+    }
+    .nav-links a:hover {
+      color: var(--ivory)
+    }
+    .nav-links a:hover::after {
+      right: 0
+    }
+    .nav-links a.active {
+      color: var(--gold)
+    }
+    .nav-links a.active::after {
+      right: 0;
+      background: var(--gold)
+    }
+    .nav-cta {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .65rem 1.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: background .3s, color .3s;
+      flex-shrink: 0;
+    }
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--ink)
+    }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 801;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 1.5px;
+      background: var(--ivory);
+      transition: transform .4s var(--slow), opacity .3s;
+      transform-origin: center;
+    }
+    #mobile-nav {
+      position: fixed;
+      inset: 0;
+      z-index: 700;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s var(--ease);
+      padding: 2rem;
+    }
+    #mobile-nav.open {
+      opacity: 1;
+      pointer-events: all
+    }
+    .mob-link {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 300;
+      color: var(--ivory);
+      letter-spacing: .05em;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity .5s var(--slow), transform .5s var(--slow), color .3s;
+    }
+    #mobile-nav.open .mob-link {
+      opacity: 1;
+      transform: none
+    }
+    .mob-link:hover {
+      color: var(--gold)
+    }
+    .mob-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2rem;
+      color: var(--ivory);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity .3s;
+    }
+    .mob-close:hover {
+      opacity: 1;
+    }
+
+    /* ═══════════════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════════════ */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      background: var(--gold);
+      color: var(--ink);
+      transition: background .3s, transform .3s var(--slow), letter-spacing .3s;
+      border: none;
+      cursor: none;
+    }
+    .btn-primary:hover {
+      background: var(--gold-lt);
+      transform: translateY(-2px);
+      letter-spacing: .28em
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      border: 1px solid rgba(245, 240, 232, .4);
+      color: var(--ivory);
+      transition: border-color .3s, transform .3s var(--slow);
+      background: transparent;
+      cursor: none;
+    }
+    .btn-ghost:hover {
+      border-color: var(--ivory);
+      transform: translateY(-2px)
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: background .3s, color .3s, transform .3s var(--slow);
+      background: transparent;
+      cursor: none;
+    }
+    .btn-outline:hover {
+      background: var(--gold);
+      color: var(--ink);
+      transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTION COMMONS
+    ═══════════════════════════════════════════════ */
+    section {
+      padding: 8rem 5vw;
+    }
+    .sec-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ivory);
+    }
+    .sec-title em {
+      font-style: italic;
+      color: var(--gold)
+    }
+    .divider-line {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2rem 0;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .9s var(--slow), transform .9s var(--slow);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none
+    }
+
+    /* ═══════════════════════════════════════════════
+       SERVICES HERO
+    ═══════════════════════════════════════════════ */
+    .services-hero {
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10rem 5vw 6rem;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .services-hero .bg-slides {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .services-hero .bg-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.4s var(--ease);
+    }
+    .services-hero .bg-slide.active {
+      opacity: 1;
+    }
+    .services-hero .bg-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10, 10, 10, .9), rgba(10, 10, 10, .5));
+    }
+    .services-hero .monogram {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(12rem, 30vw, 25rem);
+      font-weight: 300;
+      color: rgba(201, 168, 76, .08);
+      pointer-events: none;
+      z-index: 1;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      user-select: none;
+    }
+    .services-hero .content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+    .services-hero .content .eyebrow {
+      font-size: .7rem;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .services-hero .content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ivory);
+      margin-bottom: 1.5rem;
+    }
+    .services-hero .content h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .services-hero .content p {
+      font-size: 1.05rem;
+      color: rgba(245, 240, 232, .7);
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SERVICE DETAIL CARDS
+    ═══════════════════════════════════════════════ */
+    #service-details {
+      background: var(--ink);
+    }
+    .service-detail-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 4rem 0;
+      border-bottom: 1px solid rgba(245, 240, 232, .06);
+    }
+    .service-detail-card:last-child {
+      border-bottom: none;
+    }
+    .service-detail-card .img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .service-detail-card .img-wrap img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      filter: grayscale(20%);
+      transition: filter .6s, transform .7s;
+    }
+    .service-detail-card .img-wrap:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.03);
+    }
+    .service-detail-card .img-wrap .badge {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background: var(--gold);
+      color: var(--ink);
+      padding: .4rem 1.2rem;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .service-detail-card .info h3 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: .5rem;
+    }
+    .service-detail-card .info .sub {
+      font-size: .85rem;
+      color: var(--gold);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .service-detail-card .info p {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: rgba(245, 240, 232, .65);
+      margin-bottom: 1.5rem;
+    }
+    .service-detail-card .info .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem;
+      margin-bottom: 1.8rem;
+    }
+    .service-detail-card .info .features span {
+      font-size: .8rem;
+      color: rgba(245, 240, 232, .55);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .service-detail-card .info .features span::before {
+      content: '◆';
+      color: var(--gold);
+      position: absolute;
+      left: 0;
+      font-size: .6rem;
+      top: .1rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONSULTATION / MEASUREMENT FORM
+    ═══════════════════════════════════════════════ */
+    #consultation {
+      background: #0f0f0f;
+      position: relative;
+      overflow: hidden;
+    }
+    #consultation .bg-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: .15;
+      background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    #consultation .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .consultation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+    }
+    .consultation-info h3 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--ivory);
+      margin-bottom: 1rem;
+    }
+    .consultation-info p {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: rgba(245, 240, 232, .55);
+      margin-bottom: 1.5rem;
+    }
+    .consultation-info .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .consultation-info .step .num {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--gold);
+      line-height: 1;
+      min-width: 40px;
+    }
+    .consultation-info .step p {
+      font-size: .9rem;
+      color: rgba(245, 240, 232, .6);
+      margin: 0;
+      line-height: 1.6;
+    }
+    .consultation-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .consultation-form .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .consultation-form label {
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .4);
+      display: block;
+      margin-bottom: .3rem;
+    }
+    .consultation-form input,
+    .consultation-form textarea,
+    .consultation-form select {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(245, 240, 232, .12);
+      padding: .8rem 1.2rem;
+      font-family: var(--font-body);
+      font-size: .85rem;
+      color: var(--ivory);
+      transition: border-color .3s, background .3s;
+      outline: none;
+      border-radius: 0;
+    }
+    .consultation-form input:focus,
+    .consultation-form textarea:focus,
+    .consultation-form select:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, .07);
+    }
+    .consultation-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .consultation-form select option {
+      background: var(--ink);
+      color: var(--ivory);
+    }
+    .consultation-form .btn-primary {
+      align-self: flex-start;
+      border: none;
+      cursor: none;
+    }
+
+    /* ── Measurements section within form ── */
+    .measurements-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: .8rem;
+      margin-top: .5rem;
+    }
+    .measurements-grid input {
+      padding: .6rem .8rem;
+      font-size: .8rem;
+    }
+    .measurements-grid label {
+      font-size: .55rem;
+      letter-spacing: .1em;
+      color: rgba(245, 240, 232, .35);
+    }
+
+    /* ═══════════════════════════════════════════════
+       PROCESS OVERVIEW
+    ═══════════════════════════════════════════════ */
+    #process-overview {
+      background: var(--ink);
+      text-align: center;
+    }
+    .process-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .process-step-card {
+      padding: 2rem 1.5rem;
+      border: 1px solid rgba(201, 168, 76, .08);
+      transition: border-color .4s, transform .4s;
+    }
+    .process-step-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+    }
+    .process-step-card .num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+      opacity: .3;
+    }
+    .process-step-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin: .8rem 0 .4rem;
+    }
+    .process-step-card p {
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .5);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CTA
+    ═══════════════════════════════════════════════ */
+    .cta-section {
+      background: var(--ink);
+      text-align: center;
+      padding: 6rem 5vw;
+    }
+    .cta-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--gold);
+      margin: 0 auto 2rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER (same as homepage)
+    ═══════════════════════════════════════════════ */
+    footer {
+      background: #050505;
+      border-top: 1px solid rgba(201, 168, 76, .15);
+    }
+    .footer-top {
+      padding: 6rem 5vw 4rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 4rem;
+    }
+    .footer-brand p {
+      font-size: .88rem;
+      line-height: 1.9;
+      color: rgba(245, 240, 232, .45);
+      margin: 1.5rem 0 2rem;
+      max-width: 280px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem
+    }
+    .soc-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(245, 240, 232, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .5);
+      transition: border-color .3s, color .3s, background .3s;
+    }
+    .soc-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+    .footer-col h4 {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      font-weight: 400;
+    }
+    .footer-col a {
+      display: block;
+      font-size: .88rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+      transition: color .3s, paddingLeft .3s;
+    }
+    .footer-col a:hover {
+      color: var(--ivory);
+      padding-left: 6px
+    }
+    .footer-contact-line {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+    }
+    .footer-contact-line svg {
+      color: var(--gold);
+      flex-shrink: 0
+    }
+    .footer-contact-line a {
+      color: var(--gold);
+      transition: opacity .3s;
+      margin: 0;
+      padding: 0;
+    }
+    .footer-contact-line a:hover {
+      opacity: .7;
+      padding-left: 0;
+    }
+    .footer-bottom {
+      padding: 1.8rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(245, 240, 232, .06);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+      letter-spacing: .05em;
+    }
+    .footer-credit {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+    }
+    .footer-credit a {
+      color: var(--gold);
+      transition: opacity .3s;
+    }
+    .footer-credit a:hover {
+      opacity: .7
+    }
+
+    /* ═══════════════════════════════════════════════
+       WHATSAPP FLOAT
+    ═══════════════════════════════════════════════ */
+    #wa-float {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      z-index: 600;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, .35);
+      animation: wa-pulse 3s ease-in-out infinite;
+      transition: transform .3s var(--slow), box-shadow .3s;
+    }
+    #wa-float:hover {
+      transform: scale(1.12);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
+    }
+    @keyframes wa-pulse {
+      0%,
+      100% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
+      }
+      50% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
+      }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media(max-width:1024px) {
+      .service-detail-card {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .service-detail-card .img-wrap {
+        order: -1;
+      }
+      .service-detail-card .img-wrap img {
+        height: 300px;
+      }
+      .consultation-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .process-steps-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+    }
+
+    @media(max-width:768px) {
+      #nav {
+        padding: 0 1.2rem;
+        height: 68px;
+      }
+      #nav.scrolled {
+        height: 56px;
+      }
+      .nav-links,
+      .nav-cta {
+        display: none
+      }
+      .nav-hamburger {
+        display: flex
+      }
+      .services-hero {
+        min-height: 50vh;
+        padding: 8rem 5vw 4rem;
+      }
+      .services-hero .content h1 {
+        font-size: 2.6rem;
+      }
+      section {
+        padding: 4rem 5vw;
+      }
+      .service-detail-card .info .features {
+        grid-template-columns: 1fr;
+      }
+      .consultation-form .form-row {
+        grid-template-columns: 1fr;
+      }
+      .measurements-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .process-steps-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 4rem 5vw 2rem;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+      #wa-float {
+        width: 48px;
+        height: 48px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+      #wa-float svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    @media(max-width:480px) {
+      #nav {
+        padding: 0 1rem;
+        height: 60px;
+      }
+      #nav.scrolled {
+        height: 52px;
+      }
+      .services-hero .content h1 {
+        font-size: 2rem;
+      }
+      .services-hero .monogram {
+        font-size: clamp(6rem, 15vw, 10rem);
+      }
+      .service-detail-card .img-wrap img {
+        height: 220px;
+      }
+      .service-detail-card .info h3 {
+        font-size: 1.5rem;
+      }
+      .measurements-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .consultation-info .step {
+        gap: .6rem;
+      }
+      #cursor-dot,
+      #cursor-ring {
+        display: none;
+      }
+      body {
+        cursor: auto;
+      }
+      .btn-primary,
+      .btn-ghost,
+      .btn-outline {
+        cursor: auto;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    .mob-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2.2rem;
+      color: var(--ivory);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity .3s, transform .3s;
+      line-height: 1;
+      padding: 0.5rem;
+    }
+    .mob-close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+    @media(max-width:768px) {
+      .mob-close {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="scroll-bar"></div>
+
+  <!-- WhatsApp Float -->
+  <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20Goke%20Couture%20services." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+        <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+        <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+      </svg>
+      <div class="logo-wordmark">
+        Goke Couture
+        <span>Ibadan · Oyo, Nigeria</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+    </ul>
+    <a href="booking.html" class="nav-cta">Book a Fitting</a>
+
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+    <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
+    <a href="index.html" class="mob-link">Home</a>
+    <a href="about.html" class="mob-link">About</a>
+    <a href="services.html" class="mob-link">Services</a>
+    <a href="collections.html" class="mob-link">Collections</a>
+    <a href="portfolio.html" class="mob-link">Portfolio</a>
+    <a href="reviews.html" class="mob-link">Reviews</a>
+    <a href="booking.html" class="mob-link">Book a Fitting</a>
+  </div>
+
+  <!-- ── SERVICES HERO ── -->
+  <section class="services-hero">
+    <div class="bg-slides">
+      <div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1800&q=85&auto=format&fit=crop')"></div>
+    </div>
+    <div class="monogram" aria-hidden="true">GC</div>
+    <div class="content">
+      <p class="eyebrow">What We Create</p>
+      <h1>Garments Built for <em>Every Occasion</em></h1>
+      <p>From bridal gowns to Agbada, bespoke suits to casual luxury — every service is executed with the same precision and passion.</p>
+    </div>
+  </section>
+
+  <!-- ── SERVICE DETAILS ── -->
+  <section id="service-details">
+    <!-- Bridal -->
+    <div class="service-detail-card reveal" id="bridal">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=900&q=85&auto=format&fit=crop" alt="Bridal Couture" loading="lazy" />
+        <span class="badge">Signature</span>
+      </div>
+      <div class="info">
+        <span class="sub">Service 01</span>
+        <h3>Bridal Couture</h3>
+        <p>Your wedding day deserves a gown that is entirely, unmistakably yours. We craft bespoke bridal wear with lace, beadwork, and silhouettes tailored to your vision. From the first sketch to the final fitting, every detail is perfected.</p>
+        <div class="features">
+          <span>Custom lace &amp; embroidery</span>
+          <span>Multiple fitting sessions</span>
+          <span>Bespoke pattern drafting</span>
+          <span>Silk, satin &amp; luxury fabrics</span>
+        </div>
+        <a href="#consultation" class="btn-primary">Enquire About Bridal</a>
+      </div>
+    </div>
+
+    <!-- Agbada -->
+    <div class="service-detail-card reveal" id="agbada">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=900&q=85&auto=format&fit=crop" alt="Agbada & Traditional" loading="lazy" />
+        <span class="badge">Heritage</span>
+      </div>
+      <div class="info">
+        <span class="sub">Service 02</span>
+        <h3>Agbada &amp; Traditional Wear</h3>
+        <p>Command any room in a masterfully draped Agbada or Senator. Our traditional wear blends heritage with modern precision — a statement of culture and class. Each piece is handcrafted with the finest Aso-oke and lace.</p>
+        <div class="features">
+          <span>Hand-embroidered detailing</span>
+          <span>Premium Aso-oke &amp; lace</span>
+          <span>Custom fit &amp; drape</span>
+          <span>Traditional &amp; modern fusion</span>
+        </div>
+        <a href="#consultation" class="btn-primary">Enquire About Agbada</a>
+      </div>
+    </div>
+
+    <!-- Suits -->
+    <div class="service-detail-card reveal" id="suits">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=85&auto=format&fit=crop" alt="Suits & Corporate Wear" loading="lazy" />
+        <span class="badge">Executive</span>
+      </div>
+      <div class="info">
+        <span class="sub">Service 03</span>
+        <h3>Suits &amp; Corporate Wear</h3>
+        <p>A suit that fits perfectly is armour. We engineer bespoke suits, tuxedos, and corporate wear that project authority and elegance in equal measure. From boardroom presentations to black-tie events, you will always be the best-dressed.</p>
+        <div class="features">
+          <span>Italian &amp; British wools</span>
+          <span>Fully canvassed construction</span>
+          <span>Custom lining &amp; details</span>
+          <span>Perfect fit guarantee</span>
+        </div>
+        <a href="#consultation" class="btn-primary">Enquire About Suits</a>
+      </div>
+    </div>
+
+    <!-- Casual -->
+    <div class="service-detail-card reveal" id="casual">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&q=85&auto=format&fit=crop" alt="Casual Luxury" loading="lazy" />
+        <span class="badge">Everyday</span>
+      </div>
+      <div class="info">
+        <span class="sub">Service 04</span>
+        <h3>Casual &amp; Everyday Luxury</h3>
+        <p>Luxury should not be reserved for special occasions. Our casual collection brings the same bespoke precision to pieces you live in every day — from tailored trousers to linen shirts, all crafted with the same obsessive attention to detail.</p>
+        <div class="features">
+          <span>Premium cottons &amp; linens</span>
+          <span>Relaxed yet refined silhouettes</span>
+          <span>Versatile wardrobe staples</span>
+          <span>Made to measure</span>
+        </div>
+        <a href="#consultation" class="btn-primary">Enquire About Casual</a>
+      </div>
+    </div>
+
+    <!-- Alterations -->
+    <div class="service-detail-card reveal" id="alterations">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85&auto=format&fit=crop" alt="Alterations & Restoration" loading="lazy" />
+        <span class="badge">Restoration</span>
+      </div>
+      <div class="info">
+        <span class="sub">Service 05</span>
+        <h3>Alterations &amp; Restoration</h3>
+        <p>A cherished garment deserves a second life. We restore, resize, and recraft clothing with the same care given to a new commission. From heirloom pieces to vintage finds, we bring your garments back to their former glory.</p>
+        <div class="features">
+          <span>Precision alterations</span>
+          <span>Vintage restoration</span>
+          <span>Re-weaving &amp; repairs</span>
+          <span>Same care as new commissions</span>
+        </div>
+        <a href="#consultation" class="btn-primary">Enquire About Alterations</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONSULTATION / MEASUREMENT FORM ── -->
+  <section id="consultation">
+    <div class="bg-wrap" aria-hidden="true"></div>
+    <div class="container">
+      <div style="text-align:center;max-width:700px;margin:0 auto 2rem;">
+        <span class="sec-eyebrow reveal">Book Your Consultation</span>
+        <h2 class="sec-title reveal">Let's Begin Your <em>Tailoring Journey</em></h2>
+        <p style="color:rgba(245,240,232,.5);margin-top:1rem;font-size:.95rem;">Tell us about your vision, share your measurements, and we'll start crafting your masterpiece.</p>
+      </div>
+
+      <div class="consultation-grid">
+        <div class="consultation-info reveal">
+          <h3>What to Expect</h3>
+          <p>Our consultation process is designed to understand your unique style, occasion, and requirements. Here's how it works:</p>
+          <div class="step">
+            <span class="num">01</span>
+            <p><strong style="color:var(--ivory);">Share Your Vision</strong><br />Tell us about your occasion, style preferences, and any inspiration you have. We'll discuss fabric options and design ideas.</p>
+          </div>
+          <div class="step">
+            <span class="num">02</span>
+            <p><strong style="color:var(--ivory);">Provide Your Measurements</strong><br />Fill in your body measurements accurately using the form. For best results, have someone help you measure.</p>
+          </div>
+          <div class="step">
+            <span class="num">03</span>
+            <p><strong style="color:var(--ivory);">Receive Your Quote</strong><br />We'll review your requirements and send you a transparent, detailed quote within 24 hours.</p>
+          </div>
+          <div class="step">
+            <span class="num">04</span>
+            <p><strong style="color:var(--ivory);">Begin Crafting</strong><br />Once confirmed, our master tailors will start drafting your custom pattern and begin the creation process.</p>
+          </div>
+        </div>
+
+        <form class="consultation-form reveal" id="consultation-form">
+          <div class="form-row">
+            <div>
+              <label for="cs-name">Full Name *</label>
+              <input type="text" id="cs-name" placeholder="Your full name" required />
+            </div>
+            <div>
+              <label for="cs-email">Email Address *</label>
+              <input type="email" id="cs-email" placeholder="you@example.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label for="cs-phone">Phone Number</label>
+              <input type="tel" id="cs-phone" placeholder="+234 800 000 0000" />
+            </div>
+            <div>
+              <label for="cs-service">Service Interested In *</label>
+              <select id="cs-service" required>
+                <option value="">Select a service…</option>
+                <option value="bridal">Bridal Couture</option>
+                <option value="agbada">Agbada & Traditional</option>
+                <option value="suits">Suits & Corporate Wear</option>
+                <option value="casual">Casual Luxury</option>
+                <option value="alterations">Alterations & Restoration</option>
+                <option value="other">Other / Not sure</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="cs-message">Style Notes & Vision</label>
+            <textarea id="cs-message" placeholder="Tell us about your occasion, preferred colours, fabric choices, or any inspiration you have…"></textarea>
+          </div>
+
+          <div style="border-top:1px solid rgba(245,240,232,.08);padding-top:1.5rem;margin-top:.5rem;">
+            <label style="font-size:.8rem;color:var(--gold);letter-spacing:.1em;">Body Measurements (in cm or inches)</label>
+            <div class="measurements-grid">
+              <div>
+                <label for="cs-chest">Chest</label>
+                <input type="text" id="cs-chest" placeholder="e.g. 102 cm" />
+              </div>
+              <div>
+                <label for="cs-waist">Waist</label>
+                <input type="text" id="cs-waist" placeholder="e.g. 86 cm" />
+              </div>
+              <div>
+                <label for="cs-hips">Hips</label>
+                <input type="text" id="cs-hips" placeholder="e.g. 96 cm" />
+              </div>
+              <div>
+                <label for="cs-shoulder">Shoulder Width</label>
+                <input type="text" id="cs-shoulder" placeholder="e.g. 46 cm" />
+              </div>
+              <div>
+                <label for="cs-sleeve">Sleeve Length</label>
+                <input type="text" id="cs-sleeve" placeholder="e.g. 62 cm" />
+              </div>
+              <div>
+                <label for="cs-length">Garment Length</label>
+                <input type="text" id="cs-length" placeholder="e.g. 85 cm" />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <span>Submit Consultation</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p style="font-size:.7rem;color:rgba(245,240,232,.3);">We'll respond within 24 hours. Your measurements are kept confidential.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROCESS OVERVIEW ── -->
+  <section id="process-overview">
+    <span class="sec-eyebrow reveal">The Goke Couture Process</span>
+    <h2 class="sec-title reveal">Crafted in <em>Four Steps</em></h2>
+    <div class="process-steps-grid stagger">
+      <div class="process-step-card">
+        <div class="num">01</div>
+        <h4>Consultation</h4>
+        <p>We discuss your vision, occasion, and preferences in depth. Every detail matters.</p>
+      </div>
+      <div class="process-step-card">
+        <div class="num">02</div>
+        <h4>Measurement &amp; Design</h4>
+        <p>Precise measurements are taken and a bespoke pattern is drafted unique to your body.</p>
+      </div>
+      <div class="process-step-card">
+        <div class="num">03</div>
+        <h4>Crafting</h4>
+        <p>Our master craftsmen bring the design to life with precision stitching and fittings.</p>
+      </div>
+      <div class="process-step-card">
+        <div class="num">04</div>
+        <h4>Delivery</h4>
+        <p>Your garment is pressed, packaged with care, and delivered on time — every time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="cta-divider" aria-hidden="true"></div>
+    <h2 class="sec-title" style="font-size:clamp(2rem,4vw,3.2rem);">Ready to <em>Create</em> Something Extraordinary?</h2>
+    <p style="color:rgba(245,240,232,.6);margin:1.5rem 0 2.5rem;font-size:1rem;">Book a consultation and let us bring your vision to life.</p>
+    <a href="#consultation" class="btn-primary">Book Your Consultation</a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+          <svg viewBox="0 0 56 56" fill="none" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+            <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+            <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+          </svg>
+          <div class="logo-wordmark">Goke Couture<span>Ibadan · Oyo, Nigeria</span></div>
+        </a>
+        <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
+          </a>
+          <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="collections.html">Collections</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="booking.html">Book a Fitting</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="#bridal">Bridal Couture</a>
+        <a href="#agbada">Agbada & Traditional</a>
+        <a href="#suits">Suits & Corporate</a>
+        <a href="#casual">Casual Luxury</a>
+        <a href="#alterations">Alterations</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+          <a href="tel:+2348057059898">+234 805 705 9898</a>
+        </div>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:info@gokecouture.com">info@gokecouture.com</a>
+        </div>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span>
+        </div>
+        <div class="footer-contact-line" style="margin-top:.4rem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Sat: 9am – 7pm</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Goke Couture. All rights reserved.</p>
+      <p class="footer-credit">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" rel="noopener">Kreation Digitals</a></p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Firebase Config (REPLACE WITH YOUR OWN) ──
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ── Cursor ──────────────────────────────────────
+    (function() {
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      if (dot && ring) {
+        document.addEventListener('mousemove', function(e) {
+          mx = e.clientX;
+          my = e.clientY;
+          dot.style.left = mx + 'px';
+          dot.style.top = my + 'px';
+        });
+
+        function animRing() {
+          rx += (mx - rx) * .12;
+          ry += (my - ry) * .12;
+          ring.style.left = rx + 'px';
+          ring.style.top = ry + 'px';
+          requestAnimationFrame(animRing);
+        }
+        animRing();
+
+        document.querySelectorAll('a,button,.service-detail-card,.process-step-card,.btn-primary,.btn-ghost,.btn-outline')
+          .forEach(function(el) {
+            el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+            el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+          });
+      }
+    })();
+
+    // ── Scroll progress ──────────────────────────────
+    (function() {
+      const sbar = document.getElementById('scroll-bar');
+      window.addEventListener('scroll', function() {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        if (sbar) sbar.style.width = pct + '%';
+      }, { passive: true });
+    })();
+
+    // ── Sticky nav ───────────────────────────────────
+    (function() {
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
+      }, { passive: true });
+    })();
+
+    // ── Mobile menu ──────────────────────────────────
+    (function() {
+      const ham = document.getElementById('hamburger');
+      const mNav = document.getElementById('mobile-nav');
+      const closeBtn = document.getElementById('mob-close');
+      let mOpen = false;
+
+      function toggleMenu(open) {
+        mOpen = (open !== undefined) ? open : !mOpen;
+        if (mNav) mNav.classList.toggle('open', mOpen);
+        if (ham) ham.setAttribute('aria-expanded', mOpen);
+        const spans = ham ? ham.querySelectorAll('span') : [];
+        if (mOpen) {
+          if (spans[0]) spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+          if (spans[1]) spans[1].style.opacity = '0';
+          if (spans[2]) spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+        } else {
+          if (spans[0]) spans[0].style.transform = '';
+          if (spans[1]) spans[1].style.opacity = '';
+          if (spans[2]) spans[2].style.transform = '';
+        }
+      }
+
+      if (ham) {
+        ham.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleMenu();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function() { toggleMenu(false); });
+      }
+      if (mNav) {
+        mNav.querySelectorAll('.mob-link').forEach(function(l) {
+          l.addEventListener('click', function() { toggleMenu(false); });
+        });
+        mNav.addEventListener('click', function(e) {
+          if (e.target === mNav) toggleMenu(false);
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mOpen) toggleMenu(false);
+      });
+    })();
+
+    // ── Hero background slideshow ─────────────────────
+    (function() {
+      const slides = document.querySelectorAll('.bg-slide');
+      let current = 0;
+      if (!slides.length) return;
+      setInterval(function() {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 5000);
+    })();
+
+    // ── Scroll reveal ────────────────────────────────
+    (function() {
+      var revealObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            revealObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal,.stagger')
+        .forEach(function(el) { revealObs.observe(el); });
+    })();
+
+    // ── Stagger animation for process steps ──────────
+    (function() {
+      var staggerObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            var children = e.target.querySelectorAll('.process-step-card');
+            children.forEach(function(child, i) {
+              setTimeout(function() {
+                child.style.opacity = '1';
+                child.style.transform = 'translateY(0)';
+              }, i * 100 + 100);
+            });
+            staggerObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: .2 });
+      var staggerEl = document.querySelector('.process-steps-grid');
+      if (staggerEl) {
+        staggerEl.querySelectorAll('.process-step-card').forEach(function(c) {
+          c.style.opacity = '0';
+          c.style.transform = 'translateY(30px)';
+          c.style.transition = 'opacity .7s var(--slow), transform .7s var(--slow)';
+        });
+        staggerObs.observe(staggerEl);
+      }
+    })();
+
+    // ── Service detail cards reveal ──────────────────
+    (function() {
+      var cards = document.querySelectorAll('.service-detail-card');
+      var cardObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            cardObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: .15 });
+      cards.forEach(function(c) {
+        c.classList.add('reveal');
+        cardObs.observe(c);
+      });
+    })();
+
+    // ── Consultation Form Submission ──────────────────
+    document.getElementById('consultation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('cs-name').value;
+      const email = document.getElementById('cs-email').value;
+      const phone = document.getElementById('cs-phone').value;
+      const service = document.getElementById('cs-service').value;
+      const message = document.getElementById('cs-message').value;
+      const chest = document.getElementById('cs-chest').value;
+      const waist = document.getElementById('cs-waist').value;
+      const hips = document.getElementById('cs-hips').value;
+      const shoulder = document.getElementById('cs-shoulder').value;
+      const sleeve = document.getElementById('cs-sleeve').value;
+      const length = document.getElementById('cs-length').value;
+
+      const consultationData = {
+        name,
+        email,
+        phone,
+        service,
+        message,
+        measurements: { chest, waist, hips, shoulder, sleeve, length },
+        date: new Date().toISOString(),
+        status: 'new',
+        type: 'consultation'
+      };
+
+      db.ref('consultations').push(consultationData)
+        .then(() => {
+          alert('Thank you! Your consultation request has been submitted. We will get back to you within 24 hours.');
+          document.getElementById('consultation-form').reset();
+        })
+        .catch((error) => {
+          alert('There was an error submitting your request. Please try again or call us directly.');
+          console.error('Error:', error);
+        });
+    });
+  </script>
+</body>
+</html>
