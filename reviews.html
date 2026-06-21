@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reviews — Goke Couture | Premium Bespoke Tailoring</title>
+  <title>Reviews — Goke Couture | What Our Clients Say</title>
   <meta name="description" content="Read what our clients say about Goke Couture. Share your experience with our bespoke tailoring services." />
   <meta property="og:title" content="Reviews — Goke Couture" />
   <meta property="og:description" content="Real reviews from real clients. See why Goke Couture is the premier bespoke tailor in Ibadan." />
@@ -11,11 +11,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-  <!-- EmailJS for notifications -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
     /* ═══════════════════════════════════════════════
        TOKENS
@@ -26,6 +26,7 @@
       --gold: #C9A84C;
       --gold-lt: #E8D48A;
       --sage: #2D5016;
+      --sage-lt: #3D6B1F;
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body: 'Jost', system-ui, sans-serif;
       --ease: cubic-bezier(.25, .46, .45, .94);
@@ -319,6 +320,7 @@
       transition: background .3s, transform .3s var(--slow), letter-spacing .3s;
       border: none;
       cursor: none;
+      border-radius: 0;
     }
     .btn-primary:hover {
       background: var(--gold-lt);
@@ -339,79 +341,11 @@
       transition: border-color .3s, transform .3s var(--slow);
       background: transparent;
       cursor: none;
+      border-radius: 0;
     }
     .btn-ghost:hover {
       border-color: var(--ivory);
       transform: translateY(-2px)
-    }
-
-    /* ── SECTION COMMONS ── */
-    section {
-      padding: 8rem 5vw;
-    }
-    .sec-eyebrow {
-      font-size: .68rem;
-      letter-spacing: .4em;
-      text-transform: uppercase;
-      font-weight: 400;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
-      display: block;
-    }
-    .sec-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      font-weight: 300;
-      line-height: 1.1;
-      color: var(--ivory);
-    }
-    .sec-title em {
-      font-style: italic;
-      color: var(--gold)
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity .9s var(--slow), transform .9s var(--slow);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none
-    }
-    .stagger>* {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity .7s var(--slow), transform .7s var(--slow);
-    }
-    .stagger.visible>*:nth-child(1) {
-      opacity: 1;
-      transform: none;
-      transition-delay: .05s
-    }
-    .stagger.visible>*:nth-child(2) {
-      opacity: 1;
-      transform: none;
-      transition-delay: .15s
-    }
-    .stagger.visible>*:nth-child(3) {
-      opacity: 1;
-      transform: none;
-      transition-delay: .25s
-    }
-    .stagger.visible>*:nth-child(4) {
-      opacity: 1;
-      transform: none;
-      transition-delay: .35s
-    }
-    .stagger.visible>*:nth-child(5) {
-      opacity: 1;
-      transform: none;
-      transition-delay: .45s
-    }
-    .stagger.visible>*:nth-child(6) {
-      opacity: 1;
-      transform: none;
-      transition-delay: .55s
     }
 
     /* ═══════════════════════════════════════════════
@@ -419,12 +353,12 @@
     ═══════════════════════════════════════════════ */
     .reviews-hero {
       position: relative;
-      min-height: 70vh;
+      min-height: 60vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 10rem 5vw 6rem;
+      padding: 10rem 5vw 5rem;
       overflow: hidden;
       background: var(--ink);
     }
@@ -448,7 +382,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(10, 10, 10, .9), rgba(10, 10, 10, .5));
+      background: linear-gradient(135deg, rgba(10, 10, 10, .92), rgba(10, 10, 10, .6));
     }
     .reviews-hero .monogram {
       position: absolute;
@@ -456,7 +390,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-family: var(--font-display);
-      font-size: clamp(12rem, 30vw, 25rem);
+      font-size: clamp(10rem, 25vw, 20rem);
       font-weight: 300;
       color: rgba(201, 168, 76, .08);
       pointer-events: none;
@@ -479,7 +413,7 @@
     }
     .reviews-hero .content h1 {
       font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 5rem);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
       font-weight: 300;
       line-height: 1.1;
       color: var(--ivory);
@@ -502,8 +436,9 @@
     ═══════════════════════════════════════════════ */
     #rating-summary {
       background: #0f0f0f;
-      padding: 4rem 5vw;
+      padding: 3rem 5vw;
       text-align: center;
+      border-bottom: 1px solid rgba(245, 240, 232, .05);
     }
     .rating-display {
       display: flex;
@@ -517,13 +452,13 @@
     }
     .rating-big .number {
       font-family: var(--font-display);
-      font-size: 4.5rem;
+      font-size: 4rem;
       font-weight: 300;
       color: var(--gold);
       line-height: 1;
     }
     .rating-big .stars {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: var(--gold);
       letter-spacing: .1em;
       margin: .2rem 0;
@@ -574,17 +509,44 @@
     ═══════════════════════════════════════════════ */
     #reviews-list {
       background: var(--ink);
+      padding: 5rem 5vw;
     }
+    .reviews-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+    .reviews-header .sec-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .reviews-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ivory);
+    }
+    .reviews-header h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
     .reviews-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 2rem;
-      margin-top: 3rem;
     }
     .review-card {
       background: rgba(255, 255, 255, .03);
       padding: 2rem;
       border: 1px solid rgba(245, 240, 232, .06);
+      border-radius: 0;
       transition: border-color .4s, transform .3s;
     }
     .review-card:hover {
@@ -627,36 +589,76 @@
       gap: .5rem;
       margin-top: .4rem;
     }
+    .no-reviews {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: rgba(245, 240, 232, .3);
+    }
+    .no-reviews p {
+      font-size: 1.1rem;
+    }
 
     /* ═══════════════════════════════════════════════
-       REVIEW SUBMISSION FORM
+       SUBMIT FORM
     ═══════════════════════════════════════════════ */
     #submit-review {
       background: #0f0f0f;
+      padding: 5rem 5vw;
       position: relative;
       overflow: hidden;
+      border-top: 1px solid rgba(245, 240, 232, .05);
+      border-bottom: 1px solid rgba(245, 240, 232, .05);
     }
     #submit-review .bg-wrap {
       position: absolute;
       inset: 0;
       z-index: 0;
-      opacity: .1;
+      opacity: .08;
       background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed;
     }
     #submit-review .container {
       position: relative;
       z-index: 1;
-      max-width: 800px;
+      max-width: 720px;
       margin: 0 auto;
     }
+    #submit-review .form-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    #submit-review .form-header .sec-eyebrow {
+      font-size: .68rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    #submit-review .form-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ivory);
+    }
+    #submit-review .form-header h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    #submit-review .form-header p {
+      color: rgba(245, 240, 232, .5);
+      margin-top: .8rem;
+      font-size: .95rem;
+    }
+
     .review-form {
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
-      margin-top: 2rem;
     }
     .review-form .form-row {
       display: grid;
@@ -699,6 +701,7 @@
       background: var(--ink);
       color: var(--ivory);
     }
+
     .review-form .star-selector {
       display: flex;
       gap: .5rem;
@@ -720,6 +723,26 @@
       align-self: flex-start;
       border: none;
       cursor: none;
+      border-radius: 0;
+      width: auto;
+    }
+    .review-form .btn-primary i {
+      margin-right: .5rem;
+    }
+    .review-form .success-msg {
+      display: none;
+      padding: 1rem;
+      border: 1px solid var(--sage);
+      color: var(--sage-lt);
+      text-align: center;
+    }
+    .review-form .success-msg.show {
+      display: block;
+    }
+    .review-form .form-note {
+      font-size: .7rem;
+      color: rgba(245, 240, 232, .3);
+      margin-top: -.5rem;
     }
 
     /* ═══════════════════════════════════════════════
@@ -727,8 +750,8 @@
     ═══════════════════════════════════════════════ */
     .parallax-divider {
       position: relative;
-      height: 50vh;
-      min-height: 300px;
+      height: 40vh;
+      min-height: 250px;
       background-attachment: fixed;
       background-size: cover;
       background-position: center;
@@ -751,7 +774,7 @@
     }
     .parallax-divider .content h2 {
       font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
       font-weight: 300;
       color: var(--ivory);
       line-height: 1.1;
@@ -772,7 +795,7 @@
     .cta-section {
       background: var(--ink);
       text-align: center;
-      padding: 6rem 5vw;
+      padding: 5rem 5vw;
     }
     .cta-divider {
       width: 1px;
@@ -787,10 +810,10 @@
       border-top: 1px solid rgba(201, 168, 76, .15);
     }
     .footer-top {
-      padding: 6rem 5vw 4rem;
+      padding: 5rem 5vw 3rem;
       display: grid;
       grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 4rem;
+      gap: 3rem;
     }
     .footer-brand p {
       font-size: .88rem;
@@ -919,11 +942,11 @@
     /* ── RESPONSIVE ── */
     @media(max-width:1024px) {
       .reviews-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       }
       .footer-top {
         grid-template-columns: 1fr 1fr;
-        gap: 3rem;
+        gap: 2.5rem;
       }
     }
 
@@ -944,16 +967,20 @@
       }
       .reviews-hero {
         min-height: 50vh;
-        padding: 8rem 5vw 4rem;
+        padding: 8rem 5vw 3rem;
       }
       .reviews-hero .content h1 {
-        font-size: 2.6rem;
+        font-size: 2.4rem;
       }
-      section {
-        padding: 4rem 5vw;
+      .reviews-hero .monogram {
+        font-size: clamp(6rem, 15vw, 10rem);
+      }
+      #reviews-list {
+        padding: 3rem 5vw;
       }
       .reviews-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
       .rating-display {
         flex-direction: column;
@@ -965,10 +992,13 @@
       .review-form .form-row {
         grid-template-columns: 1fr;
       }
+      #submit-review {
+        padding: 3rem 5vw;
+      }
       .footer-top {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
-        padding: 4rem 5vw 2rem;
+        gap: 2rem;
+        padding: 3rem 5vw 2rem;
       }
       .footer-bottom {
         flex-direction: column;
@@ -986,8 +1016,8 @@
       }
       .parallax-divider {
         background-attachment: scroll;
-        height: 40vh;
-        min-height: 220px;
+        height: 30vh;
+        min-height: 200px;
       }
       .review-card {
         padding: 1.5rem;
@@ -1005,9 +1035,6 @@
       .reviews-hero .content h1 {
         font-size: 2rem;
       }
-      .reviews-hero .monogram {
-        font-size: clamp(6rem, 15vw, 10rem);
-      }
       #cursor-dot,
       #cursor-ring {
         display: none;
@@ -1021,6 +1048,10 @@
       }
       .review-form .star-selector {
         font-size: 1.5rem;
+      }
+      .review-form .btn-primary {
+        width: 100%;
+        justify-content: center;
       }
     }
 
@@ -1067,7 +1098,7 @@
 
   <!-- WhatsApp Float -->
   <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20Goke%20Couture%20services." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <i class="fab fa-whatsapp" style="font-size:1.8rem;color:white;"></i>
   </a>
 
   <!-- ── NAVIGATION ── -->
@@ -1122,8 +1153,8 @@
     <div class="monogram" aria-hidden="true">GC</div>
     <div class="content">
       <p class="eyebrow">Client Testimonials</p>
-      <h1>Words from <em>Our Clients</em></h1>
-      <p>Real reviews from real clients. See why Goke Couture is the premier bespoke tailor in Ibadan, Oyo State.</p>
+      <h1>What Our <em>Clients Say</em></h1>
+      <p>Real feedback from brides, grooms, executives, and industry leaders who trusted us with their vision.</p>
     </div>
   </section>
 
@@ -1143,12 +1174,67 @@
 
   <!-- ── REVIEWS LIST ── -->
   <section id="reviews-list">
-    <div style="max-width:700px;margin:0 auto;text-align:center;">
-      <span class="sec-eyebrow reveal">What They Say</span>
-      <h2 class="sec-title reveal">Real <em>Experiences</em></h2>
+    <div class="reviews-header">
+      <span class="sec-eyebrow">Trusted by Many</span>
+      <h2>Real <em>Experiences</em></h2>
     </div>
-    <div class="reviews-grid stagger" id="reviews-container">
+    <div class="reviews-grid" id="reviews-container">
       <!-- Dynamically loaded from Firebase -->
+    </div>
+  </section>
+
+  <!-- ── SUBMIT REVIEW ── -->
+  <section id="submit-review">
+    <div class="bg-wrap" aria-hidden="true"></div>
+    <div class="container">
+      <div class="form-header">
+        <span class="sec-eyebrow">Share Your Experience</span>
+        <h2>Write a <em>Review</em></h2>
+        <p>Worked with us? Let others know about your experience. Your review will be reviewed before publishing — we read every single one.</p>
+      </div>
+
+      <form class="review-form" id="reviewForm">
+        <div class="form-row">
+          <div>
+            <label for="reviewName">Full Name *</label>
+            <input type="text" id="reviewName" placeholder="Your full name" required />
+          </div>
+          <div>
+            <label for="reviewService">Service Received *</label>
+            <select id="reviewService" required>
+              <option value="">Select a service…</option>
+              <option value="Bridal Couture">Bridal Couture</option>
+              <option value="Agbada & Traditional">Agbada & Traditional</option>
+              <option value="Suits & Corporate Wear">Suits & Corporate Wear</option>
+              <option value="Casual Luxury">Casual Luxury</option>
+              <option value="Alterations & Restoration">Alterations & Restoration</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label>Your Rating *</label>
+          <div class="star-selector" id="starSelector">
+            <span data-value="1">☆</span>
+            <span data-value="2">☆</span>
+            <span data-value="3">☆</span>
+            <span data-value="4">☆</span>
+            <span data-value="5">☆</span>
+          </div>
+          <input type="hidden" id="reviewRating" value="5" required />
+        </div>
+        <div>
+          <label for="reviewComment">Your Review *</label>
+          <textarea id="reviewComment" rows="4" placeholder="Tell us about your experience with Goke Couture…" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">
+          <i class="fas fa-paper-plane"></i> Submit Review
+        </button>
+        <div class="success-msg" id="successMsg">
+          <i class="fas fa-check-circle"></i> Thank you! Your review has been submitted and will appear after approval.
+        </div>
+        <p class="form-note">Your review will be reviewed before publishing. We read every single one.</p>
+      </form>
     </div>
   </section>
 
@@ -1159,63 +1245,6 @@
       <p>Share your experience with Goke Couture and help others discover the art of bespoke tailoring.</p>
     </div>
   </div>
-
-  <!-- ── SUBMIT REVIEW ── -->
-  <section id="submit-review">
-    <div class="bg-wrap" aria-hidden="true"></div>
-    <div class="container">
-      <div style="text-align:center;max-width:700px;margin:0 auto;">
-        <span class="sec-eyebrow reveal">Share Your Experience</span>
-        <h2 class="sec-title reveal">Write a <em>Review</em></h2>
-        <p style="color:rgba(245,240,232,.5);margin-top:1rem;font-size:.95rem;">We value your feedback. Share your experience with us and help others discover the Goke Couture difference.</p>
-      </div>
-
-      <form class="review-form reveal" id="review-form">
-        <div class="form-row">
-          <div>
-            <label for="rv-name">Full Name *</label>
-            <input type="text" id="rv-name" placeholder="Your full name" required />
-          </div>
-          <div>
-            <label for="rv-email">Email Address</label>
-            <input type="email" id="rv-email" placeholder="you@example.com" />
-          </div>
-        </div>
-        <div>
-          <label for="rv-service">Service Received *</label>
-          <select id="rv-service" required>
-            <option value="">Select a service…</option>
-            <option value="Bridal Couture">Bridal Couture</option>
-            <option value="Agbada & Traditional">Agbada & Traditional</option>
-            <option value="Suits & Corporate Wear">Suits & Corporate Wear</option>
-            <option value="Casual Luxury">Casual Luxury</option>
-            <option value="Alterations & Restoration">Alterations & Restoration</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div>
-          <label>Your Rating *</label>
-          <div class="star-selector" id="star-selector">
-            <span data-value="1">☆</span>
-            <span data-value="2">☆</span>
-            <span data-value="3">☆</span>
-            <span data-value="4">☆</span>
-            <span data-value="5">☆</span>
-          </div>
-          <input type="hidden" id="rv-rating" value="0" required />
-        </div>
-        <div>
-          <label for="rv-message">Your Review *</label>
-          <textarea id="rv-message" placeholder="Tell us about your experience with Goke Couture…" required></textarea>
-        </div>
-        <button type="submit" class="btn-primary">
-          <span>Submit Review</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <p style="font-size:.7rem;color:rgba(245,240,232,.3);">Your review will be reviewed by the admin before appearing publicly. We respect your privacy.</p>
-      </form>
-    </div>
-  </section>
 
   <!-- ── CTA ── -->
   <section class="cta-section">
@@ -1240,13 +1269,13 @@
         <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
         <div class="footer-social" aria-label="Social media links">
           <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            <i class="fab fa-instagram"></i>
           </a>
           <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
+            <i class="fab fa-tiktok"></i>
           </a>
           <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <i class="fab fa-whatsapp"></i>
           </a>
         </div>
       </div>
@@ -1271,19 +1300,19 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="footer-contact-line">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+          <i class="fas fa-phone" style="color:var(--gold);width:16px;"></i>
           <a href="tel:+2348057059898">+234 805 705 9898</a>
         </div>
         <div class="footer-contact-line">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <i class="fas fa-envelope" style="color:var(--gold);width:16px;"></i>
           <a href="mailto:info@gokecouture.com">info@gokecouture.com</a>
         </div>
         <div class="footer-contact-line">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <i class="fas fa-map-marker-alt" style="color:var(--gold);width:16px;"></i>
           <span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span>
         </div>
         <div class="footer-contact-line" style="margin-top:.4rem">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <i class="far fa-clock" style="color:var(--gold);width:16px;"></i>
           <span>Mon – Sat: 9am – 7pm</span>
         </div>
       </div>
@@ -1311,10 +1340,178 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── EmailJS Config (REPLACE WITH YOUR OWN) ──
+    // ── DOM refs ──
+    const reviewsContainer = document.getElementById('reviews-container');
+    const avgRatingEl = document.getElementById('avg-rating');
+    const avgStarsEl = document.getElementById('avg-stars');
+    const reviewCountEl = document.getElementById('review-count');
+    const ratingBarsEl = document.getElementById('rating-bars');
+
+    // ── Load and render approved reviews ──
+    function loadApprovedReviews() {
+      const approvedRef = db.ref('reviews/approved');
+      approvedRef.on('value', function(snapshot) {
+        const data = snapshot.val();
+        let reviews = [];
+        if (data) {
+          reviews = Object.entries(data).map(function(entry) {
+            return { id: entry[0], ...entry[1] };
+          });
+        }
+        renderReviews(reviews);
+        updateRatingSummary(reviews);
+      });
+    }
+
+    function renderReviews(reviews) {
+      reviewsContainer.innerHTML = '';
+      if (!reviews || reviews.length === 0) {
+        reviewsContainer.innerHTML = `
+          <div class="no-reviews">
+            <p>No approved reviews yet. Be the first to leave a review!</p>
+          </div>
+        `;
+        return;
+      }
+      reviews.forEach(function(review) {
+        const card = document.createElement('div');
+        card.className = 'review-card';
+        const stars = '★'.repeat(review.stars || 0) + '☆'.repeat(5 - (review.stars || 0));
+        const date = review.date ? new Date(review.date).toLocaleDateString('en-GB', {
+          year: 'numeric', month: 'long', day: 'numeric'
+        }) : '';
+        card.innerHTML = `
+          <div class="stars">${stars}</div>
+          <div class="message">"${review.message || ''}"</div>
+          <div class="author">${review.name || 'Anonymous'}</div>
+          <div class="meta">
+            <span class="service">${review.service || ''}</span>
+            <span class="date">${date}</span>
+          </div>
+        `;
+        reviewsContainer.appendChild(card);
+      });
+    }
+
+    function updateRatingSummary(reviews) {
+      if (!reviews || reviews.length === 0) {
+        avgRatingEl.textContent = '0.0';
+        avgStarsEl.textContent = '☆☆☆☆☆';
+        reviewCountEl.textContent = 'Based on 0 reviews';
+        ratingBarsEl.innerHTML = '';
+        return;
+      }
+
+      const total = reviews.length;
+      const sum = reviews.reduce(function(acc, r) { return acc + (r.stars || 0); }, 0);
+      const avg = sum / total;
+      avgRatingEl.textContent = avg.toFixed(1);
+      const fullStars = Math.round(avg);
+      avgStarsEl.textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+      reviewCountEl.textContent = `Based on ${total} reviews`;
+
+      const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+      reviews.forEach(function(r) {
+        const s = r.stars || 0;
+        if (s >= 1 && s <= 5) counts[s] = (counts[s] || 0) + 1;
+      });
+
+      ratingBarsEl.innerHTML = '';
+      for (let i = 5; i >= 1; i--) {
+        const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'rating-bar-row';
+        row.innerHTML = `
+          <span class="label">${i}★</span>
+          <div class="track"><div class="fill" style="width:${pct}%;"></div></div>
+          <span class="pct">${pct}%</span>
+        `;
+        ratingBarsEl.appendChild(row);
+      }
+    }
+
+    // ── Star selector ──
     (function() {
-      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+      const stars = document.querySelectorAll('#starSelector span');
+      const hiddenInput = document.getElementById('reviewRating');
+      let selected = 5;
+
+      // Default: 5 stars selected
+      stars.forEach(function(s) {
+        const val = parseInt(s.dataset.value);
+        if (val <= 5) s.classList.add('active');
+      });
+      hiddenInput.value = 5;
+
+      stars.forEach(function(star) {
+        star.addEventListener('click', function() {
+          selected = parseInt(this.dataset.value);
+          hiddenInput.value = selected;
+          stars.forEach(function(s) {
+            const val = parseInt(s.dataset.value);
+            s.classList.toggle('active', val <= selected);
+          });
+        });
+        star.addEventListener('mouseenter', function() {
+          const val = parseInt(this.dataset.value);
+          stars.forEach(function(s) {
+            const sv = parseInt(s.dataset.value);
+            s.style.color = sv <= val ? 'var(--gold-lt)' : '';
+          });
+        });
+        star.addEventListener('mouseleave', function() {
+          stars.forEach(function(s) {
+            const val = parseInt(s.dataset.value);
+            s.style.color = '';
+          });
+        });
+      });
     })();
+
+    // ── Submit review form ──
+    document.getElementById('reviewForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('reviewName').value.trim();
+      const service = document.getElementById('reviewService').value;
+      const rating = parseInt(document.getElementById('reviewRating').value);
+      const message = document.getElementById('reviewComment').value.trim();
+
+      if (!name || !service || rating === 0 || !message) {
+        alert('Please fill in all required fields and select a rating.');
+        return;
+      }
+
+      const reviewData = {
+        name: name,
+        service: service,
+        stars: rating,
+        message: message,
+        date: new Date().toISOString()
+      };
+
+      db.ref('reviews/pending').push(reviewData)
+        .then(function() {
+          document.getElementById('successMsg').classList.add('show');
+          document.getElementById('reviewForm').reset();
+          // Reset rating to 5
+          document.querySelectorAll('#starSelector span').forEach(function(s) {
+            const val = parseInt(s.dataset.value);
+            s.classList.toggle('active', val <= 5);
+          });
+          document.getElementById('reviewRating').value = 5;
+          setTimeout(function() {
+            document.getElementById('successMsg').classList.remove('show');
+          }, 6000);
+        })
+        .catch(function(error) {
+          alert('There was an error submitting your review. Please try again later.');
+          console.error('Error submitting review:', error);
+        });
+    });
+
+    // ── Initial load ──
+    loadApprovedReviews();
 
     // ── Cursor ──────────────────────────────────────
     (function() {
@@ -1341,7 +1538,7 @@
         }
         animRing();
 
-        document.querySelectorAll('a,button,.review-card,.btn-primary,.btn-ghost,.star-selector span')
+        document.querySelectorAll('a,button,.review-card,.btn-primary,.btn-ghost,#starSelector span')
           .forEach(function(el) {
             el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
             el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
@@ -1423,203 +1620,6 @@
         slides[current].classList.add('active');
       }, 5000);
     })();
-
-    // ── Star selector ────────────────────────────────
-    (function() {
-      const stars = document.querySelectorAll('.star-selector span');
-      const hiddenInput = document.getElementById('rv-rating');
-      let selected = 0;
-
-      stars.forEach(function(star) {
-        star.addEventListener('click', function() {
-          selected = parseInt(this.dataset.value);
-          hiddenInput.value = selected;
-          stars.forEach(function(s) {
-            const val = parseInt(s.dataset.value);
-            s.classList.toggle('active', val <= selected);
-          });
-        });
-        star.addEventListener('mouseenter', function() {
-          const val = parseInt(this.dataset.value);
-          stars.forEach(function(s) {
-            const sv = parseInt(s.dataset.value);
-            if (sv <= val) {
-              s.style.color = 'var(--gold-lt)';
-            } else {
-              s.style.color = '';
-            }
-          });
-        });
-        star.addEventListener('mouseleave', function() {
-          stars.forEach(function(s) {
-            const val = parseInt(s.dataset.value);
-            if (val <= selected) {
-              s.style.color = '';
-            } else {
-              s.style.color = '';
-            }
-          });
-        });
-      });
-    })();
-
-    // ── Render reviews ──────────────────────────────
-    function renderReviews(approvedReviews) {
-      const container = document.getElementById('reviews-container');
-      container.innerHTML = '';
-
-      if (!approvedReviews || approvedReviews.length === 0) {
-        container.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;padding:4rem;color:rgba(245,240,232,.4);">
-            <p style="font-size:1.2rem;">No reviews yet. Be the first to share your experience!</p>
-          </div>
-        `;
-        return;
-      }
-
-      approvedReviews.forEach(function(review) {
-        const card = document.createElement('div');
-        card.className = 'review-card';
-        const stars = '★'.repeat(review.stars || 5) + '☆'.repeat(5 - (review.stars || 5));
-        const date = review.date ? new Date(review.date).toLocaleDateString('en-GB', {
-          year: 'numeric', month: 'long', day: 'numeric'
-        }) : '';
-        card.innerHTML = `
-          <div class="stars">${stars}</div>
-          <div class="message">"${review.message || ''}"</div>
-          <div class="author">${review.name || 'Anonymous'}</div>
-          <div class="meta">
-            <span class="service">${review.service || ''}</span>
-            <span class="date">${date}</span>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // ── Update rating summary ─────────────────────────
-    function updateRatingSummary(approvedReviews) {
-      const avgEl = document.getElementById('avg-rating');
-      const starsEl = document.getElementById('avg-stars');
-      const countEl = document.getElementById('review-count');
-      const barsContainer = document.getElementById('rating-bars');
-
-      if (!approvedReviews || approvedReviews.length === 0) {
-        avgEl.textContent = '0.0';
-        starsEl.textContent = '☆☆☆☆☆';
-        countEl.textContent = 'Based on 0 reviews';
-        barsContainer.innerHTML = '';
-        return;
-      }
-
-      const total = approvedReviews.length;
-      const sum = approvedReviews.reduce(function(acc, r) { return acc + (r.stars || 0); }, 0);
-      const avg = sum / total;
-      avgEl.textContent = avg.toFixed(1);
-
-      const fullStars = Math.round(avg);
-      const starStr = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
-      starsEl.textContent = starStr;
-      countEl.textContent = `Based on ${total} reviews`;
-
-      // Rating breakdown
-      const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-      approvedReviews.forEach(function(r) {
-        const s = r.stars || 0;
-        if (s >= 1 && s <= 5) counts[s] = (counts[s] || 0) + 1;
-      });
-
-      barsContainer.innerHTML = '';
-      for (let i = 5; i >= 1; i--) {
-        const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
-        const row = document.createElement('div');
-        row.className = 'rating-bar-row';
-        row.innerHTML = `
-          <span class="label">${i}★</span>
-          <div class="track"><div class="fill" style="width:${pct}%;"></div></div>
-          <span class="pct">${pct}%</span>
-        `;
-        barsContainer.appendChild(row);
-      }
-    }
-
-    // ── Load reviews from Firebase ──────────────────
-    function loadReviews() {
-      const reviewsRef = db.ref('reviews/approved');
-      reviewsRef.once('value').then(function(snapshot) {
-        const data = snapshot.val();
-        let reviews = [];
-        if (data) {
-          reviews = Object.values(data);
-        }
-        renderReviews(reviews);
-        updateRatingSummary(reviews);
-      }).catch(function() {
-        // Fallback data if Firebase fails
-        const fallback = [
-          { name: 'Adaeze Okonkwo', service: 'Bridal Couture', stars: 5, message: 'Goke Couture delivered a bridal gown that made every guest stop and stare. The attention to every seam, every bead — I have never worn something that fit my body and my spirit so perfectly.', date: '2025-06-15' },
-          { name: 'Chief Emeka Balogun', service: 'Agbada & Traditional', stars: 5, message: 'The Agbada they made for my son\'s wedding ceremony was beyond anything I imagined. I have worn many agbadas in my life, but this was in another class entirely. Absolute mastery.', date: '2025-05-20' },
-          { name: 'Tunde Adeyemi', service: 'Suits & Corporate Wear', stars: 5, message: 'I have used tailors all over Lagos and London. Goke Couture is in a different category. My suit for my Board presentation drew comments all day. That confidence is priceless.', date: '2025-05-10' },
-          { name: 'Chidinma Eze', service: 'Bridal Couture', stars: 5, message: 'From the first measurement to the delivery, the experience was seamless and deeply professional. The dress was a work of art. I will never go anywhere else.', date: '2025-04-25' }
-        ];
-        renderReviews(fallback);
-        updateRatingSummary(fallback);
-      });
-    }
-
-    loadReviews();
-
-    // ── Submit review form ───────────────────────────
-    document.getElementById('review-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const name = document.getElementById('rv-name').value.trim();
-      const email = document.getElementById('rv-email').value.trim();
-      const service = document.getElementById('rv-service').value;
-      const rating = parseInt(document.getElementById('rv-rating').value);
-      const message = document.getElementById('rv-message').value.trim();
-
-      if (!name || !service || rating === 0 || !message) {
-        alert('Please fill in all required fields and select a rating.');
-        return;
-      }
-
-      const reviewData = {
-        name: name,
-        email: email,
-        service: service,
-        stars: rating,
-        message: message,
-        date: new Date().toISOString(),
-        status: 'pending'
-      };
-
-      db.ref('reviews/pending').push(reviewData)
-        .then(function() {
-          // Send email notification via EmailJS
-          emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
-            from_name: name,
-            from_email: email || 'no-reply@gokecouture.com',
-            service: service,
-            rating: rating,
-            message: message,
-            to_email: 'info@gokecouture.com'
-          }).then(function() {
-            // Email sent successfully
-          }).catch(function() {
-            // Email failed but review is saved
-          });
-
-          alert('Thank you for your review! It has been submitted and will appear once approved.');
-          document.getElementById('review-form').reset();
-          document.querySelectorAll('.star-selector span').forEach(function(s) { s.classList.remove('active'); });
-          document.getElementById('rv-rating').value = '0';
-        })
-        .catch(function(error) {
-          alert('There was an error submitting your review. Please try again.');
-          console.error('Error:', error);
-        });
-    });
   </script>
 </body>
 </html>
