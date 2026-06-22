@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <style>
     /* ═══════════════════════════════════════════════
        TOKENS
@@ -2803,6 +2806,19 @@
      JAVASCRIPT
   ═══════════════════════════════════════════════ -->
   <script>
+    // ── Firebase Configuration  ──
+    const firebaseConfig = {
+      apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
+      authDomain: "gokecouture-26a61.firebaseapp.com",
+      databaseURL: "https://gokecouture-26a61-default-rtdb.firebaseio.com",
+      projectId: "gokecouture-26a61",
+      storageBucket: "gokecouture-26a61.firebasestorage.app",
+      messagingSenderId: "527866719903",
+      appId: "1:527866719903:web:c3bb9997ecde72cac43caa"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     // ── Scroll progress ──────────────────────────────
     (function() {
       const sbar = document.getElementById('scroll-bar');
@@ -3069,26 +3085,91 @@
       }
     })();
 
-    // ── Contact Form (demo) ───────────────────────────
+    // ── Contact Form (saves to Firebase) ─────────────
     (function() {
       var form = document.getElementById('contact-form');
       if (form) {
         form.addEventListener('submit', function(e) {
           e.preventDefault();
-          alert('Thank you for your enquiry! We will get back to you within 24 hours.');
-          form.reset();
+
+          const name = document.getElementById('cf-name').value.trim();
+          const email = document.getElementById('cf-email').value.trim();
+          const phone = document.getElementById('cf-phone').value.trim();
+          const service = document.getElementById('cf-service').value;
+          const message = document.getElementById('cf-message').value.trim();
+
+          if (!name || !email || !message) {
+            alert('Please fill in all required fields.');
+            return;
+          }
+
+          const contactData = {
+            name: name,
+            email: email,
+            phone: phone,
+            service: service,
+            message: message,
+            date: new Date().toISOString(),
+            status: 'new',
+            type: 'contact'
+          };
+
+          const btn = form.querySelector('button[type="submit"]');
+          const originalHTML = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = '<span>Sending…</span>';
+
+          db.ref('contacts').push(contactData)
+            .then(function() {
+              alert('Thank you for your enquiry! We will get back to you within 24 hours.');
+              form.reset();
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+            })
+            .catch(function(error) {
+              alert('There was an error sending your message. Please try again later.');
+              console.error('Error:', error);
+              btn.disabled = false;
+              btn.innerHTML = originalHTML;
+            });
         });
       }
     })();
 
-    // ── Newsletter Form ──────────────────────────────
+    // ── Newsletter Form (saves to Firebase) ──────────
     (function() {
       var form = document.getElementById('newsletter-form');
       if (form) {
         form.addEventListener('submit', function(e) {
           e.preventDefault();
-          alert('You are now subscribed to the Goke Couture newsletter!');
-          form.reset();
+          const email = form.querySelector('input[type="email"]').value.trim();
+
+          if (!email) {
+            alert('Please enter your email address.');
+            return;
+          }
+
+          const btn = form.querySelector('button');
+          const originalText = btn.textContent;
+          btn.disabled = true;
+          btn.textContent = 'Subscribing…';
+
+          db.ref('newsletter').push({
+            email: email,
+            date: new Date().toISOString()
+          })
+            .then(function() {
+              alert('You are now subscribed to the Goke Couture newsletter!');
+              form.reset();
+              btn.disabled = false;
+              btn.textContent = originalText;
+            })
+            .catch(function(error) {
+              alert('Subscription failed. Please try again later.');
+              console.error('Error:', error);
+              btn.disabled = false;
+              btn.textContent = originalText;
+            });
         });
       }
     })();
