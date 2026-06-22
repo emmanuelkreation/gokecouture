@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <style>
-        /* ── SAME STYLES AS BEFORE (kept for brevity) ── */
+        /* ── SAME STYLES AS BEFORE ── */
         :root{--ink:#0A0A0A;--ivory:#F5F0E8;--gold:#C9A84C;--gold-lt:#E8D48A;--sage:#2D5016;--sage-lt:#3D6B1F;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Jost',system-ui,sans-serif;--ease:cubic-bezier(.25,.46,.45,.94);--slow:cubic-bezier(.16,1,.3,1);--danger:#8B0000}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;font-size:16px}body{background:var(--ink);color:var(--ivory);font-family:var(--font-body);font-weight:300;overflow-x:hidden;cursor:default}a{text-decoration:none;color:inherit}button{border:none;background:none;font-family:inherit;cursor:pointer}ul{list-style:none}
         #login-overlay{position:fixed;inset:0;z-index:1000;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem}#login-overlay.hidden{display:none}.login-box{max-width:400px;width:100%;text-align:center}.login-box .brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:2rem}.login-box .brand svg{height:44px;width:auto}.login-box .brand .name{font-family:var(--font-body);font-weight:200;font-size:.8rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ivory);line-height:1}.login-box .brand .name span{display:block;font-weight:400;letter-spacing:.12em;font-size:.6rem;color:var(--gold);margin-top:2px}.login-box h2{font-family:var(--font-display);font-size:2rem;font-weight:300;color:var(--ivory);margin-bottom:.5rem}.login-box h2 em{font-style:italic;color:var(--gold)}.login-box p{color:rgba(245,240,232,.4);margin-bottom:2rem;font-size:.9rem}.login-box input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(245,240,232,.12);padding:.9rem 1.2rem;font-family:var(--font-body);font-size:.9rem;color:var(--ivory);transition:border-color .3s;outline:none;margin-bottom:1rem;border-radius:0}.login-box input:focus{border-color:var(--gold)}.login-box .login-btn{width:100%;background:var(--gold);color:var(--ink);padding:.9rem;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;border:none;transition:background .3s;cursor:pointer}.login-box .login-btn:hover{background:var(--gold-lt)}.login-box .login-btn:disabled{opacity:.5;cursor:not-allowed}.login-box .error{color:var(--danger);font-size:.85rem;margin-top:.5rem;display:none}.login-box .error.show{display:block}
         .admin-wrapper{display:none;min-height:100vh}.admin-wrapper.visible{display:flex}.admin-sidebar{width:260px;background:#0f0f0f;border-right:1px solid rgba(201,168,76,.1);padding:1.5rem 0;flex-shrink:0;height:100vh;position:sticky;top:0;overflow-y:auto}.admin-sidebar .brand{display:flex;align-items:center;gap:12px;padding:0 1.5rem 2rem;border-bottom:1px solid rgba(245,240,232,.06);margin-bottom:1.5rem}.admin-sidebar .brand svg{height:36px;width:auto}.admin-sidebar .brand .name{font-family:var(--font-body);font-weight:200;font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ivory);line-height:1}.admin-sidebar .brand .name span{display:block;font-weight:400;letter-spacing:.12em;font-size:.5rem;color:var(--gold);margin-top:2px}.admin-sidebar .nav-item{display:flex;align-items:center;gap:1rem;padding:.8rem 1.5rem;color:rgba(245,240,232,.4);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;transition:all .3s;border-left:2px solid transparent}.admin-sidebar .nav-item:hover{color:var(--ivory);background:rgba(255,255,255,.02)}.admin-sidebar .nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,.05)}.admin-sidebar .nav-item i{width:20px;text-align:center;font-size:1rem}.admin-sidebar .nav-item .badge{margin-left:auto;background:var(--gold);color:var(--ink);font-size:.55rem;padding:.1rem .6rem;border-radius:10px;font-weight:500}.admin-sidebar .sidebar-footer{padding:1.5rem;border-top:1px solid rgba(245,240,232,.06);margin-top:1rem}.admin-sidebar .sidebar-footer .user{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}.admin-sidebar .sidebar-footer .user .avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:.9rem}.admin-sidebar .sidebar-footer .user .email{font-size:.78rem;color:rgba(245,240,232,.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.admin-sidebar .sidebar-footer .logout-btn{width:100%;padding:.6rem;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.3);border:1px solid rgba(245,240,232,.1);transition:all .3s;text-align:center}.admin-sidebar .sidebar-footer .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
@@ -173,11 +173,12 @@
     const db = firebase.database();
 
     // ════════════════════════════════════════════════════
-    // 🖼️ IMAGEKIT CONFIG (PRIVATE KEY – WORKING APPROACH)
+    // 🖼️ IMAGEKIT CONFIG
     // ════════════════════════════════════════════════════
     const IMAGEKIT_PRIVATE_KEY = 'private_RLsucdkMH63bDXqifiWBlUUDRbs=';
     const IMAGEKIT_PUBLIC_KEY = 'public_x1rcEzRQ8hvmPXRezLS36mk9UE8=';
-    const IMAGEKIT_URL_ENDPOINT = 'https://upload.imagekit.io/api/v1/files/upload';
+    const IMAGEKIT_UPLOAD_URL = 'https://upload.imagekit.io/api/v1/files/upload';
+    const IMAGEKIT_BASE_URL = 'https://ik.imagekit.io/2pqi3dzrd';
 
     // ─── ⚠️ IMPORTANT: Firebase Rules (copy to Firebase Console) ───
     /*
@@ -219,8 +220,8 @@
 
     let modalMode = 'add', modalEditId = null, modalType = 'portfolio', reviewTab = 'pending', toastTimeout;
 
-    // ─── Image items state (for multiple images) ──
-    let imageItems = []; // each item: { file: File|null, existingUrl: string, label: string, isNew: boolean, previewUrl: string }
+    // ─── Image items state ──
+    let imageItems = [];
 
     function showToast(msg, err) {
         toast.textContent = msg;
@@ -333,7 +334,6 @@
             `;
         });
         container.innerHTML = html;
-
         // Attach events
         container.querySelectorAll('.img-file').forEach(input => {
             input.addEventListener('change', function(e) {
@@ -351,7 +351,7 @@
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         imageItems[idx].previewUrl = e.target.result;
-                        renderImageItems(); // re-render to show preview
+                        renderImageItems();
                     };
                     reader.readAsDataURL(file);
                 } else {
@@ -362,14 +362,12 @@
                 }
             });
         });
-
         container.querySelectorAll('.img-label').forEach(input => {
             input.addEventListener('input', function(e) {
                 const idx = parseInt(this.dataset.idx);
                 imageItems[idx].label = this.value;
             });
         });
-
         container.querySelectorAll('.remove-img-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const idx = parseInt(this.dataset.idx);
@@ -387,7 +385,6 @@
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
 
-        // Reset image items
         if (mode === 'add') {
             imageItems = [];
         } else if (data && data.images && Array.isArray(data.images)) {
@@ -410,7 +407,6 @@
             modalSubmit.textContent = 'Save Changes';
         }
         modalBody.innerHTML = getModalFormHTML(type, data);
-        // Render image items after form is built
         renderImageItems();
     }
 
@@ -514,7 +510,7 @@
         }
     });
 
-    // ─── MODAL SUBMIT (ImageKit with Private Key, multiple images) ─────
+    // ─── MODAL SUBMIT ────────────────────────────────
     modalForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -523,7 +519,6 @@
         const isNew = document.getElementById('modal-isnew') ? document.getElementById('modal-isnew').checked : false;
         const order = parseInt(document.getElementById('modal-order').value) || 0;
 
-        // Portfolio fields
         const description = document.getElementById('modal-description') ? document.getElementById('modal-description').value.trim() : '';
         const client = document.getElementById('modal-client') ? document.getElementById('modal-client').value.trim() : '';
         const location = document.getElementById('modal-location') ? document.getElementById('modal-location').value.trim() : '';
@@ -538,7 +533,6 @@
             return;
         }
 
-        // Check if there is at least one image (new or existing)
         const hasNewImage = imageItems.some(item => item.file);
         const hasExisting = imageItems.some(item => item.existingUrl);
         if (!hasNewImage && !hasExisting) {
@@ -550,7 +544,6 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Uploading images…';
 
-        // ── Upload new images to ImageKit ──
         async function uploadImages() {
             const uploaded = [];
             for (let i = 0; i < imageItems.length; i++) {
@@ -561,7 +554,7 @@
                     formData.append('fileName', Date.now() + '_' + item.file.name);
                     formData.append('folder', '/Gokecouture/portfolio');
                     const authHeader = btoa(IMAGEKIT_PRIVATE_KEY + ':');
-                    const response = await fetch(IMAGEKIT_URL_ENDPOINT, {
+                    const response = await fetch(IMAGEKIT_UPLOAD_URL, {
                         method: 'POST',
                         headers: { 'Authorization': 'Basic ' + authHeader },
                         body: formData
@@ -571,17 +564,16 @@
                         throw new Error(err.message || 'Upload failed');
                     }
                     const data = await response.json();
-                    // ✅ FIX: Use `data.url` – ImageKit returns `url` in the response
-                    const imageUrl = data.url;
-                    if (!imageUrl) {
-                        // Fallback: try fileUrl if available
-                        const fileUrl = data.fileUrl || data.url;
-                        if (!fileUrl) throw new Error('No URL returned from ImageKit');
-                        uploaded.push({ url: fileUrl, label: item.label || '' });
-                    } else {
-                        uploaded.push({ url: imageUrl, label: item.label || '' });
+                    // ✅ FIX: Use data.url from ImageKit response
+                    let imageUrl = data.url;
+                    // If url is relative or missing, construct it manually
+                    if (!imageUrl || !imageUrl.startsWith('http')) {
+                        // Construct from filePath
+                        const filePath = data.filePath || '';
+                        imageUrl = IMAGEKIT_BASE_URL + filePath;
                     }
-                    console.log('✅ Uploaded image:', uploaded[i]);
+                    console.log('✅ Uploaded image URL:', imageUrl);
+                    uploaded.push({ url: imageUrl, label: item.label || '' });
                 } else if (item.existingUrl) {
                     uploaded.push({ url: item.existingUrl, label: item.label || '' });
                 }
@@ -591,7 +583,6 @@
 
         uploadImages()
             .then(function(imagesArray) {
-                // Build data object
                 const data = {
                     title, category, isNew, order,
                     images: imagesArray,
@@ -615,13 +606,12 @@
                 } else {
                     promise = db.ref(ref + '/' + modalEditId).update(data);
                 }
-                // Log the data being saved
-                console.log('💾 Saving portfolio data:', data);
+                console.log('💾 Saving data with images:', imagesArray);
                 return promise;
             })
             .then(function() {
                 closeModal();
-                showToast((modalMode === 'add' ? 'Added' : 'Updated') + ' ' + (modalType === 'portfolio' ? 'portfolio item' : 'collection') + ' successfully.');
+                showToast((modalMode === 'add' ? 'Added' : 'Updated') + ' successfully.');
                 if (modalType === 'portfolio') loadPortfolio();
                 else loadCollections();
                 updateStats();
@@ -723,7 +713,7 @@
             .catch(err => { showToast('Error rejecting review.', true); console.error(err); });
     };
 
-    // ─── Portfolio (with multiple images and debug) ──
+    // ─── Portfolio ────────────────────────────────────
     function loadPortfolio() {
         const wrap = document.getElementById('portfolio-table-wrap');
         wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(245,240,232,.3);">Loading portfolio…</div>';
@@ -740,12 +730,11 @@
             entries.sort((a, b) => (a[1].order || 0) - (b[1].order || 0));
             entries.forEach(function(entry) {
                 const id = entry[0], item = entry[1];
-                // Thumbnails: show up to 3 small images
                 let imagesHtml = '';
                 if (item.images && Array.isArray(item.images) && item.images.length > 0) {
                     const imgs = item.images.slice(0, 3);
                     imagesHtml = imgs.map(img => {
-                        const imgUrl = img.url || img; // fallback if img is a string
+                        const imgUrl = img.url || img;
                         return `<img src="${imgUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin:2px;" onerror="this.style.display='none'" />`;
                     }).join('');
                     if (item.images.length > 3) imagesHtml += `<span style="font-size:.6rem;color:rgba(245,240,232,.3);">+${item.images.length-3}</span>`;
@@ -770,8 +759,6 @@
             });
             html += '</tbody></table>';
             wrap.innerHTML = html;
-            // Log data for debugging
-            console.log('📂 Portfolio data loaded:', data);
         }).catch(err => { console.error(err); wrap.innerHTML = '<div class="empty-state"><p>Error loading portfolio.</p></div>'; });
     }
 
@@ -904,8 +891,8 @@
         if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
     });
 
-    console.log('✅ Admin loaded. Multiple image uploads enabled with ImageKit private key.');
-    console.log('ℹ️ Check the console when you add a portfolio item to see image URLs.');
+    console.log('✅ Admin loaded. ImageKit base URL:', IMAGEKIT_BASE_URL);
+    console.log('ℹ️ Images will be saved with full URL from ImageKit.');
 </script>
 </body>
 </html>
