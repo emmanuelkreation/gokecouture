@@ -564,13 +564,16 @@
                         throw new Error(err.message || 'Upload failed');
                     }
                     const data = await response.json();
-                    // ✅ FIX: Use data.url from ImageKit response
-                    let imageUrl = data.url;
-                    // If url is relative or missing, construct it manually
-                    if (!imageUrl || !imageUrl.startsWith('http')) {
-                        // Construct from filePath
-                        const filePath = data.filePath || '';
-                        imageUrl = IMAGEKIT_BASE_URL + filePath;
+                    console.log('📸 ImageKit response:', data);
+
+                    // ✅ Robust URL extraction
+                    let imageUrl = data.url || data.fileUrl || data.filePath || '';
+                    if (!imageUrl.startsWith('http')) {
+                        // If it's a relative path, prepend base URL
+                        imageUrl = IMAGEKIT_BASE_URL + (imageUrl.startsWith('/') ? '' : '/') + imageUrl;
+                    }
+                    if (!imageUrl || imageUrl === 'undefined') {
+                        throw new Error('No valid URL returned from ImageKit');
                     }
                     console.log('✅ Uploaded image URL:', imageUrl);
                     uploaded.push({ url: imageUrl, label: item.label || '' });
@@ -892,7 +895,7 @@
     });
 
     console.log('✅ Admin loaded. ImageKit base URL:', IMAGEKIT_BASE_URL);
-    console.log('ℹ️ Images will be saved with full URL from ImageKit.');
+    console.log('ℹ️ When you add images, check the console for the uploaded URLs.');
 </script>
 </body>
 </html>
