@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Fitting — Goke Couture | Premium Bespoke Tailoring</title>
+  <meta name="description" content="Book your bespoke fitting at Goke Couture. Choose your service, enter your measurements, and let us craft your masterpiece." />
+  <meta property="og:title" content="Book a Fitting — Goke Couture" />
+  <meta property="og:description" content="Start your bespoke tailoring journey with Goke Couture. Book your fitting today." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════════
+       TOKENS
+    ═══════════════════════════════════════════════ */
+    :root {
+      --ink: #0A0A0A;
+      --ivory: #F5F0E8;
+      --gold: #C9A84C;
+      --gold-lt: #E8D48A;
+      --sage: #2D5016;
+      --sage-lt: #3D6B1F;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', system-ui, sans-serif;
+      --ease: cubic-bezier(.25, .46, .45, .94);
+      --slow: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px
+    }
+    body {
+      background: var(--ink);
+      color: var(--ivory);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    img {
+      display: block;
+      max-width: 100%
+    }
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+    button {
+      cursor: none;
+      border: none;
+      background: none;
+      font-family: inherit
+    }
+    ul {
+      list-style: none
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .1s var(--ease), width .3s var(--slow), height .3s var(--slow), background .3s;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(201, 168, 76, .5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform .18s var(--ease), width .35s var(--slow), height .35s var(--slow), opacity .3s, border-color .3s;
+    }
+    body.cursor-hover #cursor-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--gold-lt)
+    }
+    body.cursor-hover #cursor-ring {
+      width: 54px;
+      height: 54px;
+      border-color: var(--gold)
+    }
+    @media(hover:none) {
+      #cursor-dot,
+      #cursor-ring {
+        display: none
+      }
+      body {
+        cursor: auto
+      }
+    }
+
+    /* ── SCROLL PROGRESS ── */
+    #scroll-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--sage), var(--gold));
+      width: 0%;
+      z-index: 9000;
+      transition: width .1s linear;
+    }
+
+    /* ── NAVIGATION ── */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 800;
+      padding: 0 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      transition: background .5s var(--ease), height .5s var(--ease),
+        backdrop-filter .5s;
+    }
+    #nav.scrolled {
+      background: rgba(10, 10, 10, .92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      height: 64px;
+      border-bottom: 1px solid rgba(201, 168, 76, .15);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo svg {
+      height: 44px;
+      width: auto;
+      transition: height .5s var(--ease);
+    }
+    #nav.scrolled .nav-logo svg {
+      height: 36px
+    }
+    .logo-wordmark {
+      font-family: var(--font-body);
+      font-weight: 200;
+      font-size: .72rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      line-height: 1;
+    }
+    .logo-wordmark span {
+      display: block;
+      font-weight: 400;
+      letter-spacing: .12em;
+      font-size: .55rem;
+      color: var(--gold);
+      margin-top: 2px
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center
+    }
+    .nav-links a {
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: rgba(245, 240, 232, .75);
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 100%;
+      height: 1px;
+      background: var(--gold);
+      transition: right .35s var(--slow);
+    }
+    .nav-links a:hover {
+      color: var(--ivory)
+    }
+    .nav-links a:hover::after {
+      right: 0
+    }
+    .nav-links a.active {
+      color: var(--gold)
+    }
+    .nav-links a.active::after {
+      right: 0;
+      background: var(--gold)
+    }
+    .nav-cta {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .65rem 1.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: background .3s, color .3s;
+      flex-shrink: 0;
+    }
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--ink)
+    }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 801;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 1.5px;
+      background: var(--ivory);
+      transition: transform .4s var(--slow), opacity .3s;
+      transform-origin: center;
+    }
+
+    #mobile-nav {
+      position: fixed;
+      inset: 0;
+      z-index: 700;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s var(--ease);
+      padding: 2rem;
+    }
+    #mobile-nav.open {
+      opacity: 1;
+      pointer-events: all
+    }
+    .mob-link {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 300;
+      color: var(--ivory);
+      letter-spacing: .05em;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity .5s var(--slow), transform .5s var(--slow), color .3s;
+    }
+    #mobile-nav.open .mob-link {
+      opacity: 1;
+      transform: none
+    }
+    .mob-link:hover {
+      color: var(--gold)
+    }
+    .mob-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2rem;
+      color: var(--ivory);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity .3s;
+    }
+    .mob-close:hover {
+      opacity: 1;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      background: var(--gold);
+      color: var(--ink);
+      transition: background .3s, transform .3s var(--slow), letter-spacing .3s;
+      border: none;
+      cursor: none;
+      border-radius: 0;
+    }
+    .btn-primary:hover {
+      background: var(--gold-lt);
+      transform: translateY(-2px);
+      letter-spacing: .28em
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      border: 1px solid rgba(245, 240, 232, .4);
+      color: var(--ivory);
+      transition: border-color .3s, transform .3s var(--slow);
+      background: transparent;
+      cursor: none;
+      border-radius: 0;
+    }
+    .btn-ghost:hover {
+      border-color: var(--ivory);
+      transform: translateY(-2px)
+    }
+
+    /* ═══════════════════════════════════════════════
+       BOOKING HERO
+    ═══════════════════════════════════════════════ */
+    .booking-hero {
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10rem 5vw 4rem;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .booking-hero .bg-slides {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .booking-hero .bg-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.4s var(--ease);
+    }
+    .booking-hero .bg-slide.active {
+      opacity: 1;
+    }
+    .booking-hero .bg-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10, 10, 10, .9), rgba(10, 10, 10, .5));
+    }
+    .booking-hero .monogram {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(10rem, 25vw, 20rem);
+      font-weight: 300;
+      color: rgba(201, 168, 76, .08);
+      pointer-events: none;
+      z-index: 1;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      user-select: none;
+    }
+    .booking-hero .content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+    .booking-hero .content .eyebrow {
+      font-size: .7rem;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .booking-hero .content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ivory);
+      margin-bottom: 1.5rem;
+    }
+    .booking-hero .content h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .booking-hero .content p {
+      font-size: 1.05rem;
+      color: rgba(245, 240, 232, .7);
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════
+       BOOKING FORM
+    ═══════════════════════════════════════════════ */
+    #booking-form-section {
+      background: #0f0f0f;
+      padding: 4rem 5vw 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #booking-form-section .bg-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: .05;
+      background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+    }
+    #booking-form-section .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ── Progress Steps ── */
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .progress-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: rgba(245, 240, 232, .1);
+      z-index: 0;
+    }
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+    .progress-step .circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(245, 240, 232, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      font-weight: 400;
+      color: rgba(245, 240, 232, .3);
+      transition: all .5s var(--slow);
+      background: #0f0f0f;
+    }
+    .progress-step.active .circle {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201, 168, 76, .1);
+    }
+    .progress-step.completed .circle {
+      border-color: var(--sage);
+      color: var(--ivory);
+      background: var(--sage);
+    }
+    .progress-step .label {
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .3);
+      text-align: center;
+      transition: color .4s;
+    }
+    .progress-step.active .label {
+      color: var(--gold);
+    }
+    .progress-step.completed .label {
+      color: var(--sage-lt);
+    }
+
+    /* ── Form Steps ── */
+    .form-step {
+      display: none;
+      animation: fadeIn .5s var(--ease);
+    }
+    .form-step.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-step .step-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--ivory);
+      margin-bottom: .5rem;
+    }
+    .form-step .step-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .form-step .step-desc {
+      color: rgba(245, 240, 232, .5);
+      font-size: .95rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.8rem;
+    }
+    .form-group label {
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .4);
+      display: block;
+      margin-bottom: .4rem;
+    }
+    .form-group label .required {
+      color: #8B0000;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(245, 240, 232, .12);
+      padding: .9rem 1.2rem;
+      font-family: var(--font-body);
+      font-size: .9rem;
+      color: var(--ivory);
+      transition: border-color .3s, background .3s;
+      outline: none;
+      border-radius: 0;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, .07);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .form-group select option {
+      background: var(--ink);
+      color: var(--ivory);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    /* ── Measurements Grid ── */
+    .measurements-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+    .measurements-grid .form-group {
+      margin-bottom: 0;
+    }
+    .measurements-grid .form-group input {
+      padding: .7rem 1rem;
+      font-size: .85rem;
+    }
+    .measurements-grid .form-group label {
+      font-size: .55rem;
+      letter-spacing: .1em;
+    }
+
+    /* ── Service Cards (Step 1) ── */
+    .service-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-top: .5rem;
+    }
+    .service-card-option {
+      background: rgba(255, 255, 255, .02);
+      border: 2px solid rgba(245, 240, 232, .06);
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all .4s var(--slow);
+    }
+    .service-card-option:hover {
+      border-color: rgba(201, 168, 76, .3);
+    }
+    .service-card-option.selected {
+      border-color: var(--gold);
+      background: rgba(201, 168, 76, .08);
+    }
+    .service-card-option .icon {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: .6rem;
+      display: block;
+    }
+    .service-card-option h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ivory);
+    }
+    .service-card-option p {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .4);
+      margin-top: .2rem;
+    }
+    .service-card-option .price-tag {
+      display: inline-block;
+      margin-top: .5rem;
+      font-size: .7rem;
+      letter-spacing: .1em;
+      color: var(--gold);
+      border: 1px solid rgba(201, 168, 76, .2);
+      padding: .2rem 1rem;
+    }
+
+    /* ── Form Navigation ── */
+    .form-nav {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(245, 240, 232, .06);
+    }
+    .form-nav .btn-primary {
+      min-width: 160px;
+      justify-content: center;
+    }
+    .form-nav .btn-ghost {
+      min-width: 120px;
+      justify-content: center;
+    }
+
+    /* ── Success Message ── */
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .success-message.show {
+      display: block;
+      animation: fadeIn .6s var(--ease);
+    }
+    .success-message .icon {
+      font-size: 4rem;
+      color: var(--sage);
+      margin-bottom: 1.5rem;
+    }
+    .success-message h2 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--ivory);
+      margin-bottom: .8rem;
+    }
+    .success-message h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .success-message p {
+      color: rgba(245, 240, 232, .5);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ── Form Hidden ── */
+    .form-hidden {
+      display: none !important;
+    }
+
+    /* ═══════════════════════════════════════════════
+       PARALLAX DIVIDER
+    ═══════════════════════════════════════════════ */
+    .parallax-divider {
+      position: relative;
+      height: 40vh;
+      min-height: 250px;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .parallax-divider::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, .55);
+    }
+    .parallax-divider .content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+    }
+    .parallax-divider .content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--ivory);
+      line-height: 1.1;
+    }
+    .parallax-divider .content h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .parallax-divider .content p {
+      font-size: 1rem;
+      color: rgba(245, 240, 232, .7);
+      letter-spacing: .05em;
+      line-height: 1.8;
+      margin-top: .5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #050505;
+      border-top: 1px solid rgba(201, 168, 76, .15);
+    }
+    .footer-top {
+      padding: 5rem 5vw 3rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+    .footer-brand p {
+      font-size: .88rem;
+      line-height: 1.9;
+      color: rgba(245, 240, 232, .45);
+      margin: 1.5rem 0 2rem;
+      max-width: 280px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem
+    }
+    .soc-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(245, 240, 232, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .5);
+      transition: border-color .3s, color .3s, background .3s;
+    }
+    .soc-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+    .footer-col h4 {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      font-weight: 400;
+    }
+    .footer-col a {
+      display: block;
+      font-size: .88rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+      transition: color .3s, paddingLeft .3s;
+    }
+    .footer-col a:hover {
+      color: var(--ivory);
+      padding-left: 6px
+    }
+    .footer-contact-line {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+    }
+    .footer-contact-line i {
+      color: var(--gold);
+      width: 16px;
+    }
+    .footer-contact-line a {
+      color: var(--gold);
+      transition: opacity .3s;
+      margin: 0;
+      padding: 0;
+    }
+    .footer-contact-line a:hover {
+      opacity: .7;
+      padding-left: 0;
+    }
+    .footer-bottom {
+      padding: 1.8rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(245, 240, 232, .06);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+      letter-spacing: .05em;
+    }
+    .footer-credit {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+    }
+    .footer-credit a {
+      color: var(--gold);
+      transition: opacity .3s;
+    }
+    .footer-credit a:hover {
+      opacity: .7
+    }
+
+    /* ── WHATSAPP FLOAT ── */
+    #wa-float {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      z-index: 600;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, .35);
+      animation: wa-pulse 3s ease-in-out infinite;
+      transition: transform .3s var(--slow), box-shadow .3s;
+    }
+    #wa-float:hover {
+      transform: scale(1.12);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
+    }
+    @keyframes wa-pulse {
+      0%,
+      100% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
+      }
+      50% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
+      }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+      }
+      .service-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media(max-width:768px) {
+      #nav {
+        padding: 0 1.2rem;
+        height: 68px;
+      }
+      #nav.scrolled {
+        height: 56px;
+      }
+      .nav-links,
+      .nav-cta {
+        display: none
+      }
+      .nav-hamburger {
+        display: flex
+      }
+      .booking-hero {
+        min-height: 40vh;
+        padding: 8rem 5vw 3rem;
+      }
+      .booking-hero .content h1 {
+        font-size: 2.4rem;
+      }
+      .booking-hero .monogram {
+        font-size: clamp(6rem, 15vw, 10rem);
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .measurements-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .service-cards {
+        grid-template-columns: 1fr;
+      }
+      .form-nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .form-nav .btn-primary,
+      .form-nav .btn-ghost {
+        min-width: auto;
+        width: 100%;
+        justify-content: center;
+      }
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 5vw 2rem;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+      #wa-float {
+        width: 48px;
+        height: 48px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+      #wa-float i {
+        font-size: 1.5rem !important;
+      }
+      .parallax-divider {
+        background-attachment: scroll;
+        height: 30vh;
+        min-height: 200px;
+      }
+      .progress-steps {
+        gap: .5rem;
+      }
+      .progress-step .label {
+        font-size: .5rem;
+      }
+      .progress-step .circle {
+        width: 32px;
+        height: 32px;
+        font-size: .7rem;
+      }
+      .progress-steps::before {
+        top: 16px;
+      }
+    }
+
+    @media(max-width:480px) {
+      #nav {
+        padding: 0 1rem;
+        height: 60px;
+      }
+      #nav.scrolled {
+        height: 52px;
+      }
+      .booking-hero .content h1 {
+        font-size: 2rem;
+      }
+      #cursor-dot,
+      #cursor-ring {
+        display: none;
+      }
+      body {
+        cursor: auto;
+      }
+      .btn-primary,
+      .btn-ghost {
+        cursor: auto;
+      }
+      .measurements-grid {
+        grid-template-columns: 1fr;
+      }
+      #booking-form-section {
+        padding: 2rem 5vw 4rem;
+      }
+      .form-step .step-title {
+        font-size: 1.4rem;
+      }
+      .progress-steps {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0 .5rem;
+        gap: .3rem;
+      }
+      .progress-step {
+        flex: 0 0 auto;
+        min-width: 60px;
+      }
+      .progress-step .label {
+        font-size: .45rem;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    .mob-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2.2rem;
+      color: var(--ivory);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity .3s, transform .3s;
+      line-height: 1;
+      padding: 0.5rem;
+    }
+    .mob-close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+    @media(max-width:768px) {
+      .mob-close {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="scroll-bar"></div>
+
+  <!-- WhatsApp Float -->
+  <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20book%20a%20fitting%20with%20Goke%20Couture." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp" style="font-size:1.8rem;color:white;"></i>
+  </a>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+        <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+        <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+      </svg>
+      <div class="logo-wordmark">
+        Goke Couture
+        <span>Ibadan · Oyo, Nigeria</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+    </ul>
+    <a href="booking.html" class="nav-cta">Book a Fitting</a>
+
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+    <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
+    <a href="index.html" class="mob-link">Home</a>
+    <a href="about.html" class="mob-link">About</a>
+    <a href="services.html" class="mob-link">Services</a>
+    <a href="collections.html" class="mob-link">Collections</a>
+    <a href="portfolio.html" class="mob-link">Portfolio</a>
+    <a href="reviews.html" class="mob-link">Reviews</a>
+    <a href="booking.html" class="mob-link">Book a Fitting</a>
+  </div>
+
+  <!-- ── BOOKING HERO ── -->
+  <section class="booking-hero">
+    <div class="bg-slides">
+      <div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1800&q=85&auto=format&fit=crop')"></div>
+      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1800&q=85&auto=format&fit=crop')"></div>
+    </div>
+    <div class="monogram" aria-hidden="true">GC</div>
+    <div class="content">
+      <p class="eyebrow">Start Your Journey</p>
+      <h1>Book Your <em>Fitting</em></h1>
+      <p>Take the first step towards a garment that is entirely, unmistakably yours. Fill in the details below and we'll begin crafting your masterpiece.</p>
+    </div>
+  </section>
+
+  <!-- ── BOOKING FORM ── -->
+  <section id="booking-form-section">
+    <div class="bg-wrap" aria-hidden="true"></div>
+    <div class="container">
+
+      <!-- Progress Steps -->
+      <div class="progress-steps" id="progressSteps">
+        <div class="progress-step active" data-step="1">
+          <div class="circle">1</div>
+          <span class="label">Service</span>
+        </div>
+        <div class="progress-step" data-step="2">
+          <div class="circle">2</div>
+          <span class="label">Measurements</span>
+        </div>
+        <div class="progress-step" data-step="3">
+          <div class="circle">3</div>
+          <span class="label">Details</span>
+        </div>
+        <div class="progress-step" data-step="4">
+          <div class="circle">4</div>
+          <span class="label">Confirm</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Service Selection -->
+      <div class="form-step active" data-step="1">
+        <h2 class="step-title">Choose Your <em>Service</em></h2>
+        <p class="step-desc">Select the service you're interested in. This helps us assign the right craftsman to your project.</p>
+
+        <div class="form-group">
+          <label>What service do you need? <span class="required">*</span></label>
+          <div class="service-cards" id="serviceCards">
+            <div class="service-card-option" data-service="Bridal Couture">
+              <span class="icon">👰</span>
+              <h4>Bridal Couture</h4>
+              <p>Custom wedding gowns with lace, beadwork, and luxury fabrics</p>
+              <span class="price-tag">From ₦850,000</span>
+            </div>
+            <div class="service-card-option" data-service="Agbada & Traditional">
+              <span class="icon">👑</span>
+              <h4>Agbada & Traditional</h4>
+              <p>Masterfully draped Agbada, Senator, and native wear</p>
+              <span class="price-tag">From ₦450,000</span>
+            </div>
+            <div class="service-card-option" data-service="Suits & Corporate">
+              <span class="icon">💼</span>
+              <h4>Suits &amp; Corporate Wear</h4>
+              <p>Bespoke suits, tuxedos, and executive attire</p>
+              <span class="price-tag">From ₦350,000</span>
+            </div>
+            <div class="service-card-option" data-service="Casual Luxury">
+              <span class="icon">👔</span>
+              <h4>Casual Luxury</h4>
+              <p>Premium casual wear for everyday elegance</p>
+              <span class="price-tag">From ₦200,000</span>
+            </div>
+            <div class="service-card-option" data-service="Alterations & Restoration">
+              <span class="icon">🧵</span>
+              <h4>Alterations &amp; Restoration</h4>
+              <p>Precision alterations and garment restoration</p>
+              <span class="price-tag">From ₦50,000</span>
+            </div>
+            <div class="service-card-option" data-service="Other / Not sure">
+              <span class="icon">✨</span>
+              <h4>Other / Not Sure</h4>
+              <p>Let us advise you on the best approach for your needs</p>
+              <span class="price-tag">Consultation</span>
+            </div>
+          </div>
+          <input type="hidden" id="selectedService" value="" />
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-primary" id="step1Next">Next Step <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 2: Measurements -->
+      <div class="form-step" data-step="2">
+        <h2 class="step-title">Your <em>Measurements</em></h2>
+        <p class="step-desc">Provide your body measurements. For best results, have someone help you measure or use a recent garment that fits well.</p>
+
+        <div class="measurements-grid">
+          <div class="form-group">
+            <label for="measureChest">Chest (cm)</label>
+            <input type="number" id="measureChest" placeholder="e.g. 102" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureWaist">Waist (cm)</label>
+            <input type="number" id="measureWaist" placeholder="e.g. 86" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureHips">Hips (cm)</label>
+            <input type="number" id="measureHips" placeholder="e.g. 96" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureShoulder">Shoulder Width (cm)</label>
+            <input type="number" id="measureShoulder" placeholder="e.g. 46" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureSleeve">Sleeve Length (cm)</label>
+            <input type="number" id="measureSleeve" placeholder="e.g. 62" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureLength">Garment Length (cm)</label>
+            <input type="number" id="measureLength" placeholder="e.g. 85" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureNeck">Neck (cm)</label>
+            <input type="number" id="measureNeck" placeholder="e.g. 38" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureInseam">Inseam (cm)</label>
+            <input type="number" id="measureInseam" placeholder="e.g. 78" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="measureHeight">Height (cm)</label>
+            <input type="number" id="measureHeight" placeholder="e.g. 178" step="0.5" />
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-ghost" id="step2Back"><i class="fas fa-arrow-left"></i> Back</button>
+          <button class="btn-primary" id="step2Next">Next Step <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 3: Personal Details -->
+      <div class="form-step" data-step="3">
+        <h2 class="step-title">Your <em>Details</em></h2>
+        <p class="step-desc">Tell us about yourself and your vision. The more we know, the better we can serve you.</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="clientName">Full Name <span class="required">*</span></label>
+            <input type="text" id="clientName" placeholder="Your full name" required />
+          </div>
+          <div class="form-group">
+            <label for="clientEmail">Email Address <span class="required">*</span></label>
+            <input type="email" id="clientEmail" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="clientPhone">Phone Number</label>
+            <input type="tel" id="clientPhone" placeholder="+234 800 000 0000" />
+          </div>
+          <div class="form-group">
+            <label for="clientDate">Preferred Fitting Date</label>
+            <input type="date" id="clientDate" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="clientNotes">Style Notes &amp; Vision</label>
+          <textarea id="clientNotes" placeholder="Tell us about your occasion, preferred colours, fabric choices, or any inspiration you have…"></textarea>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-ghost" id="step3Back"><i class="fas fa-arrow-left"></i> Back</button>
+          <button class="btn-primary" id="step3Next">Review &amp; Submit <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 4: Review & Confirm -->
+      <div class="form-step" data-step="4">
+        <h2 class="step-title">Review &amp; <em>Confirm</em></h2>
+        <p class="step-desc">Please review your details below. Once confirmed, we'll begin processing your request.</p>
+
+        <div style="background:rgba(255,255,255,.03);padding:1.5rem;margin-bottom:1.5rem;border:1px solid rgba(245,240,232,.06);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;font-size:.9rem;">
+            <div><strong style="color:var(--gold);">Service:</strong> <span id="reviewService">—</span></div>
+            <div><strong style="color:var(--gold);">Name:</strong> <span id="reviewName">—</span></div>
+            <div><strong style="color:var(--gold);">Email:</strong> <span id="reviewEmail">—</span></div>
+            <div><strong style="color:var(--gold);">Phone:</strong> <span id="reviewPhone">—</span></div>
+            <div><strong style="color:var(--gold);">Fitting Date:</strong> <span id="reviewDate">—</span></div>
+            <div><strong style="color:var(--gold);">Measurements:</strong> <span id="reviewMeasurements">—</span></div>
+          </div>
+          <div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(245,240,232,.06);">
+            <strong style="color:var(--gold);">Style Notes:</strong>
+            <p id="reviewNotes" style="color:rgba(245,240,232,.5);margin-top:.2rem;font-size:.9rem;">—</p>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn-ghost" id="step4Back"><i class="fas fa-arrow-left"></i> Back</button>
+          <button class="btn-primary" id="step4Submit"><i class="fas fa-paper-plane"></i> Submit Booking</button>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-message" id="successMessage">
+        <div class="icon"><i class="fas fa-check-circle"></i></div>
+        <h2>Booking <em>Confirmed</em></h2>
+        <p>Thank you for choosing Goke Couture. We have received your booking request and will get back to you within 24 hours.</p>
+        <br />
+        <a href="index.html" class="btn-primary"><i class="fas fa-home"></i> Return Home</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PARALLAX DIVIDER ── -->
+  <div class="parallax-divider" style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80&auto=format&fit=crop');">
+    <div class="content">
+      <h2>Every <em>Detail</em> Matters</h2>
+      <p>From your measurements to your style preferences — we obsess over what others overlook.</p>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+          <svg viewBox="0 0 56 56" fill="none" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+            <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+            <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+          </svg>
+          <div class="logo-wordmark">Goke Couture<span>Ibadan · Oyo, Nigeria</span></div>
+        </a>
+        <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
+            <i class="fab fa-tiktok"></i>
+          </a>
+          <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="collections.html">Collections</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="booking.html">Book a Fitting</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="services.html">Bridal Couture</a>
+        <a href="services.html">Agbada & Traditional</a>
+        <a href="services.html">Suits & Corporate</a>
+        <a href="services.html">Casual Luxury</a>
+        <a href="services.html">Alterations</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-line">
+          <i class="fas fa-phone"></i>
+          <a href="tel:+2348057059898">+234 805 705 9898</a>
+        </div>
+        <div class="footer-contact-line">
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:info@gokecouture.com">info@gokecouture.com</a>
+        </div>
+        <div class="footer-contact-line">
+          <i class="fas fa-map-marker-alt"></i>
+          <span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span>
+        </div>
+        <div class="footer-contact-line" style="margin-top:.4rem">
+          <i class="far fa-clock"></i>
+          <span>Mon – Sat: 9am – 7pm</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Goke Couture. All rights reserved.</p>
+      <p class="footer-credit">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" rel="noopener">Kreation Digitals</a></p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Firebase Config (REPLACE WITH YOUR OWN) ──
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ── DOM refs ──
+    const steps = document.querySelectorAll('.form-step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    // Service selection
+    const serviceCards = document.querySelectorAll('.service-card-option');
+    const selectedServiceInput = document.getElementById('selectedService');
+
+    serviceCards.forEach(function(card) {
+      card.addEventListener('click', function() {
+        serviceCards.forEach(function(c) { c.classList.remove('selected'); });
+        this.classList.add('selected');
+        selectedServiceInput.value = this.dataset.service;
+      });
+    });
+
+    // ── Navigation functions ──
+    function goToStep(step) {
+      if (step < 1 || step > totalSteps) return;
+
+      // Validate step 1: service must be selected
+      if (step === 2 && !selectedServiceInput.value) {
+        alert('Please select a service before proceeding.');
+        return;
+      }
+
+      // Validate step 3: name and email required
+      if (step === 4) {
+        const name = document.getElementById('clientName').value.trim();
+        const email = document.getElementById('clientEmail').value.trim();
+        if (!name || !email) {
+          alert('Please enter your name and email address.');
+          return;
+        }
+        // Update review
+        document.getElementById('reviewService').textContent = selectedServiceInput.value || '—';
+        document.getElementById('reviewName').textContent = name || '—';
+        document.getElementById('reviewEmail').textContent = email || '—';
+        document.getElementById('reviewPhone').textContent = document.getElementById('clientPhone').value || '—';
+        document.getElementById('reviewDate').textContent = document.getElementById('clientDate').value || 'Not specified';
+
+        const measurements = [];
+        const chest = document.getElementById('measureChest').value;
+        const waist = document.getElementById('measureWaist').value;
+        const hips = document.getElementById('measureHips').value;
+        const shoulder = document.getElementById('measureShoulder').value;
+        const sleeve = document.getElementById('measureSleeve').value;
+        const length = document.getElementById('measureLength').value;
+        const neck = document.getElementById('measureNeck').value;
+        const inseam = document.getElementById('measureInseam').value;
+        const height = document.getElementById('measureHeight').value;
+
+        if (chest) measurements.push('Chest: ' + chest + 'cm');
+        if (waist) measurements.push('Waist: ' + waist + 'cm');
+        if (hips) measurements.push('Hips: ' + hips + 'cm');
+        if (shoulder) measurements.push('Shoulder: ' + shoulder + 'cm');
+        if (sleeve) measurements.push('Sleeve: ' + sleeve + 'cm');
+        if (length) measurements.push('Length: ' + length + 'cm');
+        if (neck) measurements.push('Neck: ' + neck + 'cm');
+        if (inseam) measurements.push('Inseam: ' + inseam + 'cm');
+        if (height) measurements.push('Height: ' + height + 'cm');
+
+        document.getElementById('reviewMeasurements').textContent = measurements.length > 0 ? measurements.join(' | ') : 'Not provided';
+        document.getElementById('reviewNotes').textContent = document.getElementById('clientNotes').value || 'No notes provided.';
+      }
+
+      // Hide all steps
+      steps.forEach(function(s) { s.classList.remove('active'); });
+      // Show target step
+      document.querySelector('.form-step[data-step="' + step + '"]').classList.add('active');
+
+      // Update progress
+      progressSteps.forEach(function(ps, index) {
+        const stepNum = index + 1;
+        ps.classList.remove('active', 'completed');
+        if (stepNum === step) ps.classList.add('active');
+        else if (stepNum < step) ps.classList.add('completed');
+      });
+
+      currentStep = step;
+      window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 100, behavior: 'smooth' });
+    }
+
+    // ── Step navigation events ──
+    document.getElementById('step1Next').addEventListener('click', function() { goToStep(2); });
+    document.getElementById('step2Back').addEventListener('click', function() { goToStep(1); });
+    document.getElementById('step2Next').addEventListener('click', function() { goToStep(3); });
+    document.getElementById('step3Back').addEventListener('click', function() { goToStep(2); });
+    document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
+    document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
+
+    // ── Submit booking ──
+    document.getElementById('step4Submit').addEventListener('click', function() {
+      const bookingData = {
+        service: document.getElementById('selectedService').value,
+        name: document.getElementById('clientName').value.trim(),
+        email: document.getElementById('clientEmail').value.trim(),
+        phone: document.getElementById('clientPhone').value.trim(),
+        date: document.getElementById('clientDate').value,
+        notes: document.getElementById('clientNotes').value.trim(),
+        measurements: {
+          chest: document.getElementById('measureChest').value || '',
+          waist: document.getElementById('measureWaist').value || '',
+          hips: document.getElementById('measureHips').value || '',
+          shoulder: document.getElementById('measureShoulder').value || '',
+          sleeve: document.getElementById('measureSleeve').value || '',
+          length: document.getElementById('measureLength').value || '',
+          neck: document.getElementById('measureNeck').value || '',
+          inseam: document.getElementById('measureInseam').value || '',
+          height: document.getElementById('measureHeight').value || ''
+        },
+        timestamp: new Date().toISOString(),
+        status: 'new'
+      };
+
+      // Validate required fields
+      if (!bookingData.name || !bookingData.email || !bookingData.service) {
+        alert('Please ensure all required fields are filled.');
+        return;
+      }
+
+      // Disable button to prevent double submission
+      const submitBtn = document.getElementById('step4Submit');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
+
+      db.ref('bookings').push(bookingData)
+        .then(function() {
+          // Hide form, show success
+          document.querySelector('.form-step[data-step="4"]').style.display = 'none';
+          document.getElementById('successMessage').classList.add('show');
+          window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 80, behavior: 'smooth' });
+        })
+        .catch(function(error) {
+          alert('There was an error submitting your booking. Please try again.');
+          console.error('Error:', error);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Booking';
+        });
+    });
+
+    // ── Cursor ──────────────────────────────────────
+    (function() {
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      if (dot && ring) {
+        document.addEventListener('mousemove', function(e) {
+          mx = e.clientX;
+          my = e.clientY;
+          dot.style.left = mx + 'px';
+          dot.style.top = my + 'px';
+        });
+
+        function animRing() {
+          rx += (mx - rx) * .12;
+          ry += (my - ry) * .12;
+          ring.style.left = rx + 'px';
+          ring.style.top = ry + 'px';
+          requestAnimationFrame(animRing);
+        }
+        animRing();
+
+        document.querySelectorAll('a,button,.service-card-option,.btn-primary,.btn-ghost')
+          .forEach(function(el) {
+            el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+            el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+          });
+      }
+    })();
+
+    // ── Scroll progress ──────────────────────────────
+    (function() {
+      const sbar = document.getElementById('scroll-bar');
+      window.addEventListener('scroll', function() {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        if (sbar) sbar.style.width = pct + '%';
+      }, { passive: true });
+    })();
+
+    // ── Sticky nav ───────────────────────────────────
+    (function() {
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
+      }, { passive: true });
+    })();
+
+    // ── Mobile menu ──────────────────────────────────
+    (function() {
+      const ham = document.getElementById('hamburger');
+      const mNav = document.getElementById('mobile-nav');
+      const closeBtn = document.getElementById('mob-close');
+      let mOpen = false;
+
+      function toggleMenu(open) {
+        mOpen = (open !== undefined) ? open : !mOpen;
+        if (mNav) mNav.classList.toggle('open', mOpen);
+        if (ham) ham.setAttribute('aria-expanded', mOpen);
+        const spans = ham ? ham.querySelectorAll('span') : [];
+        if (mOpen) {
+          if (spans[0]) spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+          if (spans[1]) spans[1].style.opacity = '0';
+          if (spans[2]) spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+        } else {
+          if (spans[0]) spans[0].style.transform = '';
+          if (spans[1]) spans[1].style.opacity = '';
+          if (spans[2]) spans[2].style.transform = '';
+        }
+      }
+
+      if (ham) {
+        ham.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleMenu();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function() { toggleMenu(false); });
+      }
+      if (mNav) {
+        mNav.querySelectorAll('.mob-link').forEach(function(l) {
+          l.addEventListener('click', function() { toggleMenu(false); });
+        });
+        mNav.addEventListener('click', function(e) {
+          if (e.target === mNav) toggleMenu(false);
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mOpen) toggleMenu(false);
+      });
+    })();
+
+    // ── Hero background slideshow ─────────────────────
+    (function() {
+      const slides = document.querySelectorAll('.bg-slide');
+      let current = 0;
+      if (!slides.length) return;
+      setInterval(function() {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 5000);
+    })();
+  </script>
+</body>
+</html>
