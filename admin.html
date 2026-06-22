@@ -486,6 +486,14 @@
     .btn-action.delete:hover {
       background: rgba(139, 0, 0, .1);
     }
+    .btn-action.primary {
+      background: var(--gold);
+      color: var(--ink);
+      padding: .6rem 1.5rem;
+    }
+    .btn-action.primary:hover {
+      background: var(--gold-lt);
+    }
 
     /* ── Forms (add/edit modals) ── */
     .modal-overlay {
@@ -646,6 +654,17 @@
     .toast.error {
       background: var(--danger);
       border-color: rgba(139, 0, 0, .3);
+    }
+
+    /* ── Image preview in modal ── */
+    .image-preview {
+      max-width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, .05);
+      padding: 4px;
+      border: 1px solid rgba(245, 240, 232, .1);
+      margin-top: 4px;
     }
 
     /* ── Responsive ── */
@@ -876,7 +895,7 @@
             <h1>Portfolio <em>Management</em></h1>
             <div class="sub">Add, edit, or remove portfolio items. They will appear on the public Portfolio page.</div>
           </div>
-          <button class="btn-action" style="background:var(--gold);color:var(--ink);padding:.6rem 1.5rem;" id="add-portfolio-btn">+ Add Item</button>
+          <button class="btn-action primary" id="add-portfolio-btn">+ Add Item</button>
         </div>
         <div class="table-wrap" id="portfolio-table-wrap">
           <!-- Rendered by JS -->
@@ -890,7 +909,7 @@
             <h1>Collections <em>Management</em></h1>
             <div class="sub">Manage featured collections that appear on the Collections page.</div>
           </div>
-          <button class="btn-action" style="background:var(--gold);color:var(--ink);padding:.6rem 1.5rem;" id="add-collection-btn">+ Add Collection</button>
+          <button class="btn-action primary" id="add-collection-btn">+ Add Collection</button>
         </div>
         <div class="table-wrap" id="collections-table-wrap">
           <!-- Rendered by JS -->
@@ -978,17 +997,22 @@
   <script>
     // ── Firebase Config (REPLACE WITH YOUR OWN) ──
     const firebaseConfig = {
-     apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
-      authDomain: "gokecouture-26a61.firebaseapp.com",
-      databaseURL: "https://gokecouture-26a61-default-rtdb.firebaseio.com",
-      projectId: "gokecouture-26a61",
-      storageBucket: "gokecouture-26a61.firebasestorage.app",
-      messagingSenderId: "527866719903",
-      appId: "1:527866719903:web:c3bb9997ecde72cac43caa"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database();
+
+    // ── ImageKit Configuration ──
+    const IK_PUBLIC_KEY = "public_x1rcEzRQ8hvmPXRezLS36mk9UE8=";
+    const IK_UPLOAD_URL = "https://upload.imagekit.io/api/v1/files/upload";
+    const IK_BASE_URL = "https://ik.imagekit.io/2pqi3dzrd/Gokecouture";
 
     // ── DOM refs ──
     const loginOverlay = document.getElementById('login-overlay');
@@ -1002,10 +1026,20 @@
     const adminAvatar = document.getElementById('admin-avatar');
     const dashboardUser = document.getElementById('dashboard-user');
     const toast = document.getElementById('toast');
+    const modal = document.getElementById('modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalForm = document.getElementById('modal-form');
+    const modalBody = document.getElementById('modal-body');
+    const modalTitle = document.getElementById('modal-title');
+    const modalSubmit = document.getElementById('modal-submit');
 
-    // ── Toast ──
+    let modalMode = 'add';
+    let modalEditId = null;
+    let modalType = 'portfolio';
+    let reviewTab = 'pending';
     let toastTimeout;
 
+    // ── Toast ──
     function showToast(message, isError) {
       toast.textContent = message;
       toast.className = 'toast';
@@ -1089,7 +1123,6 @@
         Object.keys(pages).forEach(function(key) {
           pages[key].classList.toggle('active', key === page);
         });
-        // Load data for the page
         if (page === 'reviews') loadReviews();
         if (page === 'portfolio') loadPortfolio();
         if (page === 'collections') loadCollections();
@@ -1099,8 +1132,6 @@
     });
 
     // ── Review tabs ──
-    let reviewTab = 'pending';
-
     document.querySelectorAll('[data-review-tab]').forEach(function(btn) {
       btn.addEventListener('click', function() {
         reviewTab = this.dataset.reviewTab;
@@ -1116,16 +1147,6 @@
     });
 
     // ── Modal ──
-    const modal = document.getElementById('modal');
-    const modalClose = document.getElementById('modal-close');
-    const modalForm = document.getElementById('modal-form');
-    const modalBody = document.getElementById('modal-body');
-    const modalTitle = document.getElementById('modal-title');
-    const modalSubmit = document.getElementById('modal-submit');
-    let modalMode = 'add'; // 'add' or 'edit'
-    let modalEditId = null;
-    let modalType = 'portfolio'; // 'portfolio' or 'collection'
-
     function openModal(type, mode, data) {
       modalType = type;
       modalMode = mode;
@@ -1136,12 +1157,11 @@
       if (mode === 'add') {
         modalTitle.innerHTML = 'Add <em>' + (type === 'portfolio' ? 'Portfolio Item' : 'Collection') + '</em>';
         modalSubmit.textContent = 'Add Item';
-        modalBody.innerHTML = getModalFormHTML(type, null);
       } else {
         modalTitle.innerHTML = 'Edit <em>' + (type === 'portfolio' ? 'Portfolio Item' : 'Collection') + '</em>';
         modalSubmit.textContent = 'Save Changes';
-        modalBody.innerHTML = getModalFormHTML(type, data);
       }
+      modalBody.innerHTML = getModalFormHTML(type, data);
     }
 
     function closeModal() {
@@ -1155,6 +1175,7 @@
       if (e.target === modal) closeModal();
     });
 
+    // ── Get Modal Form HTML (with file upload) ──
     function getModalFormHTML(type, data) {
       const isPortfolio = type === 'portfolio';
       const categories = isPortfolio ?
@@ -1165,6 +1186,9 @@
         const selected = data && data.category === c ? 'selected' : '';
         return `<option value="${c}" ${selected}>${c}</option>`;
       }).join('');
+
+      const existingImage = data && data.image ? data.image : '';
+      const imagePreview = existingImage ? `<img src="${existingImage}" class="image-preview" />` : '';
 
       return `
         <div class="form-group">
@@ -1179,24 +1203,22 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Image URL *</label>
-          <input type="url" id="modal-image" value="${data ? data.image || '' : ''}" placeholder="https://ik.imagekit.io/..." required />
+          <label>Upload Image *</label>
+          <input type="file" id="modal-image-file" accept="image/*" ${data ? '' : 'required'} />
+          <div id="modal-image-preview" style="margin-top:8px;">${imagePreview}</div>
+          ${existingImage ? `<input type="hidden" id="modal-image-url" value="${existingImage}" />` : ''}
+          <p style="font-size:.7rem;color:rgba(245,240,232,.3);margin-top:4px;">Select an image from your device (JPG, PNG, WebP).</p>
         </div>
         ${isPortfolio ? `
           <div class="form-group">
             <label>Description</label>
             <textarea id="modal-description" rows="2" placeholder="Brief description of the item…">${data ? data.description || '' : ''}</textarea>
           </div>
-          <div class="form-group" style="display:flex;align-items:center;gap:.8rem;">
-            <label style="margin:0;font-size:.65rem;">Mark as New</label>
-            <input type="checkbox" id="modal-isnew" ${data && data.isNew ? 'checked' : ''} style="width:auto;" />
-          </div>
-        ` : `
-          <div class="form-group" style="display:flex;align-items:center;gap:.8rem;">
-            <label style="margin:0;font-size:.65rem;">Mark as New</label>
-            <input type="checkbox" id="modal-isnew" ${data && data.isNew ? 'checked' : ''} style="width:auto;" />
-          </div>
-        `}
+        ` : ''}
+        <div class="form-group" style="display:flex;align-items:center;gap:.8rem;">
+          <label style="margin:0;font-size:.65rem;">Mark as New</label>
+          <input type="checkbox" id="modal-isnew" ${data && data.isNew ? 'checked' : ''} style="width:auto;" />
+        </div>
         <div class="form-group">
           <label>Order (lower numbers appear first)</label>
           <input type="number" id="modal-order" value="${data ? data.order || 0 : 0}" />
@@ -1204,67 +1226,150 @@
       `;
     }
 
+    // ── Modal submit (ImageKit upload + Firebase save) ──
+    modalForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('modal-title-input').value.trim();
+      const category = document.getElementById('modal-category').value;
+      const fileInput = document.getElementById('modal-image-file');
+      const existingImageUrl = document.getElementById('modal-image-url') ? document.getElementById('modal-image-url').value : '';
+      const description = document.getElementById('modal-description') ? document.getElementById('modal-description').value.trim() : '';
+      const isNew = document.getElementById('modal-isnew') ? document.getElementById('modal-isnew').checked : false;
+      const order = parseInt(document.getElementById('modal-order').value) || 0;
+
+      if (!title || !category) {
+        showToast('Please fill in all required fields.', true);
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const hasFile = !!file;
+
+      if (!hasFile && !existingImageUrl) {
+        showToast('Please select an image to upload.', true);
+        return;
+      }
+
+      const submitBtn = modalSubmit;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Uploading…';
+
+      // ── Function to save data to Firebase ──
+      function saveData(imageUrl) {
+        const data = {
+          title: title,
+          category: category,
+          image: imageUrl,
+          isNew: isNew,
+          order: order,
+          updatedAt: new Date().toISOString()
+        };
+        if (modalType === 'portfolio') {
+          data.description = description;
+        }
+
+        const ref = modalType === 'portfolio' ? 'portfolio' : 'collections';
+        let promise;
+        if (modalMode === 'add') {
+          promise = db.ref(ref).push(data);
+        } else {
+          promise = db.ref(ref + '/' + modalEditId).update(data);
+        }
+
+        promise.then(function() {
+          closeModal();
+          showToast((modalMode === 'add' ? 'Added' : 'Updated') + ' ' + (modalType === 'portfolio' ? 'portfolio item' : 'collection') + ' successfully.');
+          if (modalType === 'portfolio') loadPortfolio();
+          else loadCollections();
+          updateStats();
+          submitBtn.disabled = false;
+          submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
+        }).catch(function(error) {
+          showToast('Error saving data. Please try again.', true);
+          console.error('Error saving:', error);
+          submitBtn.disabled = false;
+          submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
+        });
+      }
+
+      // ── Upload to ImageKit ──
+      if (hasFile) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('fileName', Date.now() + '_' + file.name);
+        formData.append('publicKey', IK_PUBLIC_KEY);
+
+        // Determine folder based on type
+        const folderPath = modalType === 'portfolio' ? '/portfolio' : '/collections';
+        formData.append('folder', '/Gokecouture' + folderPath);
+        formData.append('useUniqueFileName', 'false');
+        formData.append('overwriteFile', 'true');
+
+        submitBtn.textContent = 'Uploading to ImageKit…';
+
+        fetch(IK_UPLOAD_URL, {
+          method: 'POST',
+          body: formData,
+        })
+        .then(function(response) {
+          if (!response.ok) {
+            return response.json().then(function(errData) {
+              throw new Error(errData.message || 'Upload failed');
+            });
+          }
+          return response.json();
+        })
+        .then(function(result) {
+          const imageUrl = result.url; // e.g., https://ik.imagekit.io/2pqi3dzrd/Gokecouture/portfolio/filename.jpg
+          if (!imageUrl) {
+            throw new Error('No URL returned from ImageKit');
+          }
+
+          // Update preview
+          const preview = document.getElementById('modal-image-preview');
+          if (preview) {
+            preview.innerHTML = `<img src="${imageUrl}" class="image-preview" />`;
+          }
+
+          // Save to Firebase
+          saveData(imageUrl);
+        })
+        .catch(function(error) {
+          showToast('Upload to ImageKit failed: ' + error.message, true);
+          console.error('ImageKit upload error:', error);
+          submitBtn.disabled = false;
+          submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
+        });
+      } else {
+        // No new file, use existing URL (edit mode, image not changed)
+        saveData(existingImageUrl);
+      }
+    });
+
+    // ── Preview image on file selection ──
+    document.addEventListener('change', function(e) {
+      if (e.target && e.target.id === 'modal-image-file') {
+        const file = e.target.files[0];
+        const preview = document.getElementById('modal-image-preview');
+        if (file && preview) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            preview.innerHTML = `<img src="${event.target.result}" class="image-preview" />`;
+          };
+          reader.readAsDataURL(file);
+        } else if (preview) {
+          preview.innerHTML = '';
+        }
+      }
+    });
+
     // ── Add buttons ──
     document.getElementById('add-portfolio-btn').addEventListener('click', function() {
       openModal('portfolio', 'add', null);
     });
     document.getElementById('add-collection-btn').addEventListener('click', function() {
       openModal('collections', 'add', null);
-    });
-
-    // ── Modal submit ──
-    modalForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const title = document.getElementById('modal-title-input').value.trim();
-      const category = document.getElementById('modal-category').value;
-      const image = document.getElementById('modal-image').value.trim();
-      const description = document.getElementById('modal-description') ? document.getElementById('modal-description').value.trim() : '';
-      const isNew = document.getElementById('modal-isnew') ? document.getElementById('modal-isnew').checked : false;
-      const order = parseInt(document.getElementById('modal-order').value) || 0;
-
-      if (!title || !category || !image) {
-        showToast('Please fill in all required fields.', true);
-        return;
-      }
-
-      const data = {
-        title: title,
-        category: category,
-        image: image,
-        isNew: isNew,
-        order: order,
-        updatedAt: new Date().toISOString()
-      };
-      if (modalType === 'portfolio') {
-        data.description = description;
-      }
-
-      const ref = modalType === 'portfolio' ? 'portfolio' : 'collections';
-      const submitBtn = modalSubmit;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Saving…';
-
-      let promise;
-      if (modalMode === 'add') {
-        promise = db.ref(ref).push(data);
-      } else {
-        promise = db.ref(ref + '/' + modalEditId).update(data);
-      }
-
-      promise.then(function() {
-        closeModal();
-        showToast((modalMode === 'add' ? 'Added' : 'Updated') + ' ' + (modalType === 'portfolio' ? 'portfolio item' : 'collection') + ' successfully.');
-        if (modalType === 'portfolio') loadPortfolio();
-        else loadCollections();
-        updateStats();
-        submitBtn.disabled = false;
-        submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
-      }).catch(function(error) {
-        showToast('Error saving item. Please try again.', true);
-        console.error('Error:', error);
-        submitBtn.disabled = false;
-        submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
-      });
     });
 
     // ── Load Data Functions ──
@@ -1606,8 +1711,12 @@
       });
     });
 
-    // ── Initial load ──
-    // The auth state listener will trigger loadAllData on login.
+    // ── Keyboard shortcuts ──
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (modal.classList.contains('open')) closeModal();
+      }
+    });
   </script>
 </body>
 </html>
