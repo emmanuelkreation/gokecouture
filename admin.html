@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <style>
-        /* ── SAME STYLES AS BEFORE (with minor additions for image items) ── */
+        /* ── SAME STYLES AS BEFORE (kept for brevity) ── */
         :root{--ink:#0A0A0A;--ivory:#F5F0E8;--gold:#C9A84C;--gold-lt:#E8D48A;--sage:#2D5016;--sage-lt:#3D6B1F;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Jost',system-ui,sans-serif;--ease:cubic-bezier(.25,.46,.45,.94);--slow:cubic-bezier(.16,1,.3,1);--danger:#8B0000}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;font-size:16px}body{background:var(--ink);color:var(--ivory);font-family:var(--font-body);font-weight:300;overflow-x:hidden;cursor:default}a{text-decoration:none;color:inherit}button{border:none;background:none;font-family:inherit;cursor:pointer}ul{list-style:none}
         #login-overlay{position:fixed;inset:0;z-index:1000;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem}#login-overlay.hidden{display:none}.login-box{max-width:400px;width:100%;text-align:center}.login-box .brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:2rem}.login-box .brand svg{height:44px;width:auto}.login-box .brand .name{font-family:var(--font-body);font-weight:200;font-size:.8rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ivory);line-height:1}.login-box .brand .name span{display:block;font-weight:400;letter-spacing:.12em;font-size:.6rem;color:var(--gold);margin-top:2px}.login-box h2{font-family:var(--font-display);font-size:2rem;font-weight:300;color:var(--ivory);margin-bottom:.5rem}.login-box h2 em{font-style:italic;color:var(--gold)}.login-box p{color:rgba(245,240,232,.4);margin-bottom:2rem;font-size:.9rem}.login-box input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(245,240,232,.12);padding:.9rem 1.2rem;font-family:var(--font-body);font-size:.9rem;color:var(--ivory);transition:border-color .3s;outline:none;margin-bottom:1rem;border-radius:0}.login-box input:focus{border-color:var(--gold)}.login-box .login-btn{width:100%;background:var(--gold);color:var(--ink);padding:.9rem;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;border:none;transition:background .3s;cursor:pointer}.login-box .login-btn:hover{background:var(--gold-lt)}.login-box .login-btn:disabled{opacity:.5;cursor:not-allowed}.login-box .error{color:var(--danger);font-size:.85rem;margin-top:.5rem;display:none}.login-box .error.show{display:block}
         .admin-wrapper{display:none;min-height:100vh}.admin-wrapper.visible{display:flex}.admin-sidebar{width:260px;background:#0f0f0f;border-right:1px solid rgba(201,168,76,.1);padding:1.5rem 0;flex-shrink:0;height:100vh;position:sticky;top:0;overflow-y:auto}.admin-sidebar .brand{display:flex;align-items:center;gap:12px;padding:0 1.5rem 2rem;border-bottom:1px solid rgba(245,240,232,.06);margin-bottom:1.5rem}.admin-sidebar .brand svg{height:36px;width:auto}.admin-sidebar .brand .name{font-family:var(--font-body);font-weight:200;font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ivory);line-height:1}.admin-sidebar .brand .name span{display:block;font-weight:400;letter-spacing:.12em;font-size:.5rem;color:var(--gold);margin-top:2px}.admin-sidebar .nav-item{display:flex;align-items:center;gap:1rem;padding:.8rem 1.5rem;color:rgba(245,240,232,.4);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;transition:all .3s;border-left:2px solid transparent}.admin-sidebar .nav-item:hover{color:var(--ivory);background:rgba(255,255,255,.02)}.admin-sidebar .nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,.05)}.admin-sidebar .nav-item i{width:20px;text-align:center;font-size:1rem}.admin-sidebar .nav-item .badge{margin-left:auto;background:var(--gold);color:var(--ink);font-size:.55rem;padding:.1rem .6rem;border-radius:10px;font-weight:500}.admin-sidebar .sidebar-footer{padding:1.5rem;border-top:1px solid rgba(245,240,232,.06);margin-top:1rem}.admin-sidebar .sidebar-footer .user{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}.admin-sidebar .sidebar-footer .user .avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:.9rem}.admin-sidebar .sidebar-footer .user .email{font-size:.78rem;color:rgba(245,240,232,.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.admin-sidebar .sidebar-footer .logout-btn{width:100%;padding:.6rem;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.3);border:1px solid rgba(245,240,232,.1);transition:all .3s;text-align:center}.admin-sidebar .sidebar-footer .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
@@ -20,7 +20,6 @@
         .table-wrap{overflow-x:auto;margin-top:1rem}table{width:100%;border-collapse:collapse;font-size:.85rem}table th{text-align:left;padding:.8rem 1rem;color:rgba(245,240,232,.3);font-weight:400;letter-spacing:.1em;text-transform:uppercase;font-size:.65rem;border-bottom:1px solid rgba(245,240,232,.06)}table td{padding:.8rem 1rem;border-bottom:1px solid rgba(245,240,232,.04);color:rgba(245,240,232,.7);vertical-align:middle}table td .stars{color:var(--gold)}table td .status-badge{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .8rem;background:rgba(201,168,76,.1);color:var(--gold)}table td .status-badge.approved{background:rgba(45,80,22,.2);color:var(--sage-lt)}table td .status-badge.new{background:rgba(201,168,76,.15);color:var(--gold)}table td .status-badge.contacted{background:rgba(45,80,22,.15);color:var(--sage-lt)}table td .status-badge.closed{background:rgba(245,240,232,.05);color:rgba(245,240,232,.3)}
         .btn-action{padding:.3rem 1rem;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid transparent;transition:all .3s;margin-right:.4rem;cursor:pointer}.btn-action.approve{background:var(--sage);color:var(--ivory)}.btn-action.approve:hover{background:#3D7A2A}.btn-action.reject{border-color:rgba(245,240,232,.15);color:rgba(245,240,232,.4)}.btn-action.reject:hover{border-color:var(--danger);color:var(--danger)}.btn-action.edit{border-color:rgba(201,168,76,.3);color:var(--gold)}.btn-action.edit:hover{background:rgba(201,168,76,.1)}.btn-action.delete{border-color:rgba(139,0,0,.3);color:var(--danger)}.btn-action.delete:hover{background:rgba(139,0,0,.1)}.btn-action.primary{background:var(--gold);color:var(--ink);padding:.6rem 1.5rem}.btn-action.primary:hover{background:var(--gold-lt)}
         .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,.85);z-index:2000;align-items:center;justify-content:center;padding:2rem}.modal-overlay.open{display:flex}.modal-box{background:#0f0f0f;border:1px solid rgba(201,168,76,.2);max-width:700px;width:100%;padding:2rem;max-height:90vh;overflow-y:auto}.modal-box .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.modal-box .modal-header h3{font-family:var(--font-display);font-size:1.4rem;font-weight:300;color:var(--ivory)}.modal-box .modal-header h3 em{font-style:italic;color:var(--gold)}.modal-box .modal-header .close-btn{font-size:1.5rem;color:rgba(245,240,232,.3);transition:color .3s}.modal-box .modal-header .close-btn:hover{color:var(--ivory)}.modal-box .form-group{margin-bottom:1.2rem}.modal-box .form-group label{display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-bottom:.3rem}.modal-box .form-group input,.modal-box .form-group textarea,.modal-box .form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(245,240,232,.12);padding:.8rem 1rem;font-family:var(--font-body);font-size:.85rem;color:var(--ivory);outline:none;border-radius:0;transition:border-color .3s}.modal-box .form-group input:focus,.modal-box .form-group textarea:focus,.modal-box .form-group select:focus{border-color:var(--gold)}.modal-box .form-group textarea{resize:vertical;min-height:80px}.modal-box .form-group select option{background:var(--ink);color:var(--ivory)}.modal-box .form-group .file-help{font-size:.7rem;color:rgba(245,240,232,.3);margin-top:4px}
-        /* ── Image item group ── */
         .image-group{background:rgba(255,255,255,.03);border:1px solid rgba(245,240,232,.08);border-radius:8px;padding:12px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
         .image-group .preview-img{width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid rgba(245,240,232,.1)}
         .image-group .img-file{flex:2;min-width:140px}
@@ -572,7 +571,17 @@
                         throw new Error(err.message || 'Upload failed');
                     }
                     const data = await response.json();
-                    uploaded.push({ url: data.url, label: item.label || '' });
+                    // ✅ FIX: Use `data.url` – ImageKit returns `url` in the response
+                    const imageUrl = data.url;
+                    if (!imageUrl) {
+                        // Fallback: try fileUrl if available
+                        const fileUrl = data.fileUrl || data.url;
+                        if (!fileUrl) throw new Error('No URL returned from ImageKit');
+                        uploaded.push({ url: fileUrl, label: item.label || '' });
+                    } else {
+                        uploaded.push({ url: imageUrl, label: item.label || '' });
+                    }
+                    console.log('✅ Uploaded image:', uploaded[i]);
                 } else if (item.existingUrl) {
                     uploaded.push({ url: item.existingUrl, label: item.label || '' });
                 }
@@ -606,6 +615,8 @@
                 } else {
                     promise = db.ref(ref + '/' + modalEditId).update(data);
                 }
+                // Log the data being saved
+                console.log('💾 Saving portfolio data:', data);
                 return promise;
             })
             .then(function() {
@@ -712,7 +723,7 @@
             .catch(err => { showToast('Error rejecting review.', true); console.error(err); });
     };
 
-    // ─── Portfolio (with multiple images) ─────────────
+    // ─── Portfolio (with multiple images and debug) ──
     function loadPortfolio() {
         const wrap = document.getElementById('portfolio-table-wrap');
         wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(245,240,232,.3);">Loading portfolio…</div>';
@@ -731,9 +742,12 @@
                 const id = entry[0], item = entry[1];
                 // Thumbnails: show up to 3 small images
                 let imagesHtml = '';
-                if (item.images && item.images.length > 0) {
+                if (item.images && Array.isArray(item.images) && item.images.length > 0) {
                     const imgs = item.images.slice(0, 3);
-                    imagesHtml = imgs.map(img => `<img src="${img.url}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin:2px;" />`).join('');
+                    imagesHtml = imgs.map(img => {
+                        const imgUrl = img.url || img; // fallback if img is a string
+                        return `<img src="${imgUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin:2px;" onerror="this.style.display='none'" />`;
+                    }).join('');
                     if (item.images.length > 3) imagesHtml += `<span style="font-size:.6rem;color:rgba(245,240,232,.3);">+${item.images.length-3}</span>`;
                 } else {
                     imagesHtml = '<span style="color:rgba(245,240,232,.2);">No images</span>';
@@ -756,6 +770,8 @@
             });
             html += '</tbody></table>';
             wrap.innerHTML = html;
+            // Log data for debugging
+            console.log('📂 Portfolio data loaded:', data);
         }).catch(err => { console.error(err); wrap.innerHTML = '<div class="empty-state"><p>Error loading portfolio.</p></div>'; });
     }
 
@@ -789,7 +805,7 @@
             entries.sort((a, b) => (a[1].order || 0) - (b[1].order || 0));
             entries.forEach(function(entry) {
                 const id = entry[0], item = entry[1];
-                html += `<tr><td><img src="${item.image || ''}" alt="${item.title || ''}" style="width:60px;height:60px;object-fit:cover;background:rgba(255,255,255,.05);" /></td><td><strong>${item.title || 'Untitled'}</strong></td><td>${item.category || '—'}</td><td>${item.isNew ? '✓' : '—'}</td><td><button class="btn-action edit" onclick="editCollection('${id}')">Edit</button><button class="btn-action delete" onclick="deleteCollection('${id}')">Delete</button></td></tr>`;
+                html += `<tr><td><img src="${item.image || ''}" alt="${item.title || ''}" style="width:60px;height:60px;object-fit:cover;background:rgba(255,255,255,.05);" onerror="this.style.display='none'" /></td><td><strong>${item.title || 'Untitled'}</strong></td><td>${item.category || '—'}</td><td>${item.isNew ? '✓' : '—'}</td><td><button class="btn-action edit" onclick="editCollection('${id}')">Edit</button><button class="btn-action delete" onclick="deleteCollection('${id}')">Delete</button></td></tr>`;
             });
             html += '</tbody></table>';
             wrap.innerHTML = html;
@@ -889,6 +905,7 @@
     });
 
     console.log('✅ Admin loaded. Multiple image uploads enabled with ImageKit private key.');
+    console.log('ℹ️ Check the console when you add a portfolio item to see image URLs.');
 </script>
 </body>
 </html>
