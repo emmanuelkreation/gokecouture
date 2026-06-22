@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <style>
-        /* ── SAME STYLES AS BEFORE ── */
+        /* ── SAME STYLES AS BEFORE (with minor additions for image items) ── */
         :root{--ink:#0A0A0A;--ivory:#F5F0E8;--gold:#C9A84C;--gold-lt:#E8D48A;--sage:#2D5016;--sage-lt:#3D6B1F;--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Jost',system-ui,sans-serif;--ease:cubic-bezier(.25,.46,.45,.94);--slow:cubic-bezier(.16,1,.3,1);--danger:#8B0000}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;font-size:16px}body{background:var(--ink);color:var(--ivory);font-family:var(--font-body);font-weight:300;overflow-x:hidden;cursor:default}a{text-decoration:none;color:inherit}button{border:none;background:none;font-family:inherit;cursor:pointer}ul{list-style:none}
         #login-overlay{position:fixed;inset:0;z-index:1000;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem}#login-overlay.hidden{display:none}.login-box{max-width:400px;width:100%;text-align:center}.login-box .brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:2rem}.login-box .brand svg{height:44px;width:auto}.login-box .brand .name{font-family:var(--font-body);font-weight:200;font-size:.8rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ivory);line-height:1}.login-box .brand .name span{display:block;font-weight:400;letter-spacing:.12em;font-size:.6rem;color:var(--gold);margin-top:2px}.login-box h2{font-family:var(--font-display);font-size:2rem;font-weight:300;color:var(--ivory);margin-bottom:.5rem}.login-box h2 em{font-style:italic;color:var(--gold)}.login-box p{color:rgba(245,240,232,.4);margin-bottom:2rem;font-size:.9rem}.login-box input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(245,240,232,.12);padding:.9rem 1.2rem;font-family:var(--font-body);font-size:.9rem;color:var(--ivory);transition:border-color .3s;outline:none;margin-bottom:1rem;border-radius:0}.login-box input:focus{border-color:var(--gold)}.login-box .login-btn{width:100%;background:var(--gold);color:var(--ink);padding:.9rem;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;border:none;transition:background .3s;cursor:pointer}.login-box .login-btn:hover{background:var(--gold-lt)}.login-box .login-btn:disabled{opacity:.5;cursor:not-allowed}.login-box .error{color:var(--danger);font-size:.85rem;margin-top:.5rem;display:none}.login-box .error.show{display:block}
         .admin-wrapper{display:none;min-height:100vh}.admin-wrapper.visible{display:flex}.admin-sidebar{width:260px;background:#0f0f0f;border-right:1px solid rgba(201,168,76,.1);padding:1.5rem 0;flex-shrink:0;height:100vh;position:sticky;top:0;overflow-y:auto}.admin-sidebar .brand{display:flex;align-items:center;gap:12px;padding:0 1.5rem 2rem;border-bottom:1px solid rgba(245,240,232,.06);margin-bottom:1.5rem}.admin-sidebar .brand svg{height:36px;width:auto}.admin-sidebar .brand .name{font-family:var(--font-body);font-weight:200;font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ivory);line-height:1}.admin-sidebar .brand .name span{display:block;font-weight:400;letter-spacing:.12em;font-size:.5rem;color:var(--gold);margin-top:2px}.admin-sidebar .nav-item{display:flex;align-items:center;gap:1rem;padding:.8rem 1.5rem;color:rgba(245,240,232,.4);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;transition:all .3s;border-left:2px solid transparent}.admin-sidebar .nav-item:hover{color:var(--ivory);background:rgba(255,255,255,.02)}.admin-sidebar .nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,.05)}.admin-sidebar .nav-item i{width:20px;text-align:center;font-size:1rem}.admin-sidebar .nav-item .badge{margin-left:auto;background:var(--gold);color:var(--ink);font-size:.55rem;padding:.1rem .6rem;border-radius:10px;font-weight:500}.admin-sidebar .sidebar-footer{padding:1.5rem;border-top:1px solid rgba(245,240,232,.06);margin-top:1rem}.admin-sidebar .sidebar-footer .user{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}.admin-sidebar .sidebar-footer .user .avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:.9rem}.admin-sidebar .sidebar-footer .user .email{font-size:.78rem;color:rgba(245,240,232,.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.admin-sidebar .sidebar-footer .logout-btn{width:100%;padding:.6rem;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.3);border:1px solid rgba(245,240,232,.1);transition:all .3s;text-align:center}.admin-sidebar .sidebar-footer .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
@@ -19,11 +19,21 @@
         .admin-page{display:none;animation:fadeIn .3s var(--ease)}.admin-page.active{display:block}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         .table-wrap{overflow-x:auto;margin-top:1rem}table{width:100%;border-collapse:collapse;font-size:.85rem}table th{text-align:left;padding:.8rem 1rem;color:rgba(245,240,232,.3);font-weight:400;letter-spacing:.1em;text-transform:uppercase;font-size:.65rem;border-bottom:1px solid rgba(245,240,232,.06)}table td{padding:.8rem 1rem;border-bottom:1px solid rgba(245,240,232,.04);color:rgba(245,240,232,.7);vertical-align:middle}table td .stars{color:var(--gold)}table td .status-badge{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .8rem;background:rgba(201,168,76,.1);color:var(--gold)}table td .status-badge.approved{background:rgba(45,80,22,.2);color:var(--sage-lt)}table td .status-badge.new{background:rgba(201,168,76,.15);color:var(--gold)}table td .status-badge.contacted{background:rgba(45,80,22,.15);color:var(--sage-lt)}table td .status-badge.closed{background:rgba(245,240,232,.05);color:rgba(245,240,232,.3)}
         .btn-action{padding:.3rem 1rem;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid transparent;transition:all .3s;margin-right:.4rem;cursor:pointer}.btn-action.approve{background:var(--sage);color:var(--ivory)}.btn-action.approve:hover{background:#3D7A2A}.btn-action.reject{border-color:rgba(245,240,232,.15);color:rgba(245,240,232,.4)}.btn-action.reject:hover{border-color:var(--danger);color:var(--danger)}.btn-action.edit{border-color:rgba(201,168,76,.3);color:var(--gold)}.btn-action.edit:hover{background:rgba(201,168,76,.1)}.btn-action.delete{border-color:rgba(139,0,0,.3);color:var(--danger)}.btn-action.delete:hover{background:rgba(139,0,0,.1)}.btn-action.primary{background:var(--gold);color:var(--ink);padding:.6rem 1.5rem}.btn-action.primary:hover{background:var(--gold-lt)}
-        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,.85);z-index:2000;align-items:center;justify-content:center;padding:2rem}.modal-overlay.open{display:flex}.modal-box{background:#0f0f0f;border:1px solid rgba(201,168,76,.2);max-width:600px;width:100%;padding:2rem;max-height:90vh;overflow-y:auto}.modal-box .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.modal-box .modal-header h3{font-family:var(--font-display);font-size:1.4rem;font-weight:300;color:var(--ivory)}.modal-box .modal-header h3 em{font-style:italic;color:var(--gold)}.modal-box .modal-header .close-btn{font-size:1.5rem;color:rgba(245,240,232,.3);transition:color .3s}.modal-box .modal-header .close-btn:hover{color:var(--ivory)}.modal-box .form-group{margin-bottom:1.2rem}.modal-box .form-group label{display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-bottom:.3rem}.modal-box .form-group input,.modal-box .form-group textarea,.modal-box .form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(245,240,232,.12);padding:.8rem 1rem;font-family:var(--font-body);font-size:.85rem;color:var(--ivory);outline:none;border-radius:0;transition:border-color .3s}.modal-box .form-group input:focus,.modal-box .form-group textarea:focus,.modal-box .form-group select:focus{border-color:var(--gold)}.modal-box .form-group textarea{resize:vertical;min-height:80px}.modal-box .form-group select option{background:var(--ink);color:var(--ivory)}.modal-box .form-group .file-help{font-size:.7rem;color:rgba(245,240,232,.3);margin-top:4px}.modal-box .btn-primary{padding:.8rem 2rem;background:var(--gold);color:var(--ink);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;border:none;transition:background .3s;cursor:pointer;margin-top:.5rem}.modal-box .btn-primary:hover{background:var(--gold-lt)}.modal-box .btn-primary:disabled{opacity:.5;cursor:not-allowed}.image-preview{max-width:100%;max-height:150px;object-fit:contain;background:rgba(255,255,255,.05);padding:4px;border:1px solid rgba(245,240,232,.1);margin-top:4px}
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,.85);z-index:2000;align-items:center;justify-content:center;padding:2rem}.modal-overlay.open{display:flex}.modal-box{background:#0f0f0f;border:1px solid rgba(201,168,76,.2);max-width:700px;width:100%;padding:2rem;max-height:90vh;overflow-y:auto}.modal-box .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.modal-box .modal-header h3{font-family:var(--font-display);font-size:1.4rem;font-weight:300;color:var(--ivory)}.modal-box .modal-header h3 em{font-style:italic;color:var(--gold)}.modal-box .modal-header .close-btn{font-size:1.5rem;color:rgba(245,240,232,.3);transition:color .3s}.modal-box .modal-header .close-btn:hover{color:var(--ivory)}.modal-box .form-group{margin-bottom:1.2rem}.modal-box .form-group label{display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-bottom:.3rem}.modal-box .form-group input,.modal-box .form-group textarea,.modal-box .form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(245,240,232,.12);padding:.8rem 1rem;font-family:var(--font-body);font-size:.85rem;color:var(--ivory);outline:none;border-radius:0;transition:border-color .3s}.modal-box .form-group input:focus,.modal-box .form-group textarea:focus,.modal-box .form-group select:focus{border-color:var(--gold)}.modal-box .form-group textarea{resize:vertical;min-height:80px}.modal-box .form-group select option{background:var(--ink);color:var(--ivory)}.modal-box .form-group .file-help{font-size:.7rem;color:rgba(245,240,232,.3);margin-top:4px}
+        /* ── Image item group ── */
+        .image-group{background:rgba(255,255,255,.03);border:1px solid rgba(245,240,232,.08);border-radius:8px;padding:12px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+        .image-group .preview-img{width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid rgba(245,240,232,.1)}
+        .image-group .img-file{flex:2;min-width:140px}
+        .image-group .img-label{flex:2;min-width:100px}
+        .image-group .remove-img-btn{background:var(--danger);color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:.7rem}
+        .image-group .remove-img-btn:hover{background:#a00}
+        .btn-add-image{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:.4rem 1rem;border-radius:4px;cursor:pointer;font-size:.75rem;margin-top:6px}
+        .btn-add-image:hover{background:rgba(201,168,76,.2)}
+        .image-preview{max-width:100%;max-height:150px;object-fit:contain;background:rgba(255,255,255,.05);padding:4px;border:1px solid rgba(245,240,232,.1);margin-top:4px}
         .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:800px}.settings-grid .form-group{margin-bottom:0}.settings-grid .form-group.full-width{grid-column:1/-1}
         .empty-state{text-align:center;padding:3rem 2rem;color:rgba(245,240,232,.3)}.empty-state p{font-size:1rem}
         .toast{position:fixed;bottom:2rem;right:2rem;background:var(--sage);color:var(--ivory);padding:1rem 2rem;border:1px solid rgba(45,80,22,.3);z-index:3000;font-size:.9rem;opacity:0;transform:translateY(20px);transition:all .4s var(--ease);pointer-events:none;max-width:400px}.toast.show{opacity:1;transform:translateY(0);pointer-events:all}.toast.error{background:var(--danger);border-color:rgba(139,0,0,.3)}
-        @media(max-width:1024px){.stats-grid{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}@media(max-width:768px){.admin-sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid rgba(201,168,76,.1);padding:1rem 0}.admin-wrapper{flex-direction:column}.admin-sidebar .brand{padding:0 1rem 1rem}.admin-sidebar .nav-item{padding:.6rem 1rem;font-size:.7rem}.admin-sidebar .sidebar-footer{display:none}.admin-main{padding:1rem 1rem 3rem}.admin-main .page-header h1{font-size:1.4rem}.stats-grid{grid-template-columns:1fr 1fr;gap:.8rem}.stat-card{padding:1rem}.stat-card .number{font-size:1.8rem}.modal-box{padding:1.5rem;margin:1rem}.table-wrap{font-size:.75rem}table th,table td{padding:.5rem .6rem}.btn-action{padding:.2rem .6rem;font-size:.5rem;margin-right:.2rem}.toast{bottom:1rem;right:1rem;left:1rem;max-width:none;font-size:.8rem;padding:.8rem 1.2rem}}@media(max-width:480px){.stats-grid{grid-template-columns:1fr}.admin-main .page-header{flex-direction:column;align-items:flex-start}.admin-sidebar .nav-item{font-size:.65rem;padding:.5rem .8rem}.admin-sidebar .nav-item i{font-size:.8rem;width:18px}.login-box{padding:0 1rem}}
+        @media(max-width:1024px){.stats-grid{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}@media(max-width:768px){.admin-sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid rgba(201,168,76,.1);padding:1rem 0}.admin-wrapper{flex-direction:column}.admin-sidebar .brand{padding:0 1rem 1rem}.admin-sidebar .nav-item{padding:.6rem 1rem;font-size:.7rem}.admin-sidebar .sidebar-footer{display:none}.admin-main{padding:1rem 1rem 3rem}.admin-main .page-header h1{font-size:1.4rem}.stats-grid{grid-template-columns:1fr 1fr;gap:.8rem}.stat-card{padding:1rem}.stat-card .number{font-size:1.8rem}.modal-box{padding:1.5rem;margin:1rem}.table-wrap{font-size:.75rem}table th,table td{padding:.5rem .6rem}.btn-action{padding:.2rem .6rem;font-size:.5rem;margin-right:.2rem}.toast{bottom:1rem;right:1rem;left:1rem;max-width:none;font-size:.8rem;padding:.8rem 1.2rem}.image-group{flex-direction:column;align-items:stretch}.image-group .preview-img{width:100%;height:auto;max-height:120px}}@media(max-width:480px){.stats-grid{grid-template-columns:1fr}.admin-main .page-header{flex-direction:column;align-items:flex-start}.admin-sidebar .nav-item{font-size:.65rem;padding:.5rem .8rem}.admin-sidebar .nav-item i{font-size:.8rem;width:18px}.login-box{padding:0 1rem}}
     </style>
 </head>
 <body>
@@ -210,6 +220,9 @@
 
     let modalMode = 'add', modalEditId = null, modalType = 'portfolio', reviewTab = 'pending', toastTimeout;
 
+    // ─── Image items state (for multiple images) ──
+    let imageItems = []; // each item: { file: File|null, existingUrl: string, label: string, isNew: boolean, previewUrl: string }
+
     function showToast(msg, err) {
         toast.textContent = msg;
         toast.className = 'toast';
@@ -299,6 +312,74 @@
         });
     });
 
+    // ─── IMAGE ITEMS RENDER ──────────────────────────
+    function renderImageItems() {
+        const container = document.getElementById('modal-image-items');
+        if (!container) return;
+        if (imageItems.length === 0) {
+            container.innerHTML = '<p style="color:rgba(245,240,232,.3);font-size:.8rem;">No images yet. Click "Add Image" below.</p>';
+            return;
+        }
+        let html = '';
+        imageItems.forEach((item, idx) => {
+            const preview = item.previewUrl || item.existingUrl || '';
+            const previewHtml = preview ? `<img src="${preview}" class="image-preview" style="width:60px;height:60px;object-fit:cover;" />` : '<div style="width:60px;height:60px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">📷</div>';
+            html += `
+                <div class="image-group" data-idx="${idx}">
+                    <input type="file" accept="image/*" class="img-file" data-idx="${idx}" ${item.isNew ? '' : 'style="display:none;"'}>
+                    <input type="text" placeholder="Image label" class="img-label" data-idx="${idx}" value="${item.label || ''}">
+                    ${previewHtml}
+                    <button type="button" class="remove-img-btn" data-idx="${idx}">Remove</button>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+
+        // Attach events
+        container.querySelectorAll('.img-file').forEach(input => {
+            input.addEventListener('change', function(e) {
+                const idx = parseInt(this.dataset.idx);
+                const file = this.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('Image too large. Max 5MB.');
+                        this.value = '';
+                        return;
+                    }
+                    imageItems[idx].file = file;
+                    imageItems[idx].isNew = true;
+                    imageItems[idx].existingUrl = '';
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imageItems[idx].previewUrl = e.target.result;
+                        renderImageItems(); // re-render to show preview
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imageItems[idx].file = null;
+                    imageItems[idx].isNew = false;
+                    imageItems[idx].previewUrl = '';
+                    renderImageItems();
+                }
+            });
+        });
+
+        container.querySelectorAll('.img-label').forEach(input => {
+            input.addEventListener('input', function(e) {
+                const idx = parseInt(this.dataset.idx);
+                imageItems[idx].label = this.value;
+            });
+        });
+
+        container.querySelectorAll('.remove-img-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const idx = parseInt(this.dataset.idx);
+                imageItems.splice(idx, 1);
+                renderImageItems();
+            });
+        });
+    }
+
     // ─── MODAL ───────────────────────────────────────
     function openModal(type, mode, data) {
         modalType = type;
@@ -306,6 +387,22 @@
         modalEditId = data ? data.id : null;
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        // Reset image items
+        if (mode === 'add') {
+            imageItems = [];
+        } else if (data && data.images && Array.isArray(data.images)) {
+            imageItems = data.images.map(img => ({
+                file: null,
+                existingUrl: img.url || img,
+                label: img.label || '',
+                isNew: false,
+                previewUrl: img.url || img
+            }));
+        } else {
+            imageItems = [];
+        }
+
         if (mode === 'add') {
             modalTitle.innerHTML = 'Add <em>' + (type === 'portfolio' ? 'Portfolio Item' : 'Collection') + '</em>';
             modalSubmit.textContent = 'Add Item';
@@ -314,18 +411,21 @@
             modalSubmit.textContent = 'Save Changes';
         }
         modalBody.innerHTML = getModalFormHTML(type, data);
+        // Render image items after form is built
+        renderImageItems();
     }
 
     function closeModal() {
         modal.classList.remove('open');
         document.body.style.overflow = '';
         modalEditId = null;
+        imageItems = [];
     }
 
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
 
-    // ─── MODAL FORM HTML (UPDATED WITH EXTRA FIELDS) ──
+    // ─── MODAL FORM HTML ─────────────────────────────
     function getModalFormHTML(type, data) {
         const isPortfolio = type === 'portfolio';
         const categories = isPortfolio ?
@@ -337,15 +437,19 @@
             return `<option value="${c}" ${selected}>${c}</option>`;
         }).join('');
 
-        const existingImage = data && data.image ? data.image : '';
-        const imagePreview = existingImage ? `<img src="${existingImage}" class="image-preview" />` : '';
-
-        // If portfolio, add extra fields
         let extraFields = '';
         if (isPortfolio) {
             extraFields = `
                 <div class="form-group">
-                    <label>Project Timeline / Duration</label>
+                    <label>Client</label>
+                    <input type="text" id="modal-client" value="${data ? data.client || '' : ''}" placeholder="Client name" />
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="modal-location" value="${data ? data.location || '' : ''}" placeholder="Location (e.g., Ibadan, Lagos)" />
+                </div>
+                <div class="form-group">
+                    <label>Timeline / Duration</label>
                     <input type="text" id="modal-timeline" value="${data ? data.timeline || '' : ''}" placeholder="e.g. 4 weeks, 2 months, 2025-06-01 to 2025-07-15" />
                 </div>
                 <div class="form-group">
@@ -379,28 +483,19 @@
                     ${catOptions}
                 </select>
             </div>
-            <div class="form-group">
-                <label>Upload Image *</label>
-                <input type="file" id="modal-image-file" accept="image/*" ${data ? '' : 'required'} />
-                <div id="modal-image-preview" style="margin-top:8px;">${imagePreview}</div>
-                ${existingImage ? `<input type="hidden" id="modal-image-url" value="${existingImage}" />` : ''}
-                <p class="file-help">Select an image from your device (JPG, PNG, WebP).</p>
-            </div>
             ${isPortfolio ? `
                 <div class="form-group">
                     <label>Description</label>
                     <textarea id="modal-description" rows="2" placeholder="Brief description of the item…">${data ? data.description || '' : ''}</textarea>
                 </div>
-                <div class="form-group">
-                    <label>Client</label>
-                    <input type="text" id="modal-client" value="${data ? data.client || '' : ''}" placeholder="Client name" />
-                </div>
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" id="modal-location" value="${data ? data.location || '' : ''}" placeholder="Location (e.g., Ibadan, Lagos)" />
-                </div>
                 ${extraFields}
             ` : ''}
+            <div class="form-group">
+                <label>Images (multiple allowed)</label>
+                <div id="modal-image-items"></div>
+                <button type="button" class="btn-add-image" id="add-image-btn">+ Add Image</button>
+                <p class="file-help">JPG, PNG, WebP (max 5MB each). Add multiple images for a gallery.</p>
+            </div>
             <div class="form-group" style="display:flex;align-items:center;gap:.8rem;">
                 <label style="margin:0;font-size:.65rem;">Mark as New</label>
                 <input type="checkbox" id="modal-isnew" ${data && data.isNew ? 'checked' : ''} style="width:auto;" />
@@ -412,31 +507,20 @@
         `;
     }
 
-    // ─── Image preview ───────────────────────────────
-    document.addEventListener('change', function(e) {
-        if (e.target && e.target.id === 'modal-image-file') {
-            const file = e.target.files[0];
-            const preview = document.getElementById('modal-image-preview');
-            if (file && preview) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    preview.innerHTML = `<img src="${event.target.result}" class="image-preview" />`;
-                };
-                reader.readAsDataURL(file);
-            } else if (preview) {
-                preview.innerHTML = '';
-            }
+    // ─── Add image button ─────────────────────────────
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'add-image-btn') {
+            imageItems.push({ file: null, existingUrl: '', label: '', isNew: true, previewUrl: '' });
+            renderImageItems();
         }
     });
 
-    // ─── MODAL SUBMIT (ImageKit with Private Key) ─────
+    // ─── MODAL SUBMIT (ImageKit with Private Key, multiple images) ─────
     modalForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const title = document.getElementById('modal-title-input').value.trim();
         const category = document.getElementById('modal-category').value;
-        const fileInput = document.getElementById('modal-image-file');
-        const existingImageUrl = document.getElementById('modal-image-url') ? document.getElementById('modal-image-url').value : '';
         const isNew = document.getElementById('modal-isnew') ? document.getElementById('modal-isnew').checked : false;
         const order = parseInt(document.getElementById('modal-order').value) || 0;
 
@@ -455,42 +539,76 @@
             return;
         }
 
-        const file = fileInput.files[0];
-        const hasFile = !!file;
-
-        if (!hasFile && !existingImageUrl) {
-            showToast('Please select an image to upload.', true);
+        // Check if there is at least one image (new or existing)
+        const hasNewImage = imageItems.some(item => item.file);
+        const hasExisting = imageItems.some(item => item.existingUrl);
+        if (!hasNewImage && !hasExisting) {
+            showToast('Please add at least one image.', true);
             return;
         }
 
         const submitBtn = modalSubmit;
         submitBtn.disabled = true;
+        submitBtn.textContent = 'Uploading images…';
 
-        function saveData(imageUrl) {
-            const data = {
-                title, category, image: imageUrl, isNew, order,
-                updatedAt: new Date().toISOString()
-            };
-            if (modalType === 'portfolio') {
-                data.description = description;
-                data.client = client;
-                data.location = location;
-                data.timeline = timeline;
-                data.budget = budget;
-                data.materials = materials;
-                data.scope = scope;
-                data.result = result;
+        // ── Upload new images to ImageKit ──
+        async function uploadImages() {
+            const uploaded = [];
+            for (let i = 0; i < imageItems.length; i++) {
+                const item = imageItems[i];
+                if (item.file && item.isNew) {
+                    const formData = new FormData();
+                    formData.append('file', item.file);
+                    formData.append('fileName', Date.now() + '_' + item.file.name);
+                    formData.append('folder', '/Gokecouture/portfolio');
+                    const authHeader = btoa(IMAGEKIT_PRIVATE_KEY + ':');
+                    const response = await fetch(IMAGEKIT_URL_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Authorization': 'Basic ' + authHeader },
+                        body: formData
+                    });
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.message || 'Upload failed');
+                    }
+                    const data = await response.json();
+                    uploaded.push({ url: data.url, label: item.label || '' });
+                } else if (item.existingUrl) {
+                    uploaded.push({ url: item.existingUrl, label: item.label || '' });
+                }
             }
+            return uploaded;
+        }
 
-            const ref = modalType === 'portfolio' ? 'portfolio' : 'collections';
-            let promise;
-            if (modalMode === 'add') {
-                promise = db.ref(ref).push(data);
-            } else {
-                promise = db.ref(ref + '/' + modalEditId).update(data);
-            }
+        uploadImages()
+            .then(function(imagesArray) {
+                // Build data object
+                const data = {
+                    title, category, isNew, order,
+                    images: imagesArray,
+                    updatedAt: new Date().toISOString()
+                };
+                if (modalType === 'portfolio') {
+                    data.description = description;
+                    data.client = client;
+                    data.location = location;
+                    data.timeline = timeline;
+                    data.budget = budget;
+                    data.materials = materials;
+                    data.scope = scope;
+                    data.result = result;
+                }
 
-            promise.then(function() {
+                const ref = modalType === 'portfolio' ? 'portfolio' : 'collections';
+                let promise;
+                if (modalMode === 'add') {
+                    promise = db.ref(ref).push(data);
+                } else {
+                    promise = db.ref(ref + '/' + modalEditId).update(data);
+                }
+                return promise;
+            })
+            .then(function() {
                 closeModal();
                 showToast((modalMode === 'add' ? 'Added' : 'Updated') + ' ' + (modalType === 'portfolio' ? 'portfolio item' : 'collection') + ' successfully.');
                 if (modalType === 'portfolio') loadPortfolio();
@@ -498,57 +616,13 @@
                 updateStats();
                 submitBtn.disabled = false;
                 submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
-            }).catch(function(error) {
-                showToast('Error saving data. Please try again.', true);
-                console.error('Error saving:', error);
-                submitBtn.disabled = false;
-                submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
-            });
-        }
-
-        // ── Upload to ImageKit using Private Key (signed) ──
-        if (hasFile) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('fileName', Date.now() + '_' + file.name);
-            const folderPath = modalType === 'portfolio' ? '/portfolio' : '/collections';
-            formData.append('folder', '/Gokecouture' + folderPath);
-
-            submitBtn.textContent = 'Uploading…';
-
-            const authHeader = btoa(IMAGEKIT_PRIVATE_KEY + ':');
-
-            fetch(IMAGEKIT_URL_ENDPOINT, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Basic ' + authHeader,
-                },
-                body: formData,
-            })
-            .then(function(response) {
-                if (!response.ok) {
-                    return response.json().then(function(errData) {
-                        throw new Error(errData.message || 'Upload failed with status ' + response.status);
-                    });
-                }
-                return response.json();
-            })
-            .then(function(result) {
-                const imageUrl = result.url;
-                if (!imageUrl) throw new Error('No URL returned');
-                const preview = document.getElementById('modal-image-preview');
-                if (preview) preview.innerHTML = `<img src="${imageUrl}" class="image-preview" />`;
-                saveData(imageUrl);
             })
             .catch(function(error) {
-                showToast('Upload to ImageKit failed: ' + error.message, true);
-                console.error('ImageKit upload error:', error);
+                showToast('Error: ' + error.message, true);
+                console.error('Submit error:', error);
                 submitBtn.disabled = false;
                 submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
             });
-        } else {
-            saveData(existingImageUrl);
-        }
     });
 
     // ─── ADD BUTTONS ──────────────────────────────────
@@ -638,7 +712,7 @@
             .catch(err => { showToast('Error rejecting review.', true); console.error(err); });
     };
 
-    // ─── Portfolio (UPDATED TO SHOW EXTRA FIELDS) ─────
+    // ─── Portfolio (with multiple images) ─────────────
     function loadPortfolio() {
         const wrap = document.getElementById('portfolio-table-wrap');
         wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(245,240,232,.3);">Loading portfolio…</div>';
@@ -651,11 +725,19 @@
             }
 
             const entries = Object.entries(data);
-            let html = '<table><thead><tr><th>Image</th><th>Title</th><th>Category</th><th>New</th><th>Details</th><th>Actions</th></tr></thead><tbody>';
+            let html = '<table><thead><tr><th>Images</th><th>Title</th><th>Category</th><th>New</th><th>Details</th><th>Actions</th></tr></thead><tbody>';
             entries.sort((a, b) => (a[1].order || 0) - (b[1].order || 0));
             entries.forEach(function(entry) {
                 const id = entry[0], item = entry[1];
-                // Build a details string with extra info
+                // Thumbnails: show up to 3 small images
+                let imagesHtml = '';
+                if (item.images && item.images.length > 0) {
+                    const imgs = item.images.slice(0, 3);
+                    imagesHtml = imgs.map(img => `<img src="${img.url}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin:2px;" />`).join('');
+                    if (item.images.length > 3) imagesHtml += `<span style="font-size:.6rem;color:rgba(245,240,232,.3);">+${item.images.length-3}</span>`;
+                } else {
+                    imagesHtml = '<span style="color:rgba(245,240,232,.2);">No images</span>';
+                }
                 const details = [];
                 if (item.client) details.push('👤 ' + item.client);
                 if (item.location) details.push('📍 ' + item.location);
@@ -664,7 +746,7 @@
                 if (item.materials) details.push('🧵 Materials');
                 const detailsStr = details.join(' | ');
                 html += `<tr>
-                    <td><img src="${item.image || ''}" alt="${item.title || ''}" style="width:60px;height:60px;object-fit:cover;background:rgba(255,255,255,.05);" /></td>
+                    <td>${imagesHtml}</td>
                     <td><strong>${item.title || 'Untitled'}</strong></td>
                     <td>${item.category || '—'}</td>
                     <td>${item.isNew ? '✓' : '—'}</td>
@@ -806,8 +888,7 @@
         if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
     });
 
-    console.log('✅ Admin loaded. Using ImageKit with Private Key (signed upload).');
-    console.log('📸 Portfolio items now include timeline, budget, materials, scope, result, client, location.');
+    console.log('✅ Admin loaded. Multiple image uploads enabled with ImageKit private key.');
 </script>
 </body>
 </html>
