@@ -989,7 +989,7 @@
   ═══════════════════════════════════════════════ -->
   <script>
     // ════════════════════════════════════════════════════
-    // 🔥 FIREBASE CONFIG — REPLACE WITH YOUR OWN VALUES
+    // 🔥 FIREBASE CONFIG — YOUR ACTUAL CREDENTIALS
     // ════════════════════════════════════════════════════
     const firebaseConfig = {
       apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
@@ -1298,7 +1298,7 @@
     });
 
     // ════════════════════════════════════════════════════
-    // MODAL — SUBMIT (ImageKit upload + Firebase save)
+    // MODAL — SUBMIT (ImageKit unsigned upload + Firebase save)
     // ════════════════════════════════════════════════════
     modalForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -1365,7 +1365,7 @@
         });
       }
 
-      // ── Upload to ImageKit using Basic Auth ──
+      // ── Upload to ImageKit (unsigned upload — NO Authorization header) ──
       if (hasFile) {
         const formData = new FormData();
         formData.append('file', file);
@@ -1375,17 +1375,14 @@
         formData.append('folder', '/Gokecouture' + folderPath);
         formData.append('useUniqueFileName', 'false');
         formData.append('overwriteFile', 'true');
+        // ✅ Correct: send publicKey in form data (unsigned upload)
+        formData.append('publicKey', IK_PUBLIC_KEY);
 
         submitBtn.textContent = 'Uploading to ImageKit…';
 
-        // ✅ CORRECT: Use HTTP Basic Auth with public key
-        const authHeader = btoa(IK_PUBLIC_KEY + ':');
-
+        // ❌ No Authorization header — just the form data
         fetch(IK_UPLOAD_URL, {
           method: 'POST',
-          headers: {
-            'Authorization': 'Basic ' + authHeader
-          },
           body: formData,
         })
         .then(function(response) {
@@ -1784,8 +1781,9 @@
     });
 
     console.log('✅ Goke Couture Admin Dashboard loaded successfully.');
-    console.log('📸 ImageKit Public Key:', IK_PUBLIC_KEY);
-    console.log('📤 ImageKit Upload URL:', IK_UPLOAD_URL);
+    console.log('📸 ImageKit Public Key:', "public_x1rcEzRQ8hvmPXRezLS36mk9UE8=");
+    console.log('📤 ImageKit Upload URL:', "https://upload.imagekit.io/api/v1/files/upload" );
+
   </script>
 </body>
 </html>
