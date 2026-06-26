@@ -16,7 +16,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <style>
     /* ═══════════════════════════════════════════════
-       TOKENS
+       TOKENS (same as before)
     ═══════════════════════════════════════════════ */
     :root {
       --ink: #0A0A0A;
@@ -26,13 +26,9 @@
       --sage: #2D5016;
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body: 'Jost', system-ui, sans-serif;
-      --ease: cubic-bezier(.25, .46, .45, .94);
-      --slow: cubic-bezier(.16, 1, .3, 1);
+      --ease: cubic-bezier(.25,.46,.45,.94);
+      --slow: cubic-bezier(.16,1,.3,1);
     }
-
-    /* ═══════════════════════════════════════════════
-       RESET
-    ═══════════════════════════════════════════════ */
     *,
     *::before,
     *::after {
@@ -86,7 +82,7 @@
       position: fixed;
       width: 36px;
       height: 36px;
-      border: 1.5px solid rgba(201, 168, 76, .5);
+      border: 1.5px solid rgba(201,168,76,.5);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9998;
@@ -125,7 +121,7 @@
       transition: width .1s linear;
     }
 
-    /* ── NAVIGATION ── */
+    /* ── NAVIGATION (unchanged) ── */
     #nav {
       position: fixed;
       top: 0;
@@ -141,11 +137,11 @@
         backdrop-filter .5s;
     }
     #nav.scrolled {
-      background: rgba(10, 10, 10, .92);
+      background: rgba(10,10,10,.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       height: 64px;
-      border-bottom: 1px solid rgba(201, 168, 76, .15);
+      border-bottom: 1px solid rgba(201,168,76,.15);
     }
     .nav-logo {
       display: flex;
@@ -189,7 +185,7 @@
       letter-spacing: .2em;
       text-transform: uppercase;
       font-weight: 400;
-      color: rgba(245, 240, 232, .75);
+      color: rgba(245,240,232,.75);
       position: relative;
       transition: color .3s;
     }
@@ -288,18 +284,21 @@
     }
     .mob-close {
       position: absolute;
-      top: 2rem;
-      right: 2rem;
-      font-size: 2rem;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2.2rem;
       color: var(--ivory);
       background: none;
       border: none;
       cursor: pointer;
       opacity: 0.6;
-      transition: opacity .3s;
+      transition: opacity .3s, transform .3s;
+      line-height: 1;
+      padding: 0.5rem;
     }
     .mob-close:hover {
       opacity: 1;
+      transform: rotate(90deg);
     }
 
     /* ── BUTTONS ── */
@@ -332,7 +331,7 @@
       text-transform: uppercase;
       font-weight: 400;
       padding: .9rem 2.4rem;
-      border: 1px solid rgba(245, 240, 232, .4);
+      border: 1px solid rgba(245,240,232,.4);
       color: var(--ivory);
       transition: border-color .3s, transform .3s var(--slow);
       background: transparent;
@@ -378,7 +377,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       PORTFOLIO HERO
+       PORTFOLIO HERO (unchanged)
     ═══════════════════════════════════════════════ */
     .portfolio-hero {
       position: relative;
@@ -411,7 +410,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(10, 10, 10, .9), rgba(10, 10, 10, .5));
+      background: linear-gradient(135deg, rgba(10,10,10,.9), rgba(10,10,10,.5));
     }
     .portfolio-hero .monogram {
       position: absolute;
@@ -421,7 +420,7 @@
       font-family: var(--font-display);
       font-size: clamp(12rem, 30vw, 25rem);
       font-weight: 300;
-      color: rgba(201, 168, 76, .08);
+      color: rgba(201,168,76,.08);
       pointer-events: none;
       z-index: 1;
       letter-spacing: 0.1em;
@@ -454,7 +453,7 @@
     }
     .portfolio-hero .content p {
       font-size: 1.05rem;
-      color: rgba(245, 240, 232, .7);
+      color: rgba(245,240,232,.7);
       line-height: 1.8;
       max-width: 600px;
       margin: 0 auto;
@@ -479,8 +478,8 @@
       text-transform: uppercase;
       font-weight: 400;
       padding: .5rem 1.8rem;
-      border: 1px solid rgba(245, 240, 232, .15);
-      color: rgba(245, 240, 232, .5);
+      border: 1px solid rgba(245,240,232,.15);
+      color: rgba(245,240,232,.5);
       transition: all .3s var(--ease);
       cursor: none;
       background: transparent;
@@ -499,7 +498,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5px;
-      background: rgba(201, 168, 76, .12);
+      background: rgba(201,168,76,.12);
     }
     .portfolio-item {
       position: relative;
@@ -522,7 +521,7 @@
     .portfolio-item .overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(10, 10, 10, .85) 0%, transparent 50%);
+      background: linear-gradient(to top, rgba(10,10,10,.85) 0%, transparent 50%);
       opacity: 0;
       transition: opacity .5s var(--ease);
     }
@@ -570,26 +569,22 @@
       z-index: 2;
     }
 
-    /* ── Masonry layout for portrait/landscape mix ── */
     .portfolio-item.landscape {
       grid-column: span 2;
       aspect-ratio: 16/9;
-    }
-    .portfolio-item.portrait {
-      aspect-ratio: 4/5;
     }
     .portfolio-item.square {
       aspect-ratio: 1/1;
     }
 
     /* ═══════════════════════════════════════════════
-       LIGHTBOX
+       LIGHTBOX (enhanced to show extra fields)
     ═══════════════════════════════════════════════ */
     .lightbox {
       position: fixed;
       inset: 0;
       z-index: 999;
-      background: rgba(10, 10, 10, .95);
+      background: rgba(10,10,10,.95);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -636,7 +631,7 @@
     }
     .lightbox .lightbox-content {
       max-width: 80vw;
-      max-height: 80vh;
+      max-height: 70vh;
       object-fit: contain;
     }
     .lightbox .lightbox-info {
@@ -646,6 +641,7 @@
       transform: translateX(-50%);
       text-align: center;
       color: var(--ivory);
+      max-width: 90%;
     }
     .lightbox .lightbox-info .lb-cat {
       font-size: .6rem;
@@ -660,12 +656,29 @@
     }
     .lightbox .lightbox-info .lb-desc {
       font-size: .85rem;
-      color: rgba(245, 240, 232, .5);
+      color: rgba(245,240,232,.5);
       margin-top: .2rem;
+    }
+    /* extra fields in lightbox */
+    .lightbox .lightbox-info .lb-extra {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1.5rem;
+      margin-top: .5rem;
+      font-size: .7rem;
+      color: rgba(245,240,232,.4);
+      letter-spacing: .05em;
+    }
+    .lightbox .lightbox-info .lb-extra span {
+      background: rgba(201,168,76,.1);
+      padding: .1rem .8rem;
+      border-radius: 20px;
+      border: 1px solid rgba(201,168,76,.15);
     }
 
     /* ═══════════════════════════════════════════════
-       PARALLAX DIVIDER
+       PARALLAX DIVIDER & CTA & FOOTER (unchanged)
     ═══════════════════════════════════════════════ */
     .parallax-divider {
       position: relative;
@@ -684,7 +697,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(10, 10, 10, .55);
+      background: rgba(10,10,10,.55);
     }
     .parallax-divider .content {
       position: relative;
@@ -704,13 +717,12 @@
     }
     .parallax-divider .content p {
       font-size: 1rem;
-      color: rgba(245, 240, 232, .7);
+      color: rgba(245,240,232,.7);
       letter-spacing: .05em;
       line-height: 1.8;
       margin-top: .5rem;
     }
 
-    /* ── CTA ── */
     .cta-section {
       background: var(--ink);
       text-align: center;
@@ -723,10 +735,9 @@
       margin: 0 auto 2rem;
     }
 
-    /* ── FOOTER ── */
     footer {
       background: #050505;
-      border-top: 1px solid rgba(201, 168, 76, .15);
+      border-top: 1px solid rgba(201,168,76,.15);
     }
     .footer-top {
       padding: 6rem 5vw 4rem;
@@ -737,7 +748,7 @@
     .footer-brand p {
       font-size: .88rem;
       line-height: 1.9;
-      color: rgba(245, 240, 232, .45);
+      color: rgba(245,240,232,.45);
       margin: 1.5rem 0 2rem;
       max-width: 280px;
     }
@@ -748,12 +759,12 @@
     .soc-btn {
       width: 38px;
       height: 38px;
-      border: 1px solid rgba(245, 240, 232, .15);
+      border: 1px solid rgba(245,240,232,.15);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: .85rem;
-      color: rgba(245, 240, 232, .5);
+      color: rgba(245,240,232,.5);
       transition: border-color .3s, color .3s, background .3s;
     }
     .soc-btn:hover {
@@ -771,7 +782,7 @@
     .footer-col a {
       display: block;
       font-size: .88rem;
-      color: rgba(245, 240, 232, .45);
+      color: rgba(245,240,232,.45);
       margin-bottom: .9rem;
       transition: color .3s, paddingLeft .3s;
     }
@@ -784,7 +795,7 @@
       align-items: center;
       gap: .7rem;
       font-size: .85rem;
-      color: rgba(245, 240, 232, .45);
+      color: rgba(245,240,232,.45);
       margin-bottom: .9rem;
     }
     .footer-contact-line svg {
@@ -806,18 +817,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(245, 240, 232, .06);
+      border-top: 1px solid rgba(245,240,232,.06);
       flex-wrap: wrap;
       gap: 1rem;
     }
     .footer-copy {
       font-size: .75rem;
-      color: rgba(245, 240, 232, .3);
+      color: rgba(245,240,232,.3);
       letter-spacing: .05em;
     }
     .footer-credit {
       font-size: .75rem;
-      color: rgba(245, 240, 232, .3);
+      color: rgba(245,240,232,.3);
     }
     .footer-credit a {
       color: var(--gold);
@@ -827,7 +838,6 @@
       opacity: .7
     }
 
-    /* ── WHATSAPP FLOAT ── */
     #wa-float {
       position: fixed;
       bottom: 2.5rem;
@@ -840,21 +850,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 24px rgba(37, 211, 102, .35);
+      box-shadow: 0 4px 24px rgba(37,211,102,.35);
       animation: wa-pulse 3s ease-in-out infinite;
       transition: transform .3s var(--slow), box-shadow .3s;
     }
     #wa-float:hover {
       transform: scale(1.12);
-      box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
+      box-shadow: 0 8px 32px rgba(37,211,102,.5)
     }
     @keyframes wa-pulse {
       0%,
       100% {
-        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
+        box-shadow: 0 4px 24px rgba(37,211,102,.35), 0 0 0 0 rgba(37,211,102,.3)
       }
       50% {
-        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
+        box-shadow: 0 4px 24px rgba(37,211,102,.35), 0 0 0 12px rgba(37,211,102,0)
       }
     }
 
@@ -985,32 +995,6 @@
         transition-duration: .01ms !important;
       }
     }
-
-    .mob-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      font-size: 2.2rem;
-      color: var(--ivory);
-      background: none;
-      border: none;
-      cursor: pointer;
-      opacity: 0.5;
-      transition: opacity .3s, transform .3s;
-      line-height: 1;
-      padding: 0.5rem;
-    }
-    .mob-close:hover {
-      opacity: 1;
-      transform: rotate(90deg);
-    }
-    @media(max-width:768px) {
-      .mob-close {
-        top: 1rem;
-        right: 1rem;
-        font-size: 2rem;
-      }
-    }
   </style>
 </head>
 <body>
@@ -1040,7 +1024,7 @@
     </a>
 
     <ul class="nav-links" role="list">
-      <li><a href="index.html" >Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about">About</a></li>
       <li><a href="services">Services</a></li>
       <li><a href="collections">Collections</a></li>
@@ -1194,6 +1178,7 @@
       <div class="lb-cat" id="lb-cat"></div>
       <div class="lb-name" id="lb-name"></div>
       <div class="lb-desc" id="lb-desc"></div>
+      <div class="lb-extra" id="lb-extra"></div>
     </div>
   </div>
 
@@ -1201,7 +1186,7 @@
      JAVASCRIPT
   ═══════════════════════════════════════════════ -->
   <script>
-    // ── Firebase Config (REPLACE WITH YOUR OWN) ──
+    // ── Firebase Config ──
     const firebaseConfig = {
       apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
       authDomain: "gokecouture-26a61.firebaseapp.com",
@@ -1214,7 +1199,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── Cursor ──────────────────────────────────────
+    // ── Cursor (unchanged) ──
     (function() {
       const dot = document.getElementById('cursor-dot');
       const ring = document.getElementById('cursor-ring');
@@ -1247,7 +1232,7 @@
       }
     })();
 
-    // ── Scroll progress ──────────────────────────────
+    // ── Scroll progress ──
     (function() {
       const sbar = document.getElementById('scroll-bar');
       window.addEventListener('scroll', function() {
@@ -1257,7 +1242,7 @@
       }, { passive: true });
     })();
 
-    // ── Sticky nav ───────────────────────────────────
+    // ── Sticky nav ──
     (function() {
       const nav = document.getElementById('nav');
       window.addEventListener('scroll', function() {
@@ -1265,7 +1250,7 @@
       }, { passive: true });
     })();
 
-    // ── Mobile menu ──────────────────────────────────
+    // ── Mobile menu ──
     (function() {
       const ham = document.getElementById('hamburger');
       const mNav = document.getElementById('mobile-nav');
@@ -1310,7 +1295,7 @@
       });
     })();
 
-    // ── Hero background slideshow ─────────────────────
+    // ── Hero background slideshow ──
     (function() {
       const slides = document.querySelectorAll('.bg-slide');
       let current = 0;
@@ -1322,16 +1307,17 @@
       }, 5000);
     })();
 
-    // ── Filter functionality ──────────────────────────
+    // ── Filter functionality ──
     (function() {
       const filterBtns = document.querySelectorAll('.filter-btn');
-      const items = document.querySelectorAll('.portfolio-item');
+      const container = document.getElementById('portfolio-grid-container');
 
       filterBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
           filterBtns.forEach(function(b) { b.classList.remove('active'); });
           btn.classList.add('active');
           const filter = btn.dataset.filter;
+          const items = container.querySelectorAll('.portfolio-item');
           items.forEach(function(item) {
             if (filter === 'all' || item.dataset.category === filter) {
               item.style.display = 'block';
@@ -1343,13 +1329,14 @@
       });
     })();
 
-    // ── Lightbox ──────────────────────────────────────
+    // ── Lightbox ──
     (function() {
       const lightbox = document.getElementById('lightbox');
       const lbImg = document.getElementById('lb-img');
       const lbCat = document.getElementById('lb-cat');
       const lbName = document.getElementById('lb-name');
       const lbDesc = document.getElementById('lb-desc');
+      const lbExtra = document.getElementById('lb-extra');
       const closeBtn = document.getElementById('lb-close');
       const prevBtn = document.getElementById('lb-prev');
       const nextBtn = document.getElementById('lb-next');
@@ -1372,11 +1359,22 @@
         const cat = label ? label.querySelector('.cat') : null;
         const name = label ? label.querySelector('.name') : null;
         const desc = label ? label.querySelector('.desc') : null;
+        const extraData = item.dataset.extra ? JSON.parse(item.dataset.extra) : {};
+
         lbImg.src = img ? img.src : '';
         lbImg.alt = img ? img.alt : '';
         lbCat.textContent = cat ? cat.textContent : '';
         lbName.textContent = name ? name.textContent : '';
         lbDesc.textContent = desc ? desc.textContent : '';
+
+        // Build extra fields
+        let extraHtml = '';
+        if (extraData.client) extraHtml += `<span>👤 ${extraData.client}</span>`;
+        if (extraData.location) extraHtml += `<span>📍 ${extraData.location}</span>`;
+        if (extraData.budget) extraHtml += `<span>💰 ${extraData.budget}</span>`;
+        if (extraData.materials) extraHtml += `<span>🧵 ${extraData.materials}</span>`;
+        if (extraData.timeline) extraHtml += `<span>⏱️ ${extraData.timeline}</span>`;
+        lbExtra.innerHTML = extraHtml;
       }
 
       function closeLightbox() {
@@ -1437,38 +1435,54 @@
       });
     })();
 
-    // ── Load from Firebase ────────────────────────────
+    // ── Load from Firebase (UPDATED for new structure) ──
     (function() {
       const container = document.getElementById('portfolio-grid-container');
 
-      // Expanded fallback data with 12 items
+      // Fallback data (with new fields)
       const fallbackData = [
-        { title: 'Ivory Bridal Gown', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Custom lace and beadwork bridal gown' },
-        { title: 'Executive Navy Suit', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Italian wool, fully canvassed' },
-        { title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Hand-embroidered Aso-oke Agbada' },
-        { title: 'Gold Evening Gown', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk evening dress' },
-        { title: 'Bespoke Tuxedo', category: 'menswear', image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Midnight blue tuxedo with satin lapels' },
-        { title: 'Lace Bridal Detail', category: 'bridal', image: 'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'French lace and silk bridal gown' },
-        { title: 'Urban Tailoring', category: 'casual', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Modern casual suit in linen blend' },
-        { title: 'Royal Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Premium Aso-oke with gold embroidery' },
-        { title: 'Evening Silhouette', category: 'evening', image: 'https://images.unsplash.com/photo-1556761223-4c4282c73f77?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Floor-length silk evening gown' },
-        { title: 'Tailoring Detail', category: 'detail', image: 'https://images.unsplash.com/photo-1548624313-0396c75e0b9e?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Hand-stitched lapel detail' },
-        { title: 'Bridal Portrait', category: 'bridal', image: 'https://images.unsplash.com/photo-1513740876341-5a9a7f12ad61?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Custom bridal gown with long train' },
-        { title: 'Casual Luxury', category: 'casual', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Tailored casual trousers and shirt' }
+        { title: 'Ivory Bridal Gown', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Custom lace and beadwork bridal gown', client: 'Tawio', location: 'Ibadan', budget: '₦1,200,000', materials: 'French lace, silk, crystals' },
+        { title: 'Executive Navy Suit', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Italian wool, fully canvassed', client: 'Mr. Ade', location: 'Lagos', budget: '₦850,000', materials: 'Italian wool, horn buttons' },
+        { title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Hand-embroidered Aso-oke Agbada', client: 'Chief Okafor', location: 'Enugu', budget: '₦2,500,000', materials: 'Aso-oke, gold thread' },
+        { title: 'Gold Evening Gown', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk evening dress', client: 'Mrs. Bello', location: 'Abuja', budget: '₦980,000', materials: 'Silk chiffon, sequins' },
+        { title: 'Bespoke Tuxedo', category: 'menswear', image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Midnight blue tuxedo with satin lapels', client: 'Mr. Johnson', location: 'Ibadan', budget: '₦1,100,000', materials: 'Wool, satin' },
+        { title: 'Lace Bridal Detail', category: 'bridal', image: 'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'French lace and silk bridal gown', client: 'Sarah', location: 'Lagos', budget: '₦1,500,000', materials: 'French lace, silk' }
       ];
 
       function renderItems(data) {
         container.innerHTML = '';
         data.forEach(function(item, index) {
           const div = document.createElement('div');
-          // Alternate aspect ratios for visual interest
           let aspectClass = 'portrait';
           if (index % 4 === 0) aspectClass = 'landscape';
           else if (index % 3 === 0) aspectClass = 'square';
           div.className = `portfolio-item ${aspectClass}`;
           div.dataset.category = item.category || 'other';
+
+          // ─── Extract image URL ──────────────────────────
+          let imageUrl = '';
+          if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+            // new structure: images array of objects with 'url'
+            const first = item.images[0];
+            imageUrl = (typeof first === 'string') ? first : (first.url || '');
+          } else if (item.image && typeof item.image === 'string') {
+            imageUrl = item.image;
+          } else {
+            imageUrl = ''; // fallback to placeholder
+          }
+
+          // ─── Extra fields for lightbox ──────────────────
+          const extra = {
+            client: item.client || '',
+            location: item.location || '',
+            budget: item.budget || '',
+            materials: item.materials || '',
+            timeline: item.timeline || ''
+          };
+          div.dataset.extra = JSON.stringify(extra);
+
           div.innerHTML = `
-            <img src="${item.image}" alt="${item.title}" loading="lazy" />
+            <img src="${imageUrl}" alt="${item.title}" loading="lazy" />
             ${item.isNew ? '<div class="badge-new">New</div>' : ''}
             <div class="overlay"></div>
             <div class="label">
@@ -1495,7 +1509,7 @@
         }
       }
 
-      // Try to load from Firebase
+      // Load from Firebase
       const portfolioRef = db.ref('portfolio');
       portfolioRef.once('value').then(function(snapshot) {
         const data = snapshot.val();
