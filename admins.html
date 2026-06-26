@@ -159,14 +159,14 @@
     // 🔥 FIREBASE CONFIG – REPLACE WITH YOUR OWN
     // ════════════════════════════════════════════════════
     const firebaseConfig = {
-         apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
+        apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
         authDomain: "gokecouture-26a61.firebaseapp.com",
         databaseURL: "https://gokecouture-26a61-default-rtdb.firebaseio.com",
         projectId: "gokecouture-26a61",
         storageBucket: "gokecouture-26a61.firebasestorage.app",
         messagingSenderId: "527866719903",
         appId: "1:527866719903:web:c3bb9997ecde72cac43caa"
-       };
+    };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
@@ -365,16 +365,30 @@
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
 
+        // ─── Build imageItems from either 'images' array or single 'image' string ───
         if (mode === 'add') {
             imageItems = [];
-        } else if (data && data.images && Array.isArray(data.images)) {
-            imageItems = data.images.map(img => ({
-                file: null,
-                existingUrl: img.url || img,
-                label: img.label || '',
-                isNew: false,
-                previewUrl: img.url || img
-            }));
+        } else if (data) {
+            if (data.images && Array.isArray(data.images) && data.images.length > 0) {
+                imageItems = data.images.map(img => ({
+                    file: null,
+                    existingUrl: img.url || img,
+                    label: img.label || '',
+                    isNew: false,
+                    previewUrl: img.url || img
+                }));
+            } else if (data.image && typeof data.image === 'string') {
+                // Fallback: single image as a string
+                imageItems = [{
+                    file: null,
+                    existingUrl: data.image,
+                    label: '',
+                    isNew: false,
+                    previewUrl: data.image
+                }];
+            } else {
+                imageItems = [];
+            }
         } else {
             imageItems = [];
         }
@@ -546,7 +560,6 @@
                     const data = await response.json();
                     console.log('📸 ImageKit response:', data);
 
-                    // ✅ Robust URL extraction
                     let imageUrl = data.url || data.fileUrl || data.filePath || '';
                     if (!imageUrl.startsWith('http')) {
                         imageUrl = IMAGEKIT_BASE_URL + (imageUrl.startsWith('/') ? '' : '/') + imageUrl;
@@ -565,9 +578,11 @@
 
         uploadImages()
             .then(function(imagesArray) {
+                // ─── Build data object ────────────────────────────
                 const data = {
                     title, category, isNew, order,
-                    images: imagesArray,
+                    images: imagesArray,                 // always save the array
+                    image: imagesArray.length > 0 ? imagesArray[0].url : '', // fallback single
                     updatedAt: new Date().toISOString()
                 };
                 if (modalType === 'portfolio') {
@@ -588,7 +603,7 @@
                 } else {
                     promise = db.ref(ref + '/' + modalEditId).update(data);
                 }
-                console.log('💾 Saving data with images:', imagesArray);
+                console.log('💾 Saving data:', data);
                 return promise;
             })
             .then(function() {
@@ -712,17 +727,25 @@
             entries.sort((a, b) => (a[1].order || 0) - (b[1].order || 0));
             entries.forEach(function(entry) {
                 const id = entry[0], item = entry[1];
-                let imagesHtml = '';
+                // ─── Collect image URLs ──────────────────────────
+                let imageUrls = [];
                 if (item.images && Array.isArray(item.images) && item.images.length > 0) {
-                    const imgs = item.images.slice(0, 3);
-                    imagesHtml = imgs.map(img => {
-                        const imgUrl = img.url || img;
-                        return `<img src="${imgUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin:2px;" onerror="this.style.display='none'" />`;
-                    }).join('');
-                    if (item.images.length > 3) imagesHtml += `<span style="font-size:.6rem;color:rgba(245,240,232,.3);">+${item.images.length-3}</span>`;
+                    imageUrls = item.images.map(img => img.url || img);
+                } else if (item.image && typeof item.image === 'string') {
+                    imageUrls = [item.image];
+                }
+                // ─── Build thumbnails ────────────────────────────
+                let imagesHtml = '';
+                if (imageUrls.length > 0) {
+                    const imgs = imageUrls.slice(0, 3);
+                    imagesHtml = imgs.map(url => 
+                        `<img src="${url}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin:2px;" onerror="this.style.display='none'" />`
+                    ).join('');
+                    if (imageUrls.length > 3) imagesHtml += `<span style="font-size:.6rem;color:rgba(245,240,232,.3);">+${imageUrls.length-3}</span>`;
                 } else {
                     imagesHtml = '<span style="color:rgba(245,240,232,.2);">No images</span>';
                 }
+                // ─── Details ──────────────────────────────────────
                 const details = [];
                 if (item.client) details.push('👤 ' + item.client);
                 if (item.location) details.push('📍 ' + item.location);
@@ -775,9 +798,15 @@
             entries.forEach(function(entry) {
                 const id = entry[0], item = entry[1];
                 let thumb = '';
+                // Get first image from either images array or single image
+                let firstUrl = '';
                 if (item.images && Array.isArray(item.images) && item.images.length > 0) {
-                    const first = item.images[0];
-                    thumb = `<img src="${first.url || first}" style="width:60px;height:60px;object-fit:cover;background:rgba(255,255,255,.05);" onerror="this.style.display='none'" />`;
+                    firstUrl = item.images[0].url || item.images[0];
+                } else if (item.image && typeof item.image === 'string') {
+                    firstUrl = item.image;
+                }
+                if (firstUrl) {
+                    thumb = `<img src="${firstUrl}" style="width:60px;height:60px;object-fit:cover;background:rgba(255,255,255,.05);" onerror="this.style.display='none'" />`;
                 } else {
                     thumb = '<span style="color:rgba(245,240,232,.2);">No image</span>';
                 }
