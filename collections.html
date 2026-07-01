@@ -3,36 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Collections — Goke Couture | Premium Bespoke Tailoring</title>
-  <meta name="description" content="Explore Goke Couture's latest collections — bridal, agbada, suits, and more. Each piece is a masterpiece of precision tailoring." />
-  <meta property="og:title" content="Collections — Goke Couture" />
-  <meta property="og:description" content="Discover our latest collections, crafted with precision and passion." />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" />
+  <title>Collections — Goke Couture | Expertise in Bespoke Tailoring</title>
+  <meta name="description" content="Explore our expert collections — each a testament to precision, heritage, and contemporary luxury." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
-  <!-- Firebase SDKs -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <style>
-    /* ═══════════════════════════════════════════════
-       TOKENS (same as homepage)
-    ═══════════════════════════════════════════════ */
+    /* ── Same styles as before ── */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
       --gold: #C9A84C;
       --gold-lt: #E8D48A;
       --sage: #2D5016;
+      --charcoal: #1A1A1A;
+      --warm-gold: #B8943C;
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body: 'Jost', system-ui, sans-serif;
-      --ease: cubic-bezier(.25, .46, .45, .94);
-      --slow: cubic-bezier(.16, 1, .3, 1);
+      --ease: cubic-bezier(.25,.46,.45,.94);
+      --slow: cubic-bezier(.16,1,.3,1);
     }
-
-    /* ═══════════════════════════════════════════════
-       RESET (same as homepage)
-    ═══════════════════════════════════════════════ */
     *,
     *::before,
     *::after {
@@ -50,7 +42,7 @@
       font-family: var(--font-body);
       font-weight: 300;
       overflow-x: hidden;
-      cursor: none;
+      cursor: default;
     }
     img {
       display: block;
@@ -61,16 +53,15 @@
       color: inherit
     }
     button {
-      cursor: none;
       border: none;
       background: none;
-      font-family: inherit
+      font-family: inherit;
+      cursor: pointer;
     }
     ul {
       list-style: none
     }
 
-    /* ── CUSTOM CURSOR ── */
     #cursor-dot {
       position: fixed;
       width: 8px;
@@ -86,7 +77,7 @@
       position: fixed;
       width: 36px;
       height: 36px;
-      border: 1.5px solid rgba(201, 168, 76, .5);
+      border: 1.5px solid rgba(201,168,76,.5);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9998;
@@ -113,19 +104,17 @@
       }
     }
 
-    /* ── SCROLL PROGRESS ── */
     #scroll-bar {
       position: fixed;
       top: 0;
       left: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--sage), var(--gold));
+      background: linear-gradient(90deg, var(--warm-gold), var(--gold));
       width: 0%;
       z-index: 9000;
       transition: width .1s linear;
     }
 
-    /* ── NAVIGATION ── */
     #nav {
       position: fixed;
       top: 0;
@@ -141,11 +130,11 @@
         backdrop-filter .5s;
     }
     #nav.scrolled {
-      background: rgba(10, 10, 10, .92);
+      background: rgba(10,10,10,.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       height: 64px;
-      border-bottom: 1px solid rgba(201, 168, 76, .15);
+      border-bottom: 1px solid rgba(201,168,76,.15);
     }
     .nav-logo {
       display: flex;
@@ -189,7 +178,7 @@
       letter-spacing: .2em;
       text-transform: uppercase;
       font-weight: 400;
-      color: rgba(245, 240, 232, .75);
+      color: rgba(245,240,232,.75);
       position: relative;
       transition: color .3s;
     }
@@ -288,21 +277,23 @@
     }
     .mob-close {
       position: absolute;
-      top: 2rem;
-      right: 2rem;
-      font-size: 2rem;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2.2rem;
       color: var(--ivory);
       background: none;
       border: none;
       cursor: pointer;
       opacity: 0.6;
-      transition: opacity .3s;
+      transition: opacity .3s, transform .3s;
+      line-height: 1;
+      padding: 0.5rem;
     }
     .mob-close:hover {
       opacity: 1;
+      transform: rotate(90deg);
     }
 
-    /* ── BUTTONS ── */
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -323,66 +314,26 @@
       transform: translateY(-2px);
       letter-spacing: .28em
     }
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: .6rem;
-      font-size: .72rem;
-      letter-spacing: .22em;
+    .btn-outline-gold {
+      font-size: .68rem;
+      letter-spacing: .2em;
       text-transform: uppercase;
-      font-weight: 400;
-      padding: .9rem 2.4rem;
-      border: 1px solid rgba(245, 240, 232, .4);
-      color: var(--ivory);
-      transition: border-color .3s, transform .3s var(--slow);
+      padding: .6rem 1.8rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
       background: transparent;
+      transition: background .3s, color .3s;
       cursor: none;
     }
-    .btn-ghost:hover {
-      border-color: var(--ivory);
-      transform: translateY(-2px)
+    .btn-outline-gold:hover {
+      background: var(--gold);
+      color: var(--ink);
     }
 
-    /* ── SECTION COMMONS ── */
-    section {
-      padding: 8rem 5vw;
-    }
-    .sec-eyebrow {
-      font-size: .68rem;
-      letter-spacing: .4em;
-      text-transform: uppercase;
-      font-weight: 400;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
-      display: block;
-    }
-    .sec-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      font-weight: 300;
-      line-height: 1.1;
-      color: var(--ivory);
-    }
-    .sec-title em {
-      font-style: italic;
-      color: var(--gold)
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity .9s var(--slow), transform .9s var(--slow);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none
-    }
-
-    /* ═══════════════════════════════════════════════
-       COLLECTIONS HERO
-    ═══════════════════════════════════════════════ */
+    /* ── Hero ── */
     .collections-hero {
       position: relative;
-      min-height: 70vh;
+      min-height: 80vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -391,60 +342,30 @@
       overflow: hidden;
       background: var(--ink);
     }
-    .collections-hero .bg-slides {
+    .collections-hero .bg {
       position: absolute;
       inset: 0;
+      background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1800&q=85&auto=format&fit=crop') center/cover no-repeat;
+      opacity: .15;
       z-index: 0;
-    }
-    .collections-hero .bg-slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1.4s var(--ease);
-    }
-    .collections-hero .bg-slide.active {
-      opacity: 1;
-    }
-    .collections-hero .bg-slide::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(10, 10, 10, .9), rgba(10, 10, 10, .5));
-    }
-    .collections-hero .monogram {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: var(--font-display);
-      font-size: clamp(12rem, 30vw, 25rem);
-      font-weight: 300;
-      color: rgba(201, 168, 76, .08);
-      pointer-events: none;
-      z-index: 1;
-      letter-spacing: 0.1em;
-      line-height: 1;
-      user-select: none;
     }
     .collections-hero .content {
       position: relative;
       z-index: 2;
-      max-width: 800px;
+      max-width: 900px;
     }
     .collections-hero .content .eyebrow {
       font-size: .7rem;
-      letter-spacing: .45em;
+      letter-spacing: .5em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 1.5rem;
     }
     .collections-hero .content h1 {
       font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 5rem);
+      font-size: clamp(3.5rem, 8vw, 6rem);
       font-weight: 300;
-      line-height: 1.1;
+      line-height: 1.05;
       color: var(--ivory);
       margin-bottom: 1.5rem;
     }
@@ -452,38 +373,171 @@
       font-style: italic;
       color: var(--gold);
     }
-    .collections-hero .content p {
-      font-size: 1.05rem;
-      color: rgba(245, 240, 232, .7);
+    .collections-hero .content .quote {
+      font-size: 1.2rem;
+      color: rgba(245,240,232,.7);
+      font-style: italic;
+      max-width: 700px;
+      margin: 0 auto 2rem;
       line-height: 1.8;
-      max-width: 600px;
-      margin: 0 auto;
+      font-family: var(--font-display);
+      letter-spacing: .02em;
+    }
+    .collections-hero .content .attribution {
+      font-size: .85rem;
+      color: rgba(245,240,232,.4);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .expertise-badge {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: .5rem 1.8rem;
+      border: 1px solid rgba(201,168,76,.3);
+      font-size: .65rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,168,76,.05);
+      backdrop-filter: blur(4px);
     }
 
-    /* ═══════════════════════════════════════════════
-       FILTER & GRID
-    ═══════════════════════════════════════════════ */
-    #collections-grid {
+    /* ── Featured ── */
+    #featured-collections {
+      padding: 6rem 5vw 4rem;
+      background: var(--charcoal);
+    }
+    .featured-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .featured-header .sec-eyebrow {
+      font-size: .7rem;
+      letter-spacing: .4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: .5rem;
+    }
+    .featured-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 300;
+      color: var(--ivory);
+    }
+    .featured-header h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .featured-card {
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      aspect-ratio: 4/3;
+      cursor: none;
+      border: 1px solid rgba(201,168,76,.1);
+      transition: border-color .3s;
+    }
+    .featured-card:hover {
+      border-color: var(--gold);
+    }
+    .featured-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s var(--slow), filter .5s;
+      filter: grayscale(30%);
+    }
+    .featured-card:hover img {
+      transform: scale(1.05);
+      filter: grayscale(0%);
+    }
+    .featured-card .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,.85) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+    .featured-card .overlay .cat {
+      font-size: .6rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .featured-card .overlay h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--ivory);
+      margin: .2rem 0 .5rem;
+    }
+    .featured-card .overlay p {
+      font-size: .9rem;
+      color: rgba(245,240,232,.6);
+      max-width: 80%;
+    }
+    .featured-card .badge-new {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: var(--gold);
+      color: var(--ink);
+      padding: .2rem 1rem;
+      font-size: .55rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      z-index: 2;
+    }
+
+    /* ── All Collections ── */
+    #all-collections {
+      padding: 4rem 5vw 6rem;
       background: var(--ink);
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(201,168,76,.1);
+      padding-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      color: var(--ivory);
+    }
+    .section-header h2 em {
+      font-style: italic;
+      color: var(--gold);
     }
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: .8rem;
-      margin-bottom: 3rem;
-      justify-content: center;
+      gap: .6rem;
     }
     .filter-btn {
-      font-size: .68rem;
+      font-size: .6rem;
       letter-spacing: .2em;
       text-transform: uppercase;
       font-weight: 400;
-      padding: .5rem 1.8rem;
-      border: 1px solid rgba(245, 240, 232, .15);
-      color: rgba(245, 240, 232, .5);
+      padding: .4rem 1.4rem;
+      border: 1px solid rgba(245,240,232,.15);
+      color: rgba(245,240,232,.5);
       transition: all .3s var(--ease);
-      cursor: none;
       background: transparent;
+      cursor: none;
     }
     .filter-btn:hover {
       border-color: var(--gold);
@@ -498,86 +552,91 @@
     .collections-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      background: rgba(201, 168, 76, .12);
+      gap: 1.5rem;
     }
-    .collection-item {
-      position: relative;
-      overflow: hidden;
+    .collection-card {
       background: #111;
+      border: 1px solid rgba(245,240,232,.06);
+      transition: transform .4s var(--slow), border-color .3s;
       cursor: none;
-      aspect-ratio: 4/5;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .collection-item img {
+    .collection-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201,168,76,.3);
+    }
+    .collection-card .card-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #1a1a1a;
+      position: relative;
+    }
+    .collection-card .card-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform .9s var(--slow), filter .6s var(--ease);
-      filter: grayscale(30%);
+      transition: transform .7s var(--slow), filter .5s;
+      filter: grayscale(20%);
     }
-    .collection-item:hover img {
-      transform: scale(1.07);
+    .collection-card:hover .card-img img {
+      transform: scale(1.06);
       filter: grayscale(0%);
     }
-    .collection-item .overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(10, 10, 10, .85) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity .5s var(--ease);
+    .collection-card .card-body {
+      padding: 1.2rem 1.5rem 1.8rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
-    .collection-item:hover .overlay {
-      opacity: 1;
-    }
-    .collection-item .label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1.8rem;
-      transform: translateY(10px);
-      opacity: 0;
-      transition: opacity .5s var(--ease), transform .5s var(--slow);
-    }
-    .collection-item:hover .label {
-      opacity: 1;
-      transform: none;
-    }
-    .collection-item .label .cat {
-      font-size: .6rem;
+    .collection-card .card-body .cat {
+      font-size: .55rem;
       letter-spacing: .3em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: .3rem;
     }
-    .collection-item .label .name {
+    .collection-card .card-body h3 {
       font-family: var(--font-display);
       font-size: 1.2rem;
       font-weight: 400;
       color: var(--ivory);
     }
-    .collection-item .badge-new {
+    .collection-card .card-body .desc {
+      font-size: .85rem;
+      color: rgba(245,240,232,.5);
+      margin: .4rem 0 1rem;
+      flex: 1;
+    }
+    .collection-card .card-body .btn-outline-gold {
+      align-self: flex-start;
+      font-size: .6rem;
+      padding: .3rem 1.2rem;
+    }
+    .collection-card .badge-new {
       position: absolute;
-      top: 1.2rem;
-      right: 1.2rem;
+      top: 0.8rem;
+      right: 0.8rem;
       background: var(--gold);
       color: var(--ink);
-      padding: .2rem 1rem;
-      font-size: .55rem;
+      padding: .1rem .8rem;
+      font-size: .5rem;
       letter-spacing: .15em;
       text-transform: uppercase;
       font-weight: 500;
       z-index: 2;
     }
+    .collection-card {
+      position: relative;
+    }
 
-    /* ═══════════════════════════════════════════════
-       LIGHTBOX
-    ═══════════════════════════════════════════════ */
+    /* ── Lightbox ── */
     .lightbox {
       position: fixed;
       inset: 0;
       z-index: 999;
-      background: rgba(10, 10, 10, .95);
+      background: rgba(10,10,10,.95);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -624,7 +683,7 @@
     }
     .lightbox .lightbox-content {
       max-width: 80vw;
-      max-height: 80vh;
+      max-height: 70vh;
       object-fit: contain;
     }
     .lightbox .lightbox-info {
@@ -634,6 +693,7 @@
       transform: translateX(-50%);
       text-align: center;
       color: var(--ivory);
+      max-width: 90%;
     }
     .lightbox .lightbox-info .lb-cat {
       font-size: .6rem;
@@ -646,58 +706,18 @@
       font-size: 1.4rem;
       font-weight: 300;
     }
-
-    /* ═══════════════════════════════════════════════
-       PARALLAX DIVIDER
-    ═══════════════════════════════════════════════ */
-    .parallax-divider {
-      position: relative;
-      height: 50vh;
-      min-height: 300px;
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-    }
-    .parallax-divider::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(10, 10, 10, .55);
-    }
-    .parallax-divider .content {
-      position: relative;
-      z-index: 1;
-      padding: 2rem;
-    }
-    .parallax-divider .content h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 300;
-      color: var(--ivory);
-      line-height: 1.1;
-    }
-    .parallax-divider .content h2 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-    .parallax-divider .content p {
-      font-size: 1rem;
-      color: rgba(245, 240, 232, .7);
-      letter-spacing: .05em;
-      line-height: 1.8;
-      margin-top: .5rem;
+    .lightbox .lightbox-info .lb-desc {
+      font-size: .85rem;
+      color: rgba(245,240,232,.5);
+      margin-top: .2rem;
     }
 
-    /* ── CTA ── */
+    /* ── CTA & Footer ── */
     .cta-section {
       background: var(--ink);
       text-align: center;
       padding: 6rem 5vw;
+      border-top: 1px solid rgba(201,168,76,.1);
     }
     .cta-divider {
       width: 1px;
@@ -705,11 +725,9 @@
       background: var(--gold);
       margin: 0 auto 2rem;
     }
-
-    /* ── FOOTER ── */
     footer {
       background: #050505;
-      border-top: 1px solid rgba(201, 168, 76, .15);
+      border-top: 1px solid rgba(201,168,76,.15);
     }
     .footer-top {
       padding: 6rem 5vw 4rem;
@@ -720,7 +738,7 @@
     .footer-brand p {
       font-size: .88rem;
       line-height: 1.9;
-      color: rgba(245, 240, 232, .45);
+      color: rgba(245,240,232,.45);
       margin: 1.5rem 0 2rem;
       max-width: 280px;
     }
@@ -731,12 +749,12 @@
     .soc-btn {
       width: 38px;
       height: 38px;
-      border: 1px solid rgba(245, 240, 232, .15);
+      border: 1px solid rgba(245,240,232,.15);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: .85rem;
-      color: rgba(245, 240, 232, .5);
+      color: rgba(245,240,232,.5);
       transition: border-color .3s, color .3s, background .3s;
     }
     .soc-btn:hover {
@@ -754,7 +772,7 @@
     .footer-col a {
       display: block;
       font-size: .88rem;
-      color: rgba(245, 240, 232, .45);
+      color: rgba(245,240,232,.45);
       margin-bottom: .9rem;
       transition: color .3s, paddingLeft .3s;
     }
@@ -767,7 +785,7 @@
       align-items: center;
       gap: .7rem;
       font-size: .85rem;
-      color: rgba(245, 240, 232, .45);
+      color: rgba(245,240,232,.45);
       margin-bottom: .9rem;
     }
     .footer-contact-line svg {
@@ -789,18 +807,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(245, 240, 232, .06);
+      border-top: 1px solid rgba(245,240,232,.06);
       flex-wrap: wrap;
       gap: 1rem;
     }
     .footer-copy {
       font-size: .75rem;
-      color: rgba(245, 240, 232, .3);
+      color: rgba(245,240,232,.3);
       letter-spacing: .05em;
     }
     .footer-credit {
       font-size: .75rem;
-      color: rgba(245, 240, 232, .3);
+      color: rgba(245,240,232,.3);
     }
     .footer-credit a {
       color: var(--gold);
@@ -809,8 +827,6 @@
     .footer-credit a:hover {
       opacity: .7
     }
-
-    /* ── WHATSAPP FLOAT ── */
     #wa-float {
       position: fixed;
       bottom: 2.5rem;
@@ -823,35 +839,33 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 24px rgba(37, 211, 102, .35);
+      box-shadow: 0 4px 24px rgba(37,211,102,.35);
       animation: wa-pulse 3s ease-in-out infinite;
       transition: transform .3s var(--slow), box-shadow .3s;
     }
     #wa-float:hover {
       transform: scale(1.12);
-      box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
+      box-shadow: 0 8px 32px rgba(37,211,102,.5)
     }
     @keyframes wa-pulse {
       0%,
       100% {
-        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
+        box-shadow: 0 4px 24px rgba(37,211,102,.35), 0 0 0 0 rgba(37,211,102,.3)
       }
       50% {
-        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
+        box-shadow: 0 4px 24px rgba(37,211,102,.35), 0 0 0 12px rgba(37,211,102,0)
       }
     }
 
-    /* ── RESPONSIVE ── */
     @media(max-width:1024px) {
+      .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
       .collections-grid {
         grid-template-columns: 1fr 1fr;
       }
-      .footer-top {
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-      }
     }
-
     @media(max-width:768px) {
       #nav {
         padding: 0 1.2rem;
@@ -868,81 +882,33 @@
         display: flex
       }
       .collections-hero {
-        min-height: 50vh;
+        min-height: 60vh;
         padding: 8rem 5vw 4rem;
       }
       .collections-hero .content h1 {
-        font-size: 2.6rem;
-      }
-      section {
-        padding: 4rem 5vw;
+        font-size: 2.8rem;
       }
       .collections-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+      }
+      .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
       }
       .filter-bar {
-        gap: .5rem;
+        justify-content: flex-start;
       }
-      .filter-btn {
-        font-size: .6rem;
-        padding: .4rem 1.2rem;
-      }
-      .footer-top {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        padding: 4rem 5vw 2rem;
-      }
-      .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-      }
-      #wa-float {
-        width: 48px;
-        height: 48px;
-        bottom: 1.5rem;
-        right: 1.5rem;
-      }
-      #wa-float svg {
-        width: 22px;
-        height: 22px;
-      }
-      .lightbox .lightbox-content {
-        max-width: 90vw;
-        max-height: 60vh;
-      }
-      .lightbox .nav-btn {
-        font-size: 1.5rem;
-        padding: .5rem;
-      }
-      .lightbox .nav-btn.prev {
-        left: .5rem;
-      }
-      .lightbox .nav-btn.next {
-        right: .5rem;
-      }
-      .parallax-divider {
-        background-attachment: scroll;
-        height: 40vh;
-        min-height: 220px;
+      .featured-card .overlay h3 {
+        font-size: 1.4rem;
       }
     }
-
     @media(max-width:480px) {
-      #nav {
-        padding: 0 1rem;
-        height: 60px;
-      }
-      #nav.scrolled {
-        height: 52px;
-      }
       .collections-hero .content h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
-      .collections-hero .monogram {
-        font-size: clamp(6rem, 15vw, 10rem);
-      }
-      .collections-grid {
-        grid-template-columns: 1fr;
+      .collections-hero .content .quote {
+        font-size: 1rem;
       }
       #cursor-dot,
       #cursor-ring {
@@ -952,42 +918,9 @@
         cursor: auto;
       }
       .btn-primary,
-      .btn-ghost,
+      .btn-outline-gold,
       .filter-btn {
         cursor: auto;
-      }
-    }
-
-    @media(prefers-reduced-motion:reduce) {
-      * {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-    }
-
-    .mob-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      font-size: 2.2rem;
-      color: var(--ivory);
-      background: none;
-      border: none;
-      cursor: pointer;
-      opacity: 0.5;
-      transition: opacity .3s, transform .3s;
-      line-height: 1;
-      padding: 0.5rem;
-    }
-    .mob-close:hover {
-      opacity: 1;
-      transform: rotate(90deg);
-    }
-    @media(max-width:768px) {
-      .mob-close {
-        top: 1rem;
-        right: 1rem;
-        font-size: 2rem;
       }
     }
   </style>
@@ -1019,7 +952,7 @@
     </a>
 
     <ul class="nav-links" role="list">
-      <li><a href="index.html" >Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about">About</a></li>
       <li><a href="services">Services</a></li>
       <li><a href="collections" class="active">Collections</a></li>
@@ -1037,7 +970,7 @@
   <!-- Mobile Nav -->
   <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
     <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
-   <a href="index.html" class="mob-link">Home</a>
+    <a href="index.html" class="mob-link">Home</a>
     <a href="about" class="mob-link">About</a>
     <a href="services" class="mob-link">Services</a>
     <a href="collections" class="mob-link">Collections</a>
@@ -1047,53 +980,53 @@
     <a href="booking" class="mob-link">Book a Fitting</a>
   </div>
 
-  <!-- ── COLLECTIONS HERO ── -->
+  <!-- ── HERO ── -->
   <section class="collections-hero">
-    <div class="bg-slides">
-      <div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1800&q=85&auto=format&fit=crop')"></div>
-      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1800&q=85&auto=format&fit=crop')"></div>
-      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop')"></div>
-      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1800&q=85&auto=format&fit=crop')"></div>
-      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=1800&q=85&auto=format&fit=crop')"></div>
-    </div>
-    <div class="monogram" aria-hidden="true">GC</div>
+    <div class="bg"></div>
     <div class="content">
-      <p class="eyebrow">Our Collections</p>
-      <h1>Curated for the <em>Exceptional</em></h1>
-      <p>Each collection is a testament to our commitment to craftsmanship, heritage, and modern elegance. Explore our latest work.</p>
+      <p class="eyebrow">Curated with Precision</p>
+      <h1>Collections of <em>Expertise</em></h1>
+      <p class="quote">“Each collection is a chapter in our story – a narrative of heritage, innovation, and the relentless pursuit of perfection.”</p>
+      <p class="attribution">— Goke Couture Atelier</p>
+      <div class="expertise-badge">✦ Since 2010 · Master Tailors</div>
     </div>
   </section>
 
-  <!-- ── COLLECTIONS GRID ── -->
-  <section id="collections-grid">
-    <div class="filter-bar" id="filter-bar">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="bridal">Bridal</button>
-      <button class="filter-btn" data-filter="menswear">Menswear</button>
-      <button class="filter-btn" data-filter="traditional">Traditional</button>
-      <button class="filter-btn" data-filter="evening">Evening</button>
-      <button class="filter-btn" data-filter="detail">Detail</button>
-      <button class="filter-btn" data-filter="casual">Casual</button>
+  <!-- ── FEATURED COLLECTIONS ── -->
+  <section id="featured-collections">
+    <div class="featured-header">
+      <span class="sec-eyebrow">Featured</span>
+      <h2>Signature <em>Collections</em></h2>
     </div>
-    <div class="collections-grid" id="collections-grid-container">
-      <!-- Static fallback content will be replaced by Firebase data -->
+    <div class="featured-grid" id="featured-grid">
+      <!-- Dynamically populated -->
     </div>
   </section>
 
-  <!-- ── PARALLAX DIVIDER ── -->
-  <div class="parallax-divider" style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80&auto=format&fit=crop');">
-    <div class="content">
-      <h2>Every Collection <em>Tells a Story</em></h2>
-      <p>From the initial sketch to the final stitch, each piece is a narrative of precision and passion.</p>
+  <!-- ── ALL COLLECTIONS ── -->
+  <section id="all-collections">
+    <div class="section-header">
+      <h2>Explore All <em>Collections</em></h2>
+      <div class="filter-bar" id="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="bridal">Bridal</button>
+        <button class="filter-btn" data-filter="menswear">Menswear</button>
+        <button class="filter-btn" data-filter="traditional">Traditional</button>
+        <button class="filter-btn" data-filter="evening">Evening</button>
+        <button class="filter-btn" data-filter="casual">Casual</button>
+      </div>
     </div>
-  </div>
+    <div class="collections-grid" id="collections-grid">
+      <!-- Dynamically populated -->
+    </div>
+  </section>
 
   <!-- ── CTA ── -->
   <section class="cta-section">
     <div class="cta-divider" aria-hidden="true"></div>
-    <h2 class="sec-title" style="font-size:clamp(2rem,4vw,3.2rem);">Ready to <em>Create</em> Your Own Collection?</h2>
-    <p style="color:rgba(245,240,232,.6);margin:1.5rem 0 2.5rem;font-size:1rem;">Book a consultation and let us bring your vision to life.</p>
-    <a href="booking.html" class="btn-primary">Book Your Fitting</a>
+    <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;">Let’s Create <em>Your</em> Collection</h2>
+    <p style="color:rgba(245,240,232,.6);margin:1.5rem 0 2.5rem;font-size:1rem;">Book a consultation and let our expertise bring your vision to life.</p>
+    <a href="booking.html" class="btn-primary">Book a Consultation</a>
   </section>
 
   <!-- ── FOOTER ── -->
@@ -1174,6 +1107,7 @@
     <div class="lightbox-info" id="lb-info">
       <div class="lb-cat" id="lb-cat"></div>
       <div class="lb-name" id="lb-name"></div>
+      <div class="lb-desc" id="lb-desc"></div>
     </div>
   </div>
 
@@ -1181,7 +1115,7 @@
      JAVASCRIPT
   ═══════════════════════════════════════════════ -->
   <script>
-    // ── Firebase Config (REPLACE WITH YOUR OWN) ──
+    // ── Firebase Config ──
     const firebaseConfig = {
       apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
       authDomain: "gokecouture-26a61.firebaseapp.com",
@@ -1189,12 +1123,12 @@
       projectId: "gokecouture-26a61",
       storageBucket: "gokecouture-26a61.firebasestorage.app",
       messagingSenderId: "527866719903",
-      appId: "1:527866719903:web:c3bb9997ecde72cac43caa""
+      appId: "1:527866719903:web:c3bb9997ecde72cac43caa"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── Cursor ──────────────────────────────────────
+    // ── Cursor ──
     (function() {
       const dot = document.getElementById('cursor-dot');
       const ring = document.getElementById('cursor-ring');
@@ -1219,7 +1153,7 @@
         }
         animRing();
 
-        document.querySelectorAll('a,button,.collection-item,.filter-btn,.btn-primary,.btn-ghost')
+        document.querySelectorAll('a,button,.collection-card,.featured-card,.filter-btn,.btn-primary,.btn-outline-gold')
           .forEach(function(el) {
             el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
             el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
@@ -1227,7 +1161,7 @@
       }
     })();
 
-    // ── Scroll progress ──────────────────────────────
+    // ── Scroll progress ──
     (function() {
       const sbar = document.getElementById('scroll-bar');
       window.addEventListener('scroll', function() {
@@ -1237,7 +1171,7 @@
       }, { passive: true });
     })();
 
-    // ── Sticky nav ───────────────────────────────────
+    // ── Sticky nav ──
     (function() {
       const nav = document.getElementById('nav');
       window.addEventListener('scroll', function() {
@@ -1245,7 +1179,7 @@
       }, { passive: true });
     })();
 
-    // ── Mobile menu ──────────────────────────────────
+    // ── Mobile menu ──
     (function() {
       const ham = document.getElementById('hamburger');
       const mNav = document.getElementById('mobile-nav');
@@ -1290,45 +1224,35 @@
       });
     })();
 
-    // ── Hero background slideshow ─────────────────────
-    (function() {
-      const slides = document.querySelectorAll('.bg-slide');
-      let current = 0;
-      if (!slides.length) return;
-      setInterval(function() {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-      }, 5000);
-    })();
-
-    // ── Filter functionality ──────────────────────────
+    // ── Filter functionality ──
     (function() {
       const filterBtns = document.querySelectorAll('.filter-btn');
-      const items = document.querySelectorAll('.collection-item');
+      const container = document.getElementById('collections-grid');
 
       filterBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
           filterBtns.forEach(function(b) { b.classList.remove('active'); });
           btn.classList.add('active');
           const filter = btn.dataset.filter;
-          items.forEach(function(item) {
-            if (filter === 'all' || item.dataset.category === filter) {
-              item.style.display = 'block';
+          const cards = container.querySelectorAll('.collection-card');
+          cards.forEach(function(card) {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.style.display = 'flex';
             } else {
-              item.style.display = 'none';
+              card.style.display = 'none';
             }
           });
         });
       });
     })();
 
-    // ── Lightbox ──────────────────────────────────────
+    // ── Lightbox ──
     (function() {
       const lightbox = document.getElementById('lightbox');
       const lbImg = document.getElementById('lb-img');
       const lbCat = document.getElementById('lb-cat');
       const lbName = document.getElementById('lb-name');
+      const lbDesc = document.getElementById('lb-desc');
       const closeBtn = document.getElementById('lb-close');
       const prevBtn = document.getElementById('lb-prev');
       const nextBtn = document.getElementById('lb-next');
@@ -1347,13 +1271,14 @@
         const item = currentItems[currentIndex];
         if (!item) return;
         const img = item.querySelector('img');
-        const label = item.querySelector('.label');
-        const cat = label ? label.querySelector('.cat') : null;
-        const name = label ? label.querySelector('.name') : null;
+        const cat = item.querySelector('.cat');
+        const name = item.querySelector('h3, .name');
+        const desc = item.querySelector('.desc');
         lbImg.src = img ? img.src : '';
         lbImg.alt = img ? img.alt : '';
         lbCat.textContent = cat ? cat.textContent : '';
         lbName.textContent = name ? name.textContent : '';
+        lbDesc.textContent = desc ? desc.textContent : '';
       }
 
       function closeLightbox() {
@@ -1373,9 +1298,8 @@
         updateLightbox();
       }
 
-      // Attach click events to collection items (re-attached after render)
       function attachItemEvents() {
-        const items = document.querySelectorAll('.collection-item');
+        const items = document.querySelectorAll('.collection-card, .featured-card');
         items.forEach(function(item) {
           item.removeEventListener('click', itemClickHandler);
           item.addEventListener('click', itemClickHandler);
@@ -1383,7 +1307,7 @@
       }
 
       function itemClickHandler(e) {
-        const allItems = document.querySelectorAll('.collection-item');
+        const allItems = document.querySelectorAll('.collection-card, .featured-card');
         const visibleItems = Array.from(allItems).filter(function(el) {
           return el.style.display !== 'none';
         });
@@ -1393,15 +1317,15 @@
         }
       }
 
-      // Initial attach
       attachItemEvents();
 
-      // Re-attach after dynamic changes
       const observer = new MutationObserver(function() {
         attachItemEvents();
       });
-      const container = document.getElementById('collections-grid-container');
-      if (container) observer.observe(container, { childList: true });
+      const containers = [document.getElementById('collections-grid'), document.getElementById('featured-grid')];
+      containers.forEach(function(c) {
+        if (c) observer.observe(c, { childList: true });
+      });
 
       closeBtn.addEventListener('click', closeLightbox);
       prevBtn.addEventListener('click', prevItem);
@@ -1417,77 +1341,118 @@
       });
     })();
 
-    // ── Load from Firebase ────────────────────────────
+    // ── Load from Firebase with REAL-TIME updates ──
     (function() {
-      const container = document.getElementById('collections-grid-container');
+      const featuredGrid = document.getElementById('featured-grid');
+      const mainGrid = document.getElementById('collections-grid');
 
-      // Expanded fallback data with 12 items
+      // Fallback data
       const fallbackData = [
-        { title: 'The Ivory Bridal Series', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true },
-        { title: 'The Executive Collection', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'Heritage Agbada Series', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'The Gold Evening Edit', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'The Craft Series', category: 'detail', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'Lace & Silhouette', category: 'bridal', image: 'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800&q=80&auto=format&fit=crop', isNew: true },
-        { title: 'Urban Tailoring', category: 'casual', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'Royal Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80&auto=format&fit=crop', isNew: true },
-        { title: 'Bespoke Suit', category: 'menswear', image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'Bridal Lace Detail', category: 'bridal', image: 'https://images.unsplash.com/photo-1513740876341-5a9a7f12ad61?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'Evening Gown', category: 'evening', image: 'https://images.unsplash.com/photo-1556761223-4c4282c73f77?w=800&q=80&auto=format&fit=crop', isNew: false },
-        { title: 'Craftsmanship Detail', category: 'detail', image: 'https://images.unsplash.com/photo-1548624313-0396c75e0b9e?w=800&q=80&auto=format&fit=crop', isNew: false }
+        { title: 'The Bridal Atelier', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Elegance redefined for the modern bride – each gown is a couture masterpiece.' },
+        { title: 'Executive Authority', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sharp, tailored suits that command respect and exude confidence.' },
+        { title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Aso-oke and gold embroidery – a celebration of culture and royalty.' },
+        { title: 'Evening Glamour', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk and dramatic silhouettes for unforgettable nights.' },
+        { title: 'Casual Luxury', category: 'casual', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Effortless style with premium fabrics and relaxed tailoring.' }
       ];
 
-      function renderItems(data) {
-        container.innerHTML = '';
-        data.forEach(function(item) {
+      function getImageUrl(item) {
+        if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+          const first = item.images[0];
+          return typeof first === 'string' ? first : (first.url || '');
+        }
+        if (item.image && typeof item.image === 'string') return item.image;
+        return '';
+      }
+
+      function renderFeatured(items) {
+        featuredGrid.innerHTML = '';
+        const featured = items.slice(0, 2);
+        featured.forEach(function(item) {
           const div = document.createElement('div');
-          div.className = 'collection-item';
-          div.dataset.category = item.category || 'other';
+          div.className = 'featured-card';
+          div.dataset.category = (item.category || 'other').toLowerCase();
+          const imgUrl = getImageUrl(item);
           div.innerHTML = `
-            <img src="${item.image}" alt="${item.title}" loading="lazy" />
+            <img src="${imgUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/800x600/1a1a1a/555?text=Collection'" />
             ${item.isNew ? '<div class="badge-new">New</div>' : ''}
-            <div class="overlay"></div>
-            <div class="label">
-              <div class="cat">${item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : 'Collection'}</div>
-              <div class="name">${item.title}</div>
+            <div class="overlay">
+              <div class="cat">${item.category || 'Collection'}</div>
+              <h3>${item.title}</h3>
+              <p>${item.description || ''}</p>
             </div>
           `;
-          container.appendChild(div);
+          featuredGrid.appendChild(div);
+        });
+      }
+
+      function renderAll(items) {
+        mainGrid.innerHTML = '';
+        if (!items || items.length === 0) {
+          mainGrid.innerHTML = '<p style="text-align:center;padding:4rem;color:rgba(245,240,232,.4);grid-column:1/-1;">No collections yet. Check back soon.</p>';
+          return;
+        }
+        items.forEach(function(item) {
+          const card = document.createElement('div');
+          card.className = 'collection-card';
+          card.dataset.category = (item.category || 'other').toLowerCase();
+          const imgUrl = getImageUrl(item);
+          card.innerHTML = `
+            <div class="card-img">
+              <img src="${imgUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/800x600/1a1a1a/555?text=No+Image'" />
+              ${item.isNew ? '<div class="badge-new">New</div>' : ''}
+            </div>
+            <div class="card-body">
+              <div class="cat">${item.category || 'Collection'}</div>
+              <h3>${item.title}</h3>
+              <div class="desc">${item.description || ''}</div>
+              <button class="btn-outline-gold">View Collection →</button>
+            </div>
+          `;
+          mainGrid.appendChild(card);
         });
 
-        // Re-attach lightbox and filter events
-        // Filter: re-apply current filter if any
-        const activeFilterBtn = document.querySelector('.filter-btn.active');
-        if (activeFilterBtn) {
-          const filter = activeFilterBtn.dataset.filter;
-          const items = container.querySelectorAll('.collection-item');
-          items.forEach(function(item) {
-            if (filter === 'all' || item.dataset.category === filter) {
-              item.style.display = 'block';
+        // Re-apply filter
+        const activeFilter = document.querySelector('.filter-btn.active');
+        if (activeFilter) {
+          const filter = activeFilter.dataset.filter;
+          const cards = mainGrid.querySelectorAll('.collection-card');
+          cards.forEach(function(c) {
+            if (filter === 'all' || c.dataset.category === filter) {
+              c.style.display = 'flex';
             } else {
-              item.style.display = 'none';
+              c.style.display = 'none';
             }
           });
         }
-        // Lightbox will auto-attach via MutationObserver
       }
 
-      // Try to load from Firebase
-      const collectionsRef = db.ref('collections');
-      collectionsRef.once('value').then(function(snapshot) {
+      // ─── REAL-TIME LISTENER ──────────────────────────
+      const ref = db.ref('collections');
+      ref.on('value', function(snapshot) {
         const data = snapshot.val();
+        console.log('🔥 Collections data from Firebase:', data); // DEBUG: Check console
+
+        let items = [];
         if (data) {
-          const items = Object.values(data).sort(function(a, b) {
-            return (a.order || 0) - (b.order || 0);
-          });
-          renderItems(items);
+          // Convert object to array and sort by order
+          items = Object.values(data).sort((a, b) => (a.order || 0) - (b.order || 0));
+          console.log('✅ Loaded ' + items.length + ' collections from Firebase');
         } else {
-          renderItems(fallbackData);
+          console.log('📂 No collections in Firebase, using fallback data');
+          items = fallbackData;
         }
-      }).catch(function() {
-        renderItems(fallbackData);
+
+        renderFeatured(items);
+        renderAll(items);
+      }, function(error) {
+        console.error('❌ Firebase error:', error);
+        renderFeatured(fallbackData);
+        renderAll(fallbackData);
       });
     })();
+
+    // Log to console to confirm script is running
+    console.log('✅ Collections page loaded. Listening for real-time updates...');
   </script>
 </body>
 </html>
