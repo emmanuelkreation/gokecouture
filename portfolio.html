@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio — Goke Couture | Premium Bespoke Tailoring</title>
-  <meta name="description" content="View the Goke Couture portfolio — a showcase of our finest bespoke garments, from bridal gowns to Agbada and executive suits." />
+  <meta name="description" content="Explore the Goke Couture portfolio — a curated showcase of bespoke garments, from bridal gowns to Agbada and executive suits." />
   <meta property="og:title" content="Portfolio — Goke Couture" />
-  <meta property="og:description" content="Explore our portfolio of premium bespoke garments, crafted with precision and passion." />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200" />
+  <meta property="og:description" content="A curated showcase of our finest bespoke garments." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
-  <!-- Firebase SDKs -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <style>
     /* ═══════════════════════════════════════════════
-       TOKENS (same as before)
+       TOKENS
     ═══════════════════════════════════════════════ */
     :root {
       --ink: #0A0A0A;
@@ -24,6 +24,7 @@
       --gold: #C9A84C;
       --gold-lt: #E8D48A;
       --sage: #2D5016;
+      --charcoal: #1A1A1A;
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body: 'Jost', system-ui, sans-serif;
       --ease: cubic-bezier(.25,.46,.45,.94);
@@ -46,7 +47,7 @@
       font-family: var(--font-body);
       font-weight: 300;
       overflow-x: hidden;
-      cursor: none;
+      cursor: default;
     }
     img {
       display: block;
@@ -57,16 +58,16 @@
       color: inherit
     }
     button {
-      cursor: none;
       border: none;
       background: none;
-      font-family: inherit
+      font-family: inherit;
+      cursor: pointer;
     }
     ul {
       list-style: none
     }
 
-    /* ── CUSTOM CURSOR ── */
+    /* ── Custom Cursor ── */
     #cursor-dot {
       position: fixed;
       width: 8px;
@@ -109,19 +110,19 @@
       }
     }
 
-    /* ── SCROLL PROGRESS ── */
+    /* ── Scroll Progress ── */
     #scroll-bar {
       position: fixed;
       top: 0;
       left: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--sage), var(--gold));
+      background: linear-gradient(90deg, var(--gold), var(--gold-lt));
       width: 0%;
       z-index: 9000;
       transition: width .1s linear;
     }
 
-    /* ── NAVIGATION (unchanged) ── */
+    /* ── NAVIGATION ── */
     #nav {
       position: fixed;
       top: 0;
@@ -301,7 +302,7 @@
       transform: rotate(90deg);
     }
 
-    /* ── BUTTONS ── */
+    /* ── Buttons ── */
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -322,66 +323,13 @@
       transform: translateY(-2px);
       letter-spacing: .28em
     }
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: .6rem;
-      font-size: .72rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      font-weight: 400;
-      padding: .9rem 2.4rem;
-      border: 1px solid rgba(245,240,232,.4);
-      color: var(--ivory);
-      transition: border-color .3s, transform .3s var(--slow);
-      background: transparent;
-      cursor: none;
-    }
-    .btn-ghost:hover {
-      border-color: var(--ivory);
-      transform: translateY(-2px)
-    }
-
-    /* ── SECTION COMMONS ── */
-    section {
-      padding: 8rem 5vw;
-    }
-    .sec-eyebrow {
-      font-size: .68rem;
-      letter-spacing: .4em;
-      text-transform: uppercase;
-      font-weight: 400;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
-      display: block;
-    }
-    .sec-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      font-weight: 300;
-      line-height: 1.1;
-      color: var(--ivory);
-    }
-    .sec-title em {
-      font-style: italic;
-      color: var(--gold)
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity .9s var(--slow), transform .9s var(--slow);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none
-    }
 
     /* ═══════════════════════════════════════════════
-       PORTFOLIO HERO (unchanged)
+       PORTFOLIO HERO
     ═══════════════════════════════════════════════ */
     .portfolio-hero {
       position: relative;
-      min-height: 70vh;
+      min-height: 75vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -390,60 +338,32 @@
       overflow: hidden;
       background: var(--ink);
     }
-    .portfolio-hero .bg-slides {
+    .portfolio-hero .bg {
       position: absolute;
       inset: 0;
+      background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop') center/cover no-repeat;
+      opacity: .1;
       z-index: 0;
-    }
-    .portfolio-hero .bg-slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1.4s var(--ease);
-    }
-    .portfolio-hero .bg-slide.active {
-      opacity: 1;
-    }
-    .portfolio-hero .bg-slide::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(10,10,10,.9), rgba(10,10,10,.5));
-    }
-    .portfolio-hero .monogram {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: var(--font-display);
-      font-size: clamp(12rem, 30vw, 25rem);
-      font-weight: 300;
-      color: rgba(201,168,76,.08);
-      pointer-events: none;
-      z-index: 1;
-      letter-spacing: 0.1em;
-      line-height: 1;
-      user-select: none;
+      transform: scale(1.1);
     }
     .portfolio-hero .content {
       position: relative;
       z-index: 2;
-      max-width: 800px;
+      max-width: 900px;
     }
     .portfolio-hero .content .eyebrow {
       font-size: .7rem;
-      letter-spacing: .45em;
+      letter-spacing: .5em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 1.5rem;
+      display: block;
     }
     .portfolio-hero .content h1 {
       font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 5rem);
+      font-size: clamp(3.5rem, 8vw, 6rem);
       font-weight: 300;
-      line-height: 1.1;
+      line-height: 1.05;
       color: var(--ivory);
       margin-bottom: 1.5rem;
     }
@@ -451,109 +371,188 @@
       font-style: italic;
       color: var(--gold);
     }
-    .portfolio-hero .content p {
-      font-size: 1.05rem;
-      color: rgba(245,240,232,.7);
-      line-height: 1.8;
+    .portfolio-hero .content .tagline {
+      font-size: 1.1rem;
+      color: rgba(245,240,232,.6);
       max-width: 600px;
-      margin: 0 auto;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+      font-weight: 300;
+      letter-spacing: .03em;
+    }
+    .portfolio-hero .content .divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 2rem;
+      opacity: .5;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      margin-top: 2rem;
+    }
+    .hero-stats .stat-item {
+      text-align: center;
+    }
+    .hero-stats .stat-item .num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-stats .stat-item .lbl {
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,.3);
+      margin-top: .2rem;
+      display: block;
     }
 
     /* ═══════════════════════════════════════════════
-       FILTER & GRID
+       FILTER BAR
     ═══════════════════════════════════════════════ */
     #portfolio-grid {
       background: var(--ink);
+      padding: 2rem 5vw 6rem;
     }
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: .8rem;
-      margin-bottom: 3rem;
+      gap: .5rem;
       justify-content: center;
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(245,240,232,.06);
     }
     .filter-btn {
-      font-size: .68rem;
-      letter-spacing: .2em;
+      font-size: .6rem;
+      letter-spacing: .25em;
       text-transform: uppercase;
       font-weight: 400;
       padding: .5rem 1.8rem;
-      border: 1px solid rgba(245,240,232,.15);
-      color: rgba(245,240,232,.5);
+      color: rgba(245,240,232,.4);
       transition: all .3s var(--ease);
-      cursor: none;
       background: transparent;
+      border: none;
+      cursor: none;
+      position: relative;
+    }
+    .filter-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1.5rem;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: all .3s var(--slow);
+      transform: translateX(-50%);
     }
     .filter-btn:hover {
-      border-color: var(--gold);
       color: var(--ivory);
     }
     .filter-btn.active {
-      border-color: var(--gold);
-      background: var(--gold);
-      color: var(--ink);
+      color: var(--gold);
+    }
+    .filter-btn.active::after {
+      width: 30px;
     }
 
+    /* ═══════════════════════════════════════════════
+       PORTFOLIO GRID – Tall Editorial
+    ═══════════════════════════════════════════════ */
     .portfolio-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      background: rgba(201,168,76,.12);
+      gap: 2rem;
     }
     .portfolio-item {
       position: relative;
       overflow: hidden;
       background: #111;
       cursor: none;
-      aspect-ratio: 4/5;
+      border-radius: 2px;
+      transition: transform .5s var(--slow), box-shadow .5s var(--slow);
+      aspect-ratio: 3/4.5;
     }
-    .portfolio-item img {
+    .portfolio-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
+    }
+    .portfolio-item .image-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .portfolio-item .image-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform .9s var(--slow), filter .6s var(--ease);
-      filter: grayscale(30%);
+      filter: saturate(.85) contrast(1.05);
     }
-    .portfolio-item:hover img {
-      transform: scale(1.07);
-      filter: grayscale(0%);
+    .portfolio-item:hover .image-wrap img {
+      transform: scale(1.06);
+      filter: saturate(1) contrast(1.1);
     }
     .portfolio-item .overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(10,10,10,.85) 0%, transparent 50%);
+      background: linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 50%);
       opacity: 0;
       transition: opacity .5s var(--ease);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
     }
     .portfolio-item:hover .overlay {
       opacity: 1;
     }
-    .portfolio-item .label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 1.8rem;
-      transform: translateY(10px);
-      opacity: 0;
-      transition: opacity .5s var(--ease), transform .5s var(--slow);
-    }
-    .portfolio-item:hover .label {
-      opacity: 1;
-      transform: none;
-    }
-    .portfolio-item .label .cat {
-      font-size: .6rem;
+    .portfolio-item .overlay .cat {
+      font-size: .55rem;
       letter-spacing: .3em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: .3rem;
+      margin-bottom: .2rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .4s var(--slow), transform .4s var(--slow);
+      transition-delay: .1s;
     }
-    .portfolio-item .label .name {
+    .portfolio-item:hover .overlay .cat {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .portfolio-item .overlay .name {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 400;
       color: var(--ivory);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .4s var(--slow), transform .4s var(--slow);
+      transition-delay: .15s;
+    }
+    .portfolio-item:hover .overlay .name {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .portfolio-item .overlay .client {
+      font-size: .75rem;
+      color: rgba(245,240,232,.5);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .4s var(--slow), transform .4s var(--slow);
+      transition-delay: .2s;
+    }
+    .portfolio-item:hover .overlay .client {
+      opacity: 1;
+      transform: translateY(0);
     }
     .portfolio-item .badge-new {
       position: absolute;
@@ -562,35 +561,42 @@
       background: var(--gold);
       color: var(--ink);
       padding: .2rem 1rem;
-      font-size: .55rem;
+      font-size: .5rem;
       letter-spacing: .15em;
       text-transform: uppercase;
-      font-weight: 500;
+      font-weight: 600;
       z-index: 2;
+      border-radius: 20px;
     }
-
-    .portfolio-item.landscape {
+    .portfolio-item.featured {
       grid-column: span 2;
       aspect-ratio: 16/9;
     }
-    .portfolio-item.square {
-      aspect-ratio: 1/1;
+    .portfolio-item.featured .overlay .name {
+      font-size: 1.6rem;
+    }
+    .portfolio-item.tall {
+      aspect-ratio: 3/5;
+      grid-row: span 2;
     }
 
     /* ═══════════════════════════════════════════════
-       LIGHTBOX (enhanced to show extra fields)
+       LIGHTBOX – Premium with Multi-Image Carousel
     ═══════════════════════════════════════════════ */
     .lightbox {
       position: fixed;
       inset: 0;
       z-index: 999;
-      background: rgba(10,10,10,.95);
+      background: rgba(10,10,10,.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
       transition: opacity .4s var(--ease);
+      padding: 2rem;
     }
     .lightbox.open {
       opacity: 1;
@@ -598,152 +604,234 @@
     }
     .lightbox .close {
       position: absolute;
-      top: 2rem;
+      top: 1.5rem;
       right: 2rem;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       color: var(--ivory);
       cursor: pointer;
-      opacity: .6;
-      transition: opacity .3s;
+      opacity: .5;
+      transition: opacity .3s, transform .3s;
+      z-index: 10;
     }
     .lightbox .close:hover {
       opacity: 1;
-    }
-    .lightbox .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      color: var(--ivory);
-      padding: 1rem;
-      cursor: pointer;
-      opacity: .4;
-      transition: opacity .3s;
-    }
-    .lightbox .nav-btn:hover {
-      opacity: 1;
-    }
-    .lightbox .nav-btn.prev {
-      left: 2rem;
-    }
-    .lightbox .nav-btn.next {
-      right: 2rem;
-    }
-    .lightbox .lightbox-content {
-      max-width: 80vw;
-      max-height: 70vh;
-      object-fit: contain;
-    }
-    .lightbox .lightbox-info {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      color: var(--ivory);
-      max-width: 90%;
-    }
-    .lightbox .lightbox-info .lb-cat {
-      font-size: .6rem;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-    .lightbox .lightbox-info .lb-name {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 300;
-    }
-    .lightbox .lightbox-info .lb-desc {
-      font-size: .85rem;
-      color: rgba(245,240,232,.5);
-      margin-top: .2rem;
-    }
-    /* extra fields in lightbox */
-    .lightbox .lightbox-info .lb-extra {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem 1.5rem;
-      margin-top: .5rem;
-      font-size: .7rem;
-      color: rgba(245,240,232,.4);
-      letter-spacing: .05em;
-    }
-    .lightbox .lightbox-info .lb-extra span {
-      background: rgba(201,168,76,.1);
-      padding: .1rem .8rem;
-      border-radius: 20px;
-      border: 1px solid rgba(201,168,76,.15);
+      transform: rotate(90deg);
     }
 
-    /* ═══════════════════════════════════════════════
-       PARALLAX DIVIDER & CTA & FOOTER (unchanged)
-    ═══════════════════════════════════════════════ */
-    .parallax-divider {
+    .lightbox-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1200px;
+      width: 100%;
+      max-height: 90vh;
+      gap: 1.5rem;
+    }
+
+    /* ── Carousel ── */
+    .lb-carousel {
       position: relative;
-      height: 50vh;
+      flex: 1;
       min-height: 300px;
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
+      background: rgba(0,0,0,.3);
+      border-radius: 4px;
       overflow: hidden;
     }
-    .parallax-divider::after {
-      content: '';
+    .lb-carousel .lb-image-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lb-carousel .lb-image-wrap img {
+      max-width: 100%;
+      max-height: 55vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .lb-carousel .nav-btn {
       position: absolute;
-      inset: 0;
-      background: rgba(10,10,10,.55);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.8rem;
+      color: rgba(245,240,232,.4);
+      padding: 1rem 1.2rem;
+      cursor: pointer;
+      transition: all .3s;
+      background: rgba(0,0,0,.4);
+      border-radius: 4px;
+      z-index: 5;
     }
-    .parallax-divider .content {
-      position: relative;
-      z-index: 1;
-      padding: 2rem;
+    .lb-carousel .nav-btn:hover {
+      color: var(--ivory);
+      background: rgba(0,0,0,.7);
     }
-    .parallax-divider .content h2 {
+    .lb-carousel .nav-btn.prev {
+      left: .5rem;
+    }
+    .lb-carousel .nav-btn.next {
+      right: .5rem;
+    }
+    .lb-carousel .lb-counter {
+      position: absolute;
+      bottom: .8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      color: rgba(245,240,232,.3);
+      background: rgba(0,0,0,.5);
+      padding: .2rem 1rem;
+      border-radius: 20px;
+    }
+
+    /* ── Image thumbnails with labels ── */
+    .lb-thumbnails {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: .5rem 0;
+    }
+    .lb-thumb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .2rem;
+      cursor: pointer;
+      opacity: .4;
+      transition: all .3s;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      padding: 2px;
+      background: rgba(255,255,255,.03);
+      min-width: 60px;
+    }
+    .lb-thumb:hover {
+      opacity: .8;
+    }
+    .lb-thumb.active {
+      opacity: 1;
+      border-color: var(--gold);
+      background: rgba(201,168,76,.08);
+    }
+    .lb-thumb img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 3px;
+    }
+    .lb-thumb .label {
+      font-size: .5rem;
+      letter-spacing: .08em;
+      color: rgba(245,240,232,.4);
+      text-transform: uppercase;
+      white-space: nowrap;
+      max-width: 70px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lb-thumb.active .label {
+      color: var(--gold);
+    }
+
+    /* ── Details panel ── */
+    .lb-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem 2rem;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(245,240,232,.06);
+      padding: 1.2rem 1.8rem;
+      border-radius: 4px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .lb-details .detail-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .lb-details .detail-item .label {
+      font-size: .55rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 400;
+    }
+    .lb-details .detail-item .value {
+      font-size: .85rem;
+      color: rgba(245,240,232,.8);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .lb-details .detail-item.full {
+      grid-column: 1/-1;
+    }
+    .lb-details .detail-item .value.description {
+      font-style: italic;
+      color: rgba(245,240,232,.6);
+    }
+
+    .lb-details::-webkit-scrollbar {
+      width: 4px;
+    }
+    .lb-details::-webkit-scrollbar-track {
+      background: rgba(255,255,255,.02);
+    }
+    .lb-details::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CTA SECTION
+    ═══════════════════════════════════════════════ */
+    .cta-section {
+      background: var(--charcoal);
+      text-align: center;
+      padding: 6rem 5vw;
+      border-top: 1px solid rgba(201,168,76,.08);
+      border-bottom: 1px solid rgba(201,168,76,.08);
+    }
+    .cta-section .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 1.5rem;
+    }
+    .cta-section h2 {
       font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 300;
       color: var(--ivory);
-      line-height: 1.1;
+      margin-bottom: 1rem;
     }
-    .parallax-divider .content h2 em {
+    .cta-section h2 em {
       font-style: italic;
       color: var(--gold);
     }
-    .parallax-divider .content p {
+    .cta-section p {
+      color: rgba(245,240,232,.5);
       font-size: 1rem;
-      color: rgba(245,240,232,.7);
-      letter-spacing: .05em;
-      line-height: 1.8;
-      margin-top: .5rem;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
     }
 
-    .cta-section {
-      background: var(--ink);
-      text-align: center;
-      padding: 6rem 5vw;
-    }
-    .cta-divider {
-      width: 1px;
-      height: 40px;
-      background: var(--gold);
-      margin: 0 auto 2rem;
-    }
-
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
     footer {
       background: #050505;
       border-top: 1px solid rgba(201,168,76,.15);
     }
     .footer-top {
-      padding: 6rem 5vw 4rem;
+      padding: 5rem 5vw 3rem;
       display: grid;
       grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 4rem;
+      gap: 3rem;
     }
     .footer-brand p {
       font-size: .88rem;
@@ -798,9 +886,9 @@
       color: rgba(245,240,232,.45);
       margin-bottom: .9rem;
     }
-    .footer-contact-line svg {
+    .footer-contact-line i {
       color: var(--gold);
-      flex-shrink: 0
+      width: 16px;
     }
     .footer-contact-line a {
       color: var(--gold);
@@ -868,14 +956,29 @@
       }
     }
 
-    /* ── RESPONSIVE ── */
+    /* ── Responsive ── */
     @media(max-width:1024px) {
       .portfolio-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .portfolio-item.featured {
+        grid-column: span 1;
+        aspect-ratio: 3/4.5;
       }
       .footer-top {
         grid-template-columns: 1fr 1fr;
-        gap: 3rem;
+        gap: 2.5rem;
+      }
+      .hero-stats {
+        gap: 2rem;
+      }
+      .lb-details {
+        grid-template-columns: 1fr;
+        max-height: 180px;
+      }
+      .lb-details .detail-item.full {
+        grid-column: 1;
       }
     }
 
@@ -895,29 +998,46 @@
         display: flex
       }
       .portfolio-hero {
-        min-height: 50vh;
+        min-height: 60vh;
         padding: 8rem 5vw 4rem;
       }
       .portfolio-hero .content h1 {
-        font-size: 2.6rem;
-      }
-      section {
-        padding: 4rem 5vw;
+        font-size: 2.8rem;
       }
       .portfolio-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
       }
-      .filter-bar {
-        gap: .5rem;
+      .portfolio-item,
+      .portfolio-item.featured,
+      .portfolio-item.tall {
+        aspect-ratio: 3/4.5;
+        grid-column: span 1;
+        grid-row: span 1;
       }
       .filter-btn {
-        font-size: .6rem;
+        font-size: .55rem;
         padding: .4rem 1.2rem;
+      }
+      .filter-btn::after {
+        bottom: -1rem;
+      }
+      .filter-bar {
+        gap: .3rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+      }
+      .hero-stats {
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .hero-stats .stat-item .num {
+        font-size: 1.8rem;
       }
       .footer-top {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
-        padding: 4rem 5vw 2rem;
+        gap: 2rem;
+        padding: 3rem 5vw 2rem;
       }
       .footer-bottom {
         flex-direction: column;
@@ -929,32 +1049,42 @@
         bottom: 1.5rem;
         right: 1.5rem;
       }
-      #wa-float svg {
-        width: 22px;
-        height: 22px;
+      #wa-float i {
+        font-size: 1.5rem !important;
       }
-      .lightbox .lightbox-content {
-        max-width: 90vw;
-        max-height: 60vh;
+      .lightbox {
+        padding: 1rem;
       }
-      .lightbox .nav-btn {
-        font-size: 1.5rem;
-        padding: .5rem;
+      .lightbox .close {
+        top: .8rem;
+        right: 1rem;
+        font-size: 1.8rem;
       }
-      .lightbox .nav-btn.prev {
-        left: .5rem;
+      .lb-carousel .lb-image-wrap img {
+        max-height: 40vh;
       }
-      .lightbox .nav-btn.next {
-        right: .5rem;
+      .lb-carousel .nav-btn {
+        font-size: 1.2rem;
+        padding: .6rem .8rem;
       }
-      .parallax-divider {
-        background-attachment: scroll;
-        height: 40vh;
-        min-height: 220px;
+      .lb-thumb img {
+        width: 44px;
+        height: 44px;
       }
-      .portfolio-item.landscape {
-        grid-column: span 1;
-        aspect-ratio: 4/5;
+      .lb-thumb .label {
+        font-size: .4rem;
+        max-width: 50px;
+      }
+      .lb-details {
+        padding: .8rem 1rem;
+        max-height: 160px;
+        gap: .4rem 1rem;
+      }
+      .lb-details .detail-item .label {
+        font-size: .5rem;
+      }
+      .lb-details .detail-item .value {
+        font-size: .75rem;
       }
     }
 
@@ -967,13 +1097,10 @@
         height: 52px;
       }
       .portfolio-hero .content h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
-      .portfolio-hero .monogram {
-        font-size: clamp(6rem, 15vw, 10rem);
-      }
-      .portfolio-grid {
-        grid-template-columns: 1fr;
+      .portfolio-hero .content .tagline {
+        font-size: .95rem;
       }
       #cursor-dot,
       #cursor-ring {
@@ -983,9 +1110,25 @@
         cursor: auto;
       }
       .btn-primary,
-      .btn-ghost,
       .filter-btn {
         cursor: auto;
+      }
+      .cta-section {
+        padding: 4rem 5vw;
+      }
+      .lb-thumbnails {
+        gap: .4rem;
+      }
+      .lb-thumb img {
+        width: 36px;
+        height: 36px;
+      }
+      .lb-thumb .label {
+        font-size: .35rem;
+        max-width: 40px;
+      }
+      .lb-carousel .lb-image-wrap img {
+        max-height: 32vh;
       }
     }
 
@@ -1006,7 +1149,7 @@
 
   <!-- WhatsApp Float -->
   <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20Goke%20Couture%20portfolio." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <i class="fab fa-whatsapp" style="font-size:1.8rem;color:white;"></i>
   </a>
 
   <!-- ── NAVIGATION ── -->
@@ -1052,19 +1195,28 @@
     <a href="booking" class="mob-link">Book a Fitting</a>
   </div>
 
-  <!-- ── PORTFOLIO HERO ── -->
+  <!-- ── HERO ── -->
   <section class="portfolio-hero">
-    <div class="bg-slides">
-      <div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop')"></div>
-      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1800&q=85&auto=format&fit=crop')"></div>
-      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1800&q=85&auto=format&fit=crop')"></div>
-      <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1800&q=85&auto=format&fit=crop')"></div>
-    </div>
-    <div class="monogram" aria-hidden="true">GC</div>
+    <div class="bg" aria-hidden="true"></div>
     <div class="content">
-      <p class="eyebrow">Our Portfolio</p>
-      <h1>A Showcase of <em>Excellence</em></h1>
-      <p>Explore our finest work — from bridal gowns to Agbada, executive suits to casual luxury. Each piece tells a story of precision and passion.</p>
+      <span class="eyebrow">Our Portfolio</span>
+      <h1>Where <em>Craft</em> Meets <em>Art</em></h1>
+      <p class="tagline">Each garment is a narrative — from the first sketch to the final stitch. Explore our curated collection of bespoke pieces, crafted with precision and passion.</p>
+      <div class="divider"></div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="num" id="statCount">0</div>
+          <span class="lbl">Pieces</span>
+        </div>
+        <div class="stat-item">
+          <div class="num">5</div>
+          <span class="lbl">Categories</span>
+        </div>
+        <div class="stat-item">
+          <div class="num">10+</div>
+          <span class="lbl">Years of Craft</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1079,23 +1231,15 @@
       <button class="filter-btn" data-filter="casual">Casual</button>
     </div>
     <div class="portfolio-grid" id="portfolio-grid-container">
-      <!-- Dynamic content loaded from Firebase -->
+      <!-- Dynamic content from Firebase -->
     </div>
   </section>
 
-  <!-- ── PARALLAX DIVIDER ── -->
-  <div class="parallax-divider" style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80&auto=format&fit=crop');">
-    <div class="content">
-      <h2>Every Garment <em>Tells a Story</em></h2>
-      <p>From the initial sketch to the final stitch, each piece is a narrative of precision and passion.</p>
-    </div>
-  </div>
-
   <!-- ── CTA ── -->
   <section class="cta-section">
-    <div class="cta-divider" aria-hidden="true"></div>
-    <h2 class="sec-title" style="font-size:clamp(2rem,4vw,3.2rem);">Ready to <em>Create</em> Your Masterpiece?</h2>
-    <p style="color:rgba(245,240,232,.6);margin:1.5rem 0 2.5rem;font-size:1rem;">Book a consultation and let us bring your vision to life.</p>
+    <div class="divider"></div>
+    <h2>Ready to Create <em>Your</em> Masterpiece?</h2>
+    <p>Let's bring your vision to life. Book a consultation and start your bespoke journey.</p>
     <a href="booking.html" class="btn-primary">Book Your Fitting</a>
   </section>
 
@@ -1113,15 +1257,9 @@
         </a>
         <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
         <div class="footer-social" aria-label="Social media links">
-          <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
-          </a>
-          <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          </a>
+          <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+          <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-col">
@@ -1144,22 +1282,10 @@
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
-        <div class="footer-contact-line">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
-          <a href="tel:+2348057059898">+234 805 705 9898</a>
-        </div>
-        <div class="footer-contact-line">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <a href="mailto:info@gokecouture.com">info@gokecouture.com</a>
-        </div>
-        <div class="footer-contact-line">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span>
-        </div>
-        <div class="footer-contact-line" style="margin-top:.4rem">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Mon – Sat: 9am – 7pm</span>
-        </div>
+        <div class="footer-contact-line"><i class="fas fa-phone"></i><a href="tel:+2348057059898">+234 805 705 9898</a></div>
+        <div class="footer-contact-line"><i class="fas fa-envelope"></i><a href="mailto:info@gokecouture.com">info@gokecouture.com</a></div>
+        <div class="footer-contact-line"><i class="fas fa-map-marker-alt"></i><span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span></div>
+        <div class="footer-contact-line" style="margin-top:.4rem"><i class="far fa-clock"></i><span>Mon – Sat: 9am – 7pm</span></div>
       </div>
     </div>
     <div class="footer-bottom">
@@ -1168,17 +1294,27 @@
     </div>
   </footer>
 
-  <!-- ── LIGHTBOX ── -->
+  <!-- ── LIGHTBOX (Premium Multi-Image + Full Details) ── -->
   <div class="lightbox" id="lightbox">
     <button class="close" id="lb-close">✕</button>
-    <button class="nav-btn prev" id="lb-prev">‹</button>
-    <button class="nav-btn next" id="lb-next">›</button>
-    <img class="lightbox-content" id="lb-img" src="" alt="" />
-    <div class="lightbox-info" id="lb-info">
-      <div class="lb-cat" id="lb-cat"></div>
-      <div class="lb-name" id="lb-name"></div>
-      <div class="lb-desc" id="lb-desc"></div>
-      <div class="lb-extra" id="lb-extra"></div>
+    <div class="lightbox-container">
+      <!-- Carousel -->
+      <div class="lb-carousel" id="lb-carousel">
+        <button class="nav-btn prev" id="lb-prev">‹</button>
+        <button class="nav-btn next" id="lb-next">›</button>
+        <div class="lb-image-wrap" id="lb-image-wrap">
+          <img id="lb-img" src="" alt="" />
+        </div>
+        <div class="lb-counter" id="lb-counter">1 / 1</div>
+      </div>
+
+      <!-- Thumbnails with labels -->
+      <div class="lb-thumbnails" id="lb-thumbnails"></div>
+
+      <!-- Details Panel -->
+      <div class="lb-details" id="lb-details">
+        <!-- Dynamically filled -->
+      </div>
     </div>
   </div>
 
@@ -1199,7 +1335,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── Cursor (unchanged) ──
+    // ── Cursor ──
     (function() {
       const dot = document.getElementById('cursor-dot');
       const ring = document.getElementById('cursor-ring');
@@ -1224,7 +1360,7 @@
         }
         animRing();
 
-        document.querySelectorAll('a,button,.portfolio-item,.filter-btn,.btn-primary,.btn-ghost')
+        document.querySelectorAll('a,button,.portfolio-item,.filter-btn,.btn-primary')
           .forEach(function(el) {
             el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
             el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
@@ -1295,19 +1431,7 @@
       });
     })();
 
-    // ── Hero background slideshow ──
-    (function() {
-      const slides = document.querySelectorAll('.bg-slide');
-      let current = 0;
-      if (!slides.length) return;
-      setInterval(function() {
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
-      }, 5000);
-    })();
-
-    // ── Filter functionality ──
+    // ── Filter ──
     (function() {
       const filterBtns = document.querySelectorAll('.filter-btn');
       const container = document.getElementById('portfolio-grid-container');
@@ -1329,69 +1453,188 @@
       });
     })();
 
-    // ── Lightbox ──
+    // ── Premium Lightbox with Multi-Image Support ──
     (function() {
       const lightbox = document.getElementById('lightbox');
       const lbImg = document.getElementById('lb-img');
-      const lbCat = document.getElementById('lb-cat');
-      const lbName = document.getElementById('lb-name');
-      const lbDesc = document.getElementById('lb-desc');
-      const lbExtra = document.getElementById('lb-extra');
+      const lbCounter = document.getElementById('lb-counter');
+      const lbThumbnails = document.getElementById('lb-thumbnails');
+      const lbDetails = document.getElementById('lb-details');
+      const lbCarousel = document.getElementById('lb-carousel');
       const closeBtn = document.getElementById('lb-close');
       const prevBtn = document.getElementById('lb-prev');
       const nextBtn = document.getElementById('lb-next');
+
       let currentItems = [];
       let currentIndex = 0;
+      let currentImageIndex = 0;
+      let currentImageData = [];
 
       function openLightbox(items, index) {
         currentItems = items;
         currentIndex = index;
-        updateLightbox();
+        const item = items[index];
+        if (!item) return;
+
+        // Extract image data (array of {url, label})
+        const imageData = item.dataset.images ? JSON.parse(item.dataset.images) : [];
+        if (imageData.length === 0) {
+          // Fallback: try to get single image
+          const img = item.querySelector('img');
+          if (img) {
+            imageData.push({ url: img.src, label: '' });
+          } else {
+            imageData.push({ url: '', label: '' });
+          }
+        }
+        currentImageData = imageData;
+        currentImageIndex = 0;
+
+        // Build details
+        const extraData = item.dataset.extra ? JSON.parse(item.dataset.extra) : {};
+        buildDetails(extraData, item);
+
+        // Show first image
+        updateCarousel();
+
         lightbox.classList.add('open');
         document.body.style.overflow = 'hidden';
       }
 
-      function updateLightbox() {
-        const item = currentItems[currentIndex];
-        if (!item) return;
-        const img = item.querySelector('img');
-        const label = item.querySelector('.label');
-        const cat = label ? label.querySelector('.cat') : null;
-        const name = label ? label.querySelector('.name') : null;
-        const desc = label ? label.querySelector('.desc') : null;
-        const extraData = item.dataset.extra ? JSON.parse(item.dataset.extra) : {};
+      function buildDetails(data, item) {
+        const title = item.querySelector('.name') ? item.querySelector('.name').textContent : '';
+        const cat = item.querySelector('.cat') ? item.querySelector('.cat').textContent : '';
+        const descEl = item.querySelector('.desc');
+        const desc = descEl ? descEl.textContent : '';
 
-        lbImg.src = img ? img.src : '';
-        lbImg.alt = img ? img.alt : '';
-        lbCat.textContent = cat ? cat.textContent : '';
-        lbName.textContent = name ? name.textContent : '';
-        lbDesc.textContent = desc ? desc.textContent : '';
+        let html = `
+          <div class="detail-item full">
+            <span class="label">Title</span>
+            <span class="value">${title}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Category</span>
+            <span class="value">${cat}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Client</span>
+            <span class="value">${data.client || '—'}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Location</span>
+            <span class="value">${data.location || '—'}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Budget</span>
+            <span class="value">${data.budget || '—'}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Timeline</span>
+            <span class="value">${data.timeline || '—'}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Materials</span>
+            <span class="value">${data.materials || '—'}</span>
+          </div>
+          <div class="detail-item full">
+            <span class="label">Scope of Work</span>
+            <span class="value">${data.scope || '—'}</span>
+          </div>
+          <div class="detail-item full">
+            <span class="label">Result / Outcome</span>
+            <span class="value">${data.result || '—'}</span>
+          </div>
+          ${desc ? `<div class="detail-item full"><span class="label">Description</span><span class="value description">${desc}</span></div>` : ''}
+        `;
+        lbDetails.innerHTML = html;
+      }
 
-        // Build extra fields
-        let extraHtml = '';
-        if (extraData.client) extraHtml += `<span>👤 ${extraData.client}</span>`;
-        if (extraData.location) extraHtml += `<span>📍 ${extraData.location}</span>`;
-        if (extraData.budget) extraHtml += `<span>💰 ${extraData.budget}</span>`;
-        if (extraData.materials) extraHtml += `<span>🧵 ${extraData.materials}</span>`;
-        if (extraData.timeline) extraHtml += `<span>⏱️ ${extraData.timeline}</span>`;
-        lbExtra.innerHTML = extraHtml;
+      function updateCarousel() {
+        if (currentImageData.length === 0) {
+          lbImg.src = '';
+          lbImg.alt = '';
+          lbCounter.textContent = '0 / 0';
+          lbThumbnails.innerHTML = '';
+          return;
+        }
+
+        const img = currentImageData[currentImageIndex];
+        lbImg.src = img.url || '';
+        lbImg.alt = img.label || 'Portfolio image';
+        lbCounter.textContent = (currentImageIndex + 1) + ' / ' + currentImageData.length;
+
+        // Build thumbnails
+        lbThumbnails.innerHTML = '';
+        currentImageData.forEach(function(item, idx) {
+          const thumb = document.createElement('div');
+          thumb.className = 'lb-thumb' + (idx === currentImageIndex ? ' active' : '');
+          thumb.innerHTML = `
+            <img src="${item.url}" alt="${item.label || 'Image'}" loading="lazy" />
+            <span class="label">${item.label || ''}</span>
+          `;
+          thumb.addEventListener('click', function() {
+            currentImageIndex = idx;
+            updateCarousel();
+          });
+          lbThumbnails.appendChild(thumb);
+        });
       }
 
       function closeLightbox() {
         lightbox.classList.remove('open');
         document.body.style.overflow = '';
+        currentItems = [];
+        currentImageData = [];
+      }
+
+      function prevImage() {
+        if (currentImageData.length === 0) return;
+        currentImageIndex = (currentImageIndex - 1 + currentImageData.length) % currentImageData.length;
+        updateCarousel();
+      }
+
+      function nextImage() {
+        if (currentImageData.length === 0) return;
+        currentImageIndex = (currentImageIndex + 1) % currentImageData.length;
+        updateCarousel();
       }
 
       function prevItem() {
         if (currentItems.length === 0) return;
-        currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
-        updateLightbox();
+        const newIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
+        currentIndex = newIndex;
+        const item = currentItems[newIndex];
+        if (item) {
+          const imageData = item.dataset.images ? JSON.parse(item.dataset.images) : [];
+          const img = item.querySelector('img');
+          if (imageData.length === 0 && img) {
+            imageData.push({ url: img.src, label: '' });
+          }
+          currentImageData = imageData;
+          currentImageIndex = 0;
+          const extraData = item.dataset.extra ? JSON.parse(item.dataset.extra) : {};
+          buildDetails(extraData, item);
+          updateCarousel();
+        }
       }
 
       function nextItem() {
         if (currentItems.length === 0) return;
-        currentIndex = (currentIndex + 1) % currentItems.length;
-        updateLightbox();
+        const newIndex = (currentIndex + 1) % currentItems.length;
+        currentIndex = newIndex;
+        const item = currentItems[newIndex];
+        if (item) {
+          const imageData = item.dataset.images ? JSON.parse(item.dataset.images) : [];
+          const img = item.querySelector('img');
+          if (imageData.length === 0 && img) {
+            imageData.push({ url: img.src, label: '' });
+          }
+          currentImageData = imageData;
+          currentImageIndex = 0;
+          const extraData = item.dataset.extra ? JSON.parse(item.dataset.extra) : {};
+          buildDetails(extraData, item);
+          updateCarousel();
+        }
       }
 
       function attachItemEvents() {
@@ -1422,72 +1665,103 @@
       if (container) observer.observe(container, { childList: true });
 
       closeBtn.addEventListener('click', closeLightbox);
-      prevBtn.addEventListener('click', prevItem);
-      nextBtn.addEventListener('click', nextItem);
+      prevBtn.addEventListener('click', prevImage);
+      nextBtn.addEventListener('click', nextImage);
+
+      // Keyboard shortcuts
       document.addEventListener('keydown', function(e) {
         if (!lightbox.classList.contains('open')) return;
         if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') prevItem();
-        if (e.key === 'ArrowRight') nextItem();
+        if (e.key === 'ArrowLeft') prevImage();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowUp') prevItem();
+        if (e.key === 'ArrowDown') nextItem();
       });
+
       lightbox.addEventListener('click', function(e) {
         if (e.target === lightbox) closeLightbox();
       });
     })();
 
-    // ── Load from Firebase (UPDATED for new structure) ──
+    // ── Load from Firebase ──
     (function() {
       const container = document.getElementById('portfolio-grid-container');
+      const statCount = document.getElementById('statCount');
 
-      // Fallback data (with new fields)
-      const fallbackData = [
-        { title: 'Ivory Bridal Gown', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Custom lace and beadwork bridal gown', client: 'Tawio', location: 'Ibadan', budget: '₦1,200,000', materials: 'French lace, silk, crystals' },
-        { title: 'Executive Navy Suit', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Italian wool, fully canvassed', client: 'Mr. Ade', location: 'Lagos', budget: '₦850,000', materials: 'Italian wool, horn buttons' },
-        { title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Hand-embroidered Aso-oke Agbada', client: 'Chief Okafor', location: 'Enugu', budget: '₦2,500,000', materials: 'Aso-oke, gold thread' },
-        { title: 'Gold Evening Gown', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk evening dress', client: 'Mrs. Bello', location: 'Abuja', budget: '₦980,000', materials: 'Silk chiffon, sequins' },
-        { title: 'Bespoke Tuxedo', category: 'menswear', image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Midnight blue tuxedo with satin lapels', client: 'Mr. Johnson', location: 'Ibadan', budget: '₦1,100,000', materials: 'Wool, satin' },
-        { title: 'Lace Bridal Detail', category: 'bridal', image: 'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'French lace and silk bridal gown', client: 'Sarah', location: 'Lagos', budget: '₦1,500,000', materials: 'French lace, silk' }
-      ];
+      function getImageUrl(item) {
+        if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+          const first = item.images[0];
+          return typeof first === 'string' ? first : (first.url || '');
+        }
+        if (item.image && typeof item.image === 'string') return item.image;
+        return '';
+      }
 
-      function renderItems(data) {
+      function getAllImages(item) {
+        // Returns array of {url, label}
+        if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+          return item.images.map(img => ({
+            url: typeof img === 'string' ? img : (img.url || ''),
+            label: typeof img === 'string' ? '' : (img.label || '')
+          }));
+        }
+        if (item.image && typeof item.image === 'string') {
+          return [{ url: item.image, label: '' }];
+        }
+        return [];
+      }
+
+      function renderItems(items) {
         container.innerHTML = '';
-        data.forEach(function(item, index) {
+        if (!items || items.length === 0) {
+          container.innerHTML =
+            '<p style="text-align:center;padding:4rem;color:rgba(245,240,232,.4);">No portfolio items yet. Check back soon.</p>';
+          statCount.textContent = '0';
+          return;
+        }
+
+        statCount.textContent = items.length;
+
+        items.forEach(function(item, index) {
           const div = document.createElement('div');
-          let aspectClass = 'portrait';
-          if (index % 4 === 0) aspectClass = 'landscape';
-          else if (index % 3 === 0) aspectClass = 'square';
-          div.className = `portfolio-item ${aspectClass}`;
-          div.dataset.category = item.category || 'other';
+          const category = (item.category || 'other').toLowerCase();
 
-          // ─── Extract image URL ──────────────────────────
-          let imageUrl = '';
-          if (item.images && Array.isArray(item.images) && item.images.length > 0) {
-            // new structure: images array of objects with 'url'
-            const first = item.images[0];
-            imageUrl = (typeof first === 'string') ? first : (first.url || '');
-          } else if (item.image && typeof item.image === 'string') {
-            imageUrl = item.image;
-          } else {
-            imageUrl = ''; // fallback to placeholder
-          }
+          let extraClass = '';
+          if (index === 0) extraClass = 'featured';
+          else if (index % 5 === 0) extraClass = 'tall';
+          else if (index % 3 === 0) extraClass = 'featured';
 
-          // ─── Extra fields for lightbox ──────────────────
+          div.className = `portfolio-item ${extraClass}`;
+          div.dataset.category = category;
+
+          const imageUrl = getImageUrl(item);
+
+          // Store all images with labels as JSON
+          const allImages = getAllImages(item);
+          div.dataset.images = JSON.stringify(allImages);
+
           const extra = {
             client: item.client || '',
             location: item.location || '',
             budget: item.budget || '',
             materials: item.materials || '',
-            timeline: item.timeline || ''
+            timeline: item.timeline || '',
+            scope: item.scope || '',
+            result: item.result || ''
           };
           div.dataset.extra = JSON.stringify(extra);
 
+          const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
+
           div.innerHTML = `
-            <img src="${imageUrl}" alt="${item.title}" loading="lazy" />
+            <div class="image-wrap">
+              <img src="${imageUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/800x1200/1a1a1a/555?text=No+Image'" />
+            </div>
             ${item.isNew ? '<div class="badge-new">New</div>' : ''}
-            <div class="overlay"></div>
-            <div class="label">
-              <div class="cat">${item.category ? item.category.charAt(0).toUpperCase() + item.category.slice(1) : 'Portfolio'}</div>
+            <div class="overlay">
+              <div class="cat">${categoryLabel}</div>
               <div class="name">${item.title}</div>
+              ${item.client ? `<div class="client">${item.client}</div>` : ''}
               ${item.description ? `<div class="desc" style="display:none;">${item.description}</div>` : ''}
             </div>
           `;
@@ -1509,20 +1783,28 @@
         }
       }
 
-      // Load from Firebase
+      // ─── Load from Firebase ──────────────────────
       const portfolioRef = db.ref('portfolio');
       portfolioRef.once('value').then(function(snapshot) {
         const data = snapshot.val();
         if (data) {
-          const items = Object.values(data).sort(function(a, b) {
-            return (a.order || 0) - (b.order || 0);
-          });
+          const items = Object.values(data).sort((a, b) => (a.order || 0) - (b.order || 0));
           renderItems(items);
         } else {
-          renderItems(fallbackData);
+          // Fallback
+          const fallback = [
+            { title: 'Ivory Bridal Gown', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Custom lace and beadwork bridal gown', client: 'Tawio', location: 'Ibadan', budget: '₦1,200,000', materials: 'French lace, silk, crystals' },
+            { title: 'Executive Navy Suit', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Italian wool, fully canvassed', client: 'Mr. Ade', location: 'Lagos', budget: '₦850,000', materials: 'Italian wool, horn buttons' },
+            { title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Hand-embroidered Aso-oke Agbada', client: 'Chief Okafor', location: 'Enugu', budget: '₦2,500,000', materials: 'Aso-oke, gold thread' }
+          ];
+          renderItems(fallback);
         }
       }).catch(function() {
-        renderItems(fallbackData);
+        const fallback = [
+          { title: 'Ivory Bridal Gown', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Custom lace and beadwork bridal gown', client: 'Tawio' },
+          { title: 'Executive Navy Suit', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Italian wool, fully canvassed', client: 'Mr. Ade' }
+        ];
+        renderItems(fallback);
       });
     })();
   </script>
