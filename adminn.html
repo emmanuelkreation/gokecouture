@@ -18,11 +18,7 @@
         .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2.5rem}.stat-card{background:rgba(255,255,255,.02);padding:1.5rem;border:1px solid rgba(245,240,232,.06);text-align:center}.stat-card .number{font-family:var(--font-display);font-size:2.5rem;font-weight:300;color:var(--gold);line-height:1}.stat-card .label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-top:.4rem}
         .admin-page{display:none;animation:fadeIn .3s var(--ease)}.admin-page.active{display:block}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         .table-wrap{overflow-x:auto;margin-top:1rem}table{width:100%;border-collapse:collapse;font-size:.85rem}table th{text-align:left;padding:.8rem 1rem;color:rgba(245,240,232,.3);font-weight:400;letter-spacing:.1em;text-transform:uppercase;font-size:.65rem;border-bottom:1px solid rgba(245,240,232,.06)}table td{padding:.8rem 1rem;border-bottom:1px solid rgba(245,240,232,.04);color:rgba(245,240,232,.7);vertical-align:middle}table td .stars{color:var(--gold)}table td .status-badge{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .8rem;background:rgba(201,168,76,.1);color:var(--gold)}table td .status-badge.approved{background:rgba(45,80,22,.2);color:var(--sage-lt)}table td .status-badge.new{background:rgba(201,168,76,.15);color:var(--gold)}table td .status-badge.contacted{background:rgba(45,80,22,.15);color:var(--sage-lt)}table td .status-badge.closed{background:rgba(245,240,232,.05);color:rgba(245,240,232,.3)}
-        .btn-action{padding:.3rem 1rem;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid transparent;transition:all .3s;margin-right:.4rem;cursor:pointer}.btn-action.approve{background:var(--sage);color:var(--ivory)}.btn-action.approve:hover{background:#3D7A2A}.btn-action.reject{border-color:rgba(245,240,232,.15);color:rgba(245,240,232,.4)}.btn-action.reject:hover{border-color:var(--danger);color:var(--danger)}.btn-action.edit{border-color:rgba(201,168,76,.3);color:var(--gold)}.btn-action.edit:hover{background:rgba(201,168,76,.1)}.btn-action.delete{border-color:rgba(139,0,0,.3);color:var(--danger)}.btn-action.delete:hover{background:rgba(139,0,0,.1)}.btn-action.primary{background:var(--gold);color:var(--ink);padding:.6rem 1.5rem}.btn-action.primary:hover{background:var(--gold-lt)}
-        /* ── Booking details modal styles ── */
-        .booking-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem 2rem;font-size:.9rem}.booking-detail-grid .label{color:var(--gold);font-weight:400;letter-spacing:.05em}.booking-detail-grid .value{color:rgba(245,240,232,.7)}.booking-detail-grid .full{grid-column:1/-1}.booking-detail-image{max-width:300px;max-height:300px;border:1px solid rgba(245,240,232,.1);border-radius:4px;margin-top:.5rem}
-        .modal-box .btn-primary.hidden{display:none}
-        @media(max-width:768px){.booking-detail-grid{grid-template-columns:1fr}}
+        .btn-action{padding:.3rem 1rem;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid transparent;transition:all .3s;margin-right:.4rem;cursor:pointer}.btn-action.approve{background:var(--sage);color:var(--ivory)}.btn-action.approve:hover{background:#3D7A2A}.btn-action.reject{border-color:rgba(245,240,232,.15);color:rgba(245,240,232,.4)}.btn-action.reject:hover{border-color:var(--danger);color:var(--danger)}.btn-action.edit{border-color:rgba(201,168,76,.3);color:var(--gold)}.btn-action.edit:hover{background:rgba(201,168,76,.1)}.btn-action.delete{border-color:rgba(139,0,0,.3);color:var(--danger)}.btn-action.delete:hover{background:rgba(139,0,0,.1)}.btn-action.primary{background:var(--gold);color:var(--ink);padding:.6rem 1.5rem}.btn-action.primary:hover{background:var(--gold-lt)}.btn-action.detail{background:rgba(201,168,76,.15);color:var(--gold);border-color:rgba(201,168,76,.3)}.btn-action.detail:hover{background:rgba(201,168,76,.25)}
         .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,.85);z-index:2000;align-items:center;justify-content:center;padding:2rem}.modal-overlay.open{display:flex}.modal-box{background:#0f0f0f;border:1px solid rgba(201,168,76,.2);max-width:700px;width:100%;padding:2rem;max-height:90vh;overflow-y:auto}.modal-box .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.modal-box .modal-header h3{font-family:var(--font-display);font-size:1.4rem;font-weight:300;color:var(--ivory)}.modal-box .modal-header h3 em{font-style:italic;color:var(--gold)}.modal-box .modal-header .close-btn{font-size:1.5rem;color:rgba(245,240,232,.3);transition:color .3s}.modal-box .modal-header .close-btn:hover{color:var(--ivory)}.modal-box .form-group{margin-bottom:1.2rem}.modal-box .form-group label{display:block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-bottom:.3rem}.modal-box .form-group input,.modal-box .form-group textarea,.modal-box .form-group select{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(245,240,232,.12);padding:.8rem 1rem;font-family:var(--font-body);font-size:.85rem;color:var(--ivory);outline:none;border-radius:0;transition:border-color .3s}.modal-box .form-group input:focus,.modal-box .form-group textarea:focus,.modal-box .form-group select:focus{border-color:var(--gold)}.modal-box .form-group textarea{resize:vertical;min-height:80px}.modal-box .form-group select option{background:var(--ink);color:var(--ivory)}.modal-box .form-group .file-help{font-size:.7rem;color:rgba(245,240,232,.3);margin-top:4px}
         .image-group{background:rgba(255,255,255,.03);border:1px solid rgba(245,240,232,.08);border-radius:8px;padding:12px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
         .image-group .preview-img{width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid rgba(245,240,232,.1)}
@@ -36,7 +32,19 @@
         .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:800px}.settings-grid .form-group{margin-bottom:0}.settings-grid .form-group.full-width{grid-column:1/-1}
         .empty-state{text-align:center;padding:3rem 2rem;color:rgba(245,240,232,.3)}.empty-state p{font-size:1rem}
         .toast{position:fixed;bottom:2rem;right:2rem;background:var(--sage);color:var(--ivory);padding:1rem 2rem;border:1px solid rgba(45,80,22,.3);z-index:3000;font-size:.9rem;opacity:0;transform:translateY(20px);transition:all .4s var(--ease);pointer-events:none;max-width:400px}.toast.show{opacity:1;transform:translateY(0);pointer-events:all}.toast.error{background:var(--danger);border-color:rgba(139,0,0,.3)}
-        @media(max-width:1024px){.stats-grid{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}@media(max-width:768px){.admin-sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid rgba(201,168,76,.1);padding:1rem 0}.admin-wrapper{flex-direction:column}.admin-sidebar .brand{padding:0 1rem 1rem}.admin-sidebar .nav-item{padding:.6rem 1rem;font-size:.7rem}.admin-sidebar .sidebar-footer{display:none}.admin-main{padding:1rem 1rem 3rem}.admin-main .page-header h1{font-size:1.4rem}.stats-grid{grid-template-columns:1fr 1fr;gap:.8rem}.stat-card{padding:1rem}.stat-card .number{font-size:1.8rem}.modal-box{padding:1.5rem;margin:1rem}.table-wrap{font-size:.75rem}table th,table td{padding:.5rem .6rem}.btn-action{padding:.2rem .6rem;font-size:.5rem;margin-right:.2rem}.toast{bottom:1rem;right:1rem;left:1rem;max-width:none;font-size:.8rem;padding:.8rem 1.2rem}.image-group{flex-direction:column;align-items:stretch}.image-group .preview-img{width:100%;height:auto;max-height:120px}}@media(max-width:480px){.stats-grid{grid-template-columns:1fr}.admin-main .page-header{flex-direction:column;align-items:flex-start}.admin-sidebar .nav-item{font-size:.65rem;padding:.5rem .8rem}.admin-sidebar .nav-item i{font-size:.8rem;width:18px}.login-box{padding:0 1rem}}
+        /* ── Booking Detail Modal Styles ── */
+        .booking-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem 2rem;font-size:.9rem}
+        .booking-detail-grid .label{color:var(--gold);font-weight:400;letter-spacing:.05em;display:block;font-size:.7rem;text-transform:uppercase;margin-bottom:.1rem}
+        .booking-detail-grid .value{color:rgba(245,240,232,.8)}
+        .booking-detail-grid .full{grid-column:1/-1}
+        .booking-detail-grid .meas-tag{display:inline-block;background:rgba(255,255,255,.05);padding:.15rem .8rem;border-radius:4px;margin:2px 4px 2px 0;font-size:.8rem;border:1px solid rgba(245,240,232,.06)}
+        .booking-detail-image{max-width:250px;max-height:250px;border:1px solid rgba(245,240,232,.1);border-radius:4px;margin-top:.3rem;object-fit:contain;background:#111}
+        .booking-detail-status{display:inline-block;padding:.2rem .8rem;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px}
+        .booking-detail-status.new{background:rgba(201,168,76,.15);color:var(--gold)}
+        .booking-detail-status.contacted{background:rgba(45,80,22,.2);color:var(--sage-lt)}
+        .booking-detail-status.closed{background:rgba(245,240,232,.05);color:rgba(245,240,232,.3)}
+        .modal-box .btn-primary.hidden{display:none}
+        @media(max-width:768px){.booking-detail-grid{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
@@ -145,21 +153,23 @@
     </main>
 </div>
 
-<!-- ── MODAL OVERLAY (used for both forms and booking details) ── -->
+<!-- ── MODAL OVERLAY ── -->
 <div class="modal-overlay" id="modal">
     <div class="modal-box">
         <div class="modal-header">
             <h3 id="modal-title">Add <em>Item</em></h3>
             <button class="close-btn" id="modal-close"><i class="fas fa-times"></i></button>
         </div>
-        <div id="modal-body"></div>
-        <button type="submit" class="btn-primary" id="modal-submit">Save Item</button>
+        <form id="modal-form">
+            <div id="modal-body"></div>
+            <button type="submit" class="btn-primary" id="modal-submit">Save Item</button>
+        </form>
     </div>
 </div>
 
 <script>
     // ════════════════════════════════════════════════════
-    // 🔥 FIREBASE CONFIG – REPLACE WITH YOUR OWN
+    // 🔥 FIREBASE CONFIG
     // ════════════════════════════════════════════════════
     const firebaseConfig = {
         apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
@@ -176,7 +186,7 @@
     const db = firebase.database();
 
     // ════════════════════════════════════════════════════
-    // 🖼️ IMAGEKIT CONFIG – REPLACE WITH YOUR OWN
+    // 🖼️ IMAGEKIT CONFIG
     // ════════════════════════════════════════════════════
     const IMAGEKIT_PRIVATE_KEY = 'private_RLsucdkMH63bDXqifiWBlUUDRbs=';
     const IMAGEKIT_UPLOAD_URL = 'https://upload.imagekit.io/api/v1/files/upload';
@@ -317,7 +327,6 @@
             `;
         });
         container.innerHTML = html;
-        // Attach events
         container.querySelectorAll('.img-file').forEach(input => {
             input.addEventListener('change', function(e) {
                 const idx = parseInt(this.dataset.idx);
@@ -361,7 +370,6 @@
     }
 
     // ─── MODAL ───────────────────────────────────────
-    // Extended to support "view" mode for bookings
     function openModal(type, mode, data) {
         modalType = type;
         modalMode = mode;
@@ -369,19 +377,17 @@
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
 
-        // If we are viewing a booking (mode === 'view'), we skip the form logic
+        // ─── VIEW MODE (for booking details) ────────────
         if (mode === 'view') {
             modalTitle.innerHTML = 'Booking <em>Details</em>';
             modalSubmit.classList.add('hidden');
-            // Build booking detail content
             modalBody.innerHTML = buildBookingDetailHTML(data);
             return;
         }
 
-        // Otherwise, it's the usual add/edit for portfolio/collections
+        // ─── ADD / EDIT MODE (portfolio / collections) ──
         modalSubmit.classList.remove('hidden');
 
-        // Build imageItems from either 'images' array or single 'image' string
         if (mode === 'add') {
             imageItems = [];
         } else if (data) {
@@ -419,22 +425,24 @@
         renderImageItems();
     }
 
-    // ─── Helper to build booking detail HTML ────────
-    function buildBookingDetailHTML(data) {
-        const b = data;
+    // ─── Booking Detail HTML ──────────────────────────
+    function buildBookingDetailHTML(b) {
         const measurements = b.measurements || {};
         const measList = Object.entries(measurements)
             .filter(([key, val]) => val && val !== '')
-            .map(([key, val]) => `<span style="display:inline-block;margin-right:1rem;font-size:.85rem;"><strong>${key.charAt(0).toUpperCase()+key.slice(1)}:</strong> ${val}cm</span>`)
+            .map(([key, val]) => `<span class="meas-tag"><strong>${key.charAt(0).toUpperCase()+key.slice(1)}</strong> ${val}cm</span>`)
             .join('');
 
+        const statusClass = b.status || 'new';
+        const statusLabel = b.status || 'new';
+
         const imageHtml = b.image && b.image.startsWith('data:image/')
-            ? `<div class="full"><label style="color:var(--gold);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;">Style Inspiration</label><div><img src="${b.image}" class="booking-detail-image" alt="Style reference" /></div></div>`
+            ? `<div class="full"><span class="label">Style Inspiration</span><div><img src="${b.image}" class="booking-detail-image" alt="Style reference" /></div></div>`
             : '';
 
         return `
             <div class="booking-detail-grid">
-                <div><span class="label">Client</span><div class="value">${b.name || '—'}</div></div>
+                <div><span class="label">Full Name</span><div class="value">${b.name || '—'}</div></div>
                 <div><span class="label">Email</span><div class="value">${b.email || '—'}</div></div>
                 <div><span class="label">Phone</span><div class="value">${b.phone || '—'}</div></div>
                 <div><span class="label">Service</span><div class="value">${b.service || '—'}</div></div>
@@ -443,28 +451,27 @@
                 <div><span class="label">Fabric Preference</span><div class="value">${b.fabricType || '—'}</div></div>
                 <div><span class="label">Colour / Style</span><div class="value">${b.colourPreference || '—'}</div></div>
                 <div><span class="label">Preferred Date</span><div class="value">${b.date ? new Date(b.date).toLocaleDateString('en-GB', {year:'numeric',month:'short',day:'numeric'}) : '—'}</div></div>
-                <div><span class="label">Status</span><div class="value"><span class="status-badge ${b.status || 'new'}">${b.status || 'new'}</span></div></div>
-                <div class="full"><span class="label">Style Notes</span><div class="value">${b.notes || '—'}</div></div>
+                <div><span class="label">Status</span><div class="value"><span class="booking-detail-status ${statusClass}">${statusLabel}</span></div></div>
+                <div class="full"><span class="label">Style Notes</span><div class="value" style="white-space:pre-wrap;">${b.notes || '—'}</div></div>
                 ${measList ? `<div class="full"><span class="label">Measurements</span><div class="value">${measList}</div></div>` : ''}
                 ${imageHtml}
-                <div class="full" style="font-size:.7rem;color:rgba(245,240,232,.3);margin-top:.5rem;">Submitted: ${b.timestamp ? new Date(b.timestamp).toLocaleString() : '—'}</div>
+                <div class="full" style="font-size:.7rem;color:rgba(245,240,232,.3);margin-top:.5rem;border-top:1px solid rgba(245,240,232,.06);padding-top:.5rem;">Submitted: ${b.timestamp ? new Date(b.timestamp).toLocaleString() : '—'}</div>
             </div>
         `;
     }
 
-    // ─── Close modal ──────────────────────────────────
     function closeModal() {
         modal.classList.remove('open');
         document.body.style.overflow = '';
         modalEditId = null;
         imageItems = [];
-        modalSubmit.classList.remove('hidden'); // ensure it's visible for next use
+        modalSubmit.classList.remove('hidden');
     }
 
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
 
-    // ─── MODAL FORM HTML (unchanged) ──────────────────
+    // ─── MODAL FORM HTML ─────────────────────────────
     function getModalFormHTML(type, data) {
         const isPortfolio = type === 'portfolio';
         const categories = isPortfolio ?
@@ -479,74 +486,26 @@
         let extraFields = '';
         if (isPortfolio) {
             extraFields = `
-                <div class="form-group">
-                    <label>Client</label>
-                    <input type="text" id="modal-client" value="${data ? data.client || '' : ''}" placeholder="Client name" />
-                </div>
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" id="modal-location" value="${data ? data.location || '' : ''}" placeholder="Location (e.g., Ibadan, Lagos)" />
-                </div>
-                <div class="form-group">
-                    <label>Timeline / Duration</label>
-                    <input type="text" id="modal-timeline" value="${data ? data.timeline || '' : ''}" placeholder="e.g. 4 weeks, 2 months, 2025-06-01 to 2025-07-15" />
-                </div>
-                <div class="form-group">
-                    <label>Budget / Cost Estimate</label>
-                    <input type="text" id="modal-budget" value="${data ? data.budget || '' : ''}" placeholder="e.g. ₦1,200,000, $15,000" />
-                </div>
-                <div class="form-group">
-                    <label>Materials Used</label>
-                    <textarea id="modal-materials" rows="2" placeholder="List materials used (e.g. Italian silk, French lace, Aso-oke, cotton blend…)">${data ? data.materials || '' : ''}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Scope of Work</label>
-                    <textarea id="modal-scope" rows="2" placeholder="Detailed scope of work">${data ? data.scope || '' : ''}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Result / Outcome</label>
-                    <textarea id="modal-result" rows="2" placeholder="Project outcome, client feedback, etc.">${data ? data.result || '' : ''}</textarea>
-                </div>
+                <div class="form-group"><label>Client</label><input type="text" id="modal-client" value="${data ? data.client || '' : ''}" placeholder="Client name" /></div>
+                <div class="form-group"><label>Location</label><input type="text" id="modal-location" value="${data ? data.location || '' : ''}" placeholder="Location (e.g., Ibadan, Lagos)" /></div>
+                <div class="form-group"><label>Timeline / Duration</label><input type="text" id="modal-timeline" value="${data ? data.timeline || '' : ''}" placeholder="e.g. 4 weeks, 2 months, 2025-06-01 to 2025-07-15" /></div>
+                <div class="form-group"><label>Budget / Cost Estimate</label><input type="text" id="modal-budget" value="${data ? data.budget || '' : ''}" placeholder="e.g. ₦1,200,000, $15,000" /></div>
+                <div class="form-group"><label>Materials Used</label><textarea id="modal-materials" rows="2" placeholder="List materials used (e.g. Italian silk, French lace, Aso-oke, cotton blend…)">${data ? data.materials || '' : ''}</textarea></div>
+                <div class="form-group"><label>Scope of Work</label><textarea id="modal-scope" rows="2" placeholder="Detailed scope of work">${data ? data.scope || '' : ''}</textarea></div>
+                <div class="form-group"><label>Result / Outcome</label><textarea id="modal-result" rows="2" placeholder="Project outcome, client feedback, etc.">${data ? data.result || '' : ''}</textarea></div>
             `;
         }
 
         return `
-            <div class="form-group">
-                <label>Title *</label>
-                <input type="text" id="modal-title-input" value="${data ? data.title || '' : ''}" placeholder="e.g. Ivory Bridal Gown" required />
-            </div>
-            <div class="form-group">
-                <label>Category *</label>
-                <select id="modal-category" required>
-                    <option value="">Select category…</option>
-                    ${catOptions}
-                </select>
-            </div>
-            ${isPortfolio ? `
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="modal-description" rows="2" placeholder="Brief description of the item…">${data ? data.description || '' : ''}</textarea>
-                </div>
-                ${extraFields}
-            ` : ''}
-            <div class="form-group">
-                <label>Images (multiple allowed)</label>
-                <div id="modal-image-items"></div>
-                <button type="button" class="btn-add-image" id="add-image-btn">+ Add Image</button>
-                <p class="file-help">JPG, PNG, WebP (max 5MB each). Add multiple images for a gallery.</p>
-            </div>
-            <div class="form-group" style="display:flex;align-items:center;gap:.8rem;">
-                <label style="margin:0;font-size:.65rem;">Mark as New</label>
-                <input type="checkbox" id="modal-isnew" ${data && data.isNew ? 'checked' : ''} style="width:auto;" />
-            </div>
-            <div class="form-group">
-                <label>Order (lower numbers appear first)</label>
-                <input type="number" id="modal-order" value="${data ? data.order || 0 : 0}" />
-            </div>
+            <div class="form-group"><label>Title *</label><input type="text" id="modal-title-input" value="${data ? data.title || '' : ''}" placeholder="e.g. Ivory Bridal Gown" required /></div>
+            <div class="form-group"><label>Category *</label><select id="modal-category" required><option value="">Select category…</option>${catOptions}</select></div>
+            ${isPortfolio ? `<div class="form-group"><label>Description</label><textarea id="modal-description" rows="2" placeholder="Brief description of the item…">${data ? data.description || '' : ''}</textarea></div>${extraFields}` : ''}
+            <div class="form-group"><label>Images (multiple allowed)</label><div id="modal-image-items"></div><button type="button" class="btn-add-image" id="add-image-btn">+ Add Image</button><p class="file-help">JPG, PNG, WebP (max 5MB each).</p></div>
+            <div class="form-group" style="display:flex;align-items:center;gap:.8rem;"><label style="margin:0;font-size:.65rem;">Mark as New</label><input type="checkbox" id="modal-isnew" ${data && data.isNew ? 'checked' : ''} style="width:auto;" /></div>
+            <div class="form-group"><label>Order (lower numbers appear first)</label><input type="number" id="modal-order" value="${data ? data.order || 0 : 0}" /></div>
         `;
     }
 
-    // ─── Add image button ─────────────────────────────
     document.addEventListener('click', function(e) {
         if (e.target && e.target.id === 'add-image-btn') {
             imageItems.push({ file: null, existingUrl: '', label: '', isNew: true, previewUrl: '' });
@@ -554,11 +513,9 @@
         }
     });
 
-    // ─── MODAL SUBMIT (for portfolio/collections) ──────
+    // ─── MODAL SUBMIT ────────────────────────────────
     modalForm.addEventListener('submit', function(e) {
         e.preventDefault();
-
-        // If we're in view mode, ignore submit
         if (modalMode === 'view') return;
 
         const title = document.getElementById('modal-title-input').value.trim();
@@ -589,7 +546,7 @@
 
         const submitBtn = modalSubmit;
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Uploading images…';
+        submitBtn.textContent = 'Uploading…';
 
         async function uploadImages() {
             const uploaded = [];
@@ -611,8 +568,6 @@
                         throw new Error(err.message || 'Upload failed');
                     }
                     const data = await response.json();
-                    console.log('📸 ImageKit response:', data);
-
                     let imageUrl = data.url || data.fileUrl || data.filePath || '';
                     if (!imageUrl.startsWith('http')) {
                         imageUrl = IMAGEKIT_BASE_URL + (imageUrl.startsWith('/') ? '' : '/') + imageUrl;
@@ -620,7 +575,6 @@
                     if (!imageUrl || imageUrl === 'undefined') {
                         throw new Error('No valid URL returned from ImageKit');
                     }
-                    console.log('✅ Uploaded image URL:', imageUrl);
                     uploaded.push({ url: imageUrl, label: item.label || '' });
                 } else if (item.existingUrl) {
                     uploaded.push({ url: item.existingUrl, label: item.label || '' });
@@ -655,7 +609,6 @@
                 } else {
                     promise = db.ref(ref + '/' + modalEditId).update(data);
                 }
-                console.log('💾 Saving data:', data);
                 return promise;
             })
             .then(function() {
@@ -669,17 +622,16 @@
             })
             .catch(function(error) {
                 showToast('Error: ' + error.message, true);
-                console.error('Submit error:', error);
+                console.error(error);
                 submitBtn.disabled = false;
                 submitBtn.textContent = modalMode === 'add' ? 'Add Item' : 'Save Changes';
             });
     });
 
-    // ─── ADD BUTTONS ──────────────────────────────────
     document.getElementById('add-portfolio-btn').addEventListener('click', () => openModal('portfolio', 'add', null));
     document.getElementById('add-collection-btn').addEventListener('click', () => openModal('collections', 'add', null));
 
-    // ─── LOAD DATA FUNCTIONS ─────────────────────────
+    // ─── LOAD DATA ──────────────────────────────────
     function loadAllData() { loadReviews(); loadPortfolio(); loadCollections(); loadBookings(); loadSettings(); updateStats(); }
 
     function updateStats() {
@@ -710,7 +662,7 @@
         });
     }
 
-    // ─── Reviews ──────────────────────────────────────
+    // ─── REVIEWS ──────────────────────────────────────
     function loadReviews() {
         const ref = reviewTab === 'pending' ? 'reviews/pending' : 'reviews/approved';
         const wrap = document.getElementById('reviews-table-wrap');
@@ -762,7 +714,7 @@
             .catch(err => { showToast('Error rejecting review.', true); console.error(err); });
     };
 
-    // ─── Portfolio ────────────────────────────────────
+    // ─── PORTFOLIO ────────────────────────────────────
     function loadPortfolio() {
         const wrap = document.getElementById('portfolio-table-wrap');
         wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(245,240,232,.3);">Loading portfolio…</div>';
@@ -829,7 +781,7 @@
             .catch(err => { showToast('Error deleting item.', true); console.error(err); });
     };
 
-    // ─── Collections ──────────────────────────────────
+    // ─── COLLECTIONS ──────────────────────────────────
     function loadCollections() {
         const wrap = document.getElementById('collections-table-wrap');
         wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(245,240,232,.3);">Loading collections…</div>';
@@ -873,7 +825,7 @@
             .catch(err => { showToast('Error deleting collection.', true); console.error(err); });
     };
 
-    // ─── Bookings (UPDATED with Details button) ──────
+    // ─── BOOKINGS (UPDATED with View Details) ─────────
     function loadBookings() {
         const wrap = document.getElementById('bookings-table-wrap');
         wrap.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(245,240,232,.3);">Loading bookings…</div>';
@@ -894,17 +846,18 @@
                 const date = b.timestamp ? new Date(b.timestamp).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }) : '—';
                 const status = b.status || 'new';
                 const statusClass = status === 'new' ? 'new' : status === 'contacted' ? 'contacted' : 'closed';
-                // Build a small preview of extra info
+                // Quick preview badges
                 let extraInfo = '';
-                if (b.eventType) extraInfo += `<span style="display:inline-block;margin-right:.5rem;font-size:.65rem;color:rgba(245,240,232,.4);">🎯 ${b.eventType}</span>`;
-                if (b.fabricType) extraInfo += `<span style="display:inline-block;margin-right:.5rem;font-size:.65rem;color:rgba(245,240,232,.4);">🧵 ${b.fabricType}</span>`;
+                if (b.eventType) extraInfo += `<span style="display:inline-block;margin-right:.4rem;font-size:.6rem;color:rgba(245,240,232,.4);">🎯 ${b.eventType}</span>`;
+                if (b.fabricType) extraInfo += `<span style="display:inline-block;margin-right:.4rem;font-size:.6rem;color:rgba(245,240,232,.4);">🧵 ${b.fabricType}</span>`;
+                if (b.budgetRange) extraInfo += `<span style="display:inline-block;margin-right:.4rem;font-size:.6rem;color:rgba(245,240,232,.4);">💰 ${b.budgetRange}</span>`;
                 html += `<tr>
                     <td><strong>${b.name || '—'}</strong><br><span style="font-size:.7rem;color:rgba(245,240,232,.3);">${b.email || ''}</span></td>
                     <td>${b.service || '—'}</td>
                     <td>${date}</td>
                     <td><span class="status-badge ${statusClass}">${status}</span></td>
                     <td>
-                        <button class="btn-action edit" onclick="viewBooking('${id}')" style="font-size:.55rem;">View Details</button>
+                        <button class="btn-action detail" onclick="viewBooking('${id}')"><i class="fas fa-eye"></i> View</button>
                         ${extraInfo ? `<div style="margin-top:4px;">${extraInfo}</div>` : ''}
                     </td>
                     <td><button class="btn-action edit" onclick="updateBookingStatus('${id}', 'contacted')">Contacted</button><button class="btn-action edit" onclick="updateBookingStatus('${id}', 'closed')">Closed</button></td>
@@ -920,7 +873,6 @@
         db.ref('bookings/' + id).once('value').then(snap => {
             const data = snap.val();
             if (data) {
-                // Pass data to the modal in 'view' mode
                 openModal('booking', 'view', data);
             } else {
                 showToast('Booking not found.', true);
@@ -937,7 +889,7 @@
             .catch(err => { showToast('Error updating status.', true); console.error(err); });
     };
 
-    // ─── Settings ─────────────────────────────────────
+    // ─── SETTINGS ─────────────────────────────────────
     function loadSettings() {
         db.ref('settings').once('value').then(snap => {
             const data = snap.val() || {};
@@ -985,7 +937,6 @@
     });
 
     console.log('✅ Admin loaded. ImageKit base URL:', IMAGEKIT_BASE_URL);
-    console.log('ℹ️ When you add images, check the console for the uploaded URLs.');
 </script>
 </body>
 </html>
