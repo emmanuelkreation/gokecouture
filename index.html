@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
@@ -23,7 +25,7 @@
       --sage: #2D5016;
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body: 'Jost', system-ui, sans-serif;
-      --ease: cubic-bezier(.25, .46, .45, .94);
+      --ease: cubic-bezier(.25,.46,.45,.94);
       --slow: cubic-bezier(.16, 1, .3, 1);
     }
 
@@ -350,7 +352,6 @@
       width: 100%;
     }
 
-    /* ── ★ NEW: Small sub-writeup above headline ── */
     .hero-tagline {
       font-family: var(--font-body);
       font-weight: 300;
@@ -359,7 +360,6 @@
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 1.2rem;
-      /* Always visible – no opacity/transform issues */
       opacity: 1;
       transform: none;
     }
@@ -398,20 +398,17 @@
       transform: translateY(100%);
       transition: opacity .7s var(--slow), transform .7s var(--slow);
     }
-    /* When loaded, all chars become visible */
     .hero.loaded .hero-title .char {
       opacity: 1;
       transform: none;
     }
 
-    /* ── ★ NEW: Stats Row ── */
     .hero-stats {
       display: flex;
       gap: 2.5rem;
       margin-bottom: 1.8rem;
       flex-wrap: wrap;
       padding-top: 0.5rem;
-      /* Always visible */
       opacity: 1;
       transform: none;
     }
@@ -462,17 +459,14 @@
       max-width: 560px;
       line-height: 1.8;
       margin-bottom: 2rem;
-      /* Always visible */
       opacity: 1;
       transform: none;
     }
 
-    /* ── ★ NEW: Extended CTAs ── */
     .hero-btns {
       display: flex;
       flex-wrap: wrap;
       gap: 0.8rem 1rem;
-      /* Always visible */
       opacity: 1;
       transform: none;
     }
@@ -599,7 +593,168 @@
     }
 
     /* ═══════════════════════════════════════════════
-       REVEAL ANIMATION SYSTEM (unchanged)
+       CAROUSEL SECTION (NEW)
+    ═══════════════════════════════════════════════ */
+    .carousel-section {
+      padding: 4rem 5vw 6rem;
+      background: var(--ink);
+      border-top: 1px solid rgba(201, 168, 76, .06);
+      border-bottom: 1px solid rgba(201, 168, 76, .06);
+    }
+    .carousel-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .carousel-header .eyebrow {
+      font-size: .7rem;
+      letter-spacing: .5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: .5rem;
+    }
+    .carousel-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 300;
+      color: var(--ivory);
+    }
+    .carousel-header h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .carousel-header p {
+      color: rgba(245, 240, 232, .4);
+      font-size: 1rem;
+      margin-top: .3rem;
+    }
+
+    .swiper {
+      width: 100%;
+      height: auto;
+      padding: 0 0 3rem;
+      position: relative;
+    }
+    .swiper-slide {
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: flex-end;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      transition: transform .8s var(--slow), filter .6s;
+      filter: saturate(.85) contrast(1.05);
+    }
+    .swiper-slide:hover img {
+      transform: scale(1.04);
+      filter: saturate(1) contrast(1.1);
+    }
+    .swiper-slide .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 10, 10, .85) 0%, transparent 60%);
+      z-index: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .swiper-slide .slide-overlay .category {
+      font-size: .65rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .2rem;
+    }
+    .swiper-slide .slide-overlay h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+      font-weight: 300;
+      color: var(--ivory);
+      margin: 0 0 .2rem;
+    }
+    .swiper-slide .slide-overlay .desc {
+      font-size: .95rem;
+      color: rgba(245, 240, 232, .5);
+      max-width: 60%;
+      margin-bottom: .8rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .swiper-slide .slide-overlay .btn-outline-gold {
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: .3rem 1.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+      transition: background .3s, color .3s;
+      align-self: flex-start;
+      cursor: pointer;
+    }
+    .swiper-slide .slide-overlay .btn-outline-gold:hover {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: var(--gold);
+      background: rgba(0, 0, 0, .4);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      backdrop-filter: blur(8px);
+      transition: background .3s, transform .3s;
+    }
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      background: rgba(0, 0, 0, .7);
+      transform: scale(1.08);
+    }
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .swiper-pagination-bullet {
+      background: rgba(245, 240, 232, .3);
+      opacity: 1;
+      width: 10px;
+      height: 10px;
+    }
+    .swiper-pagination-bullet-active {
+      background: var(--gold);
+      box-shadow: 0 0 10px rgba(201, 168, 76, .4);
+    }
+
+    @media(max-width:768px) {
+      .swiper-slide .slide-overlay .desc {
+        max-width: 100%;
+      }
+      .swiper-slide {
+        aspect-ratio: 4/3;
+      }
+      .swiper-button-next,
+      .swiper-button-prev {
+        display: none;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════
+       REVEAL ANIMATION SYSTEM
     ═══════════════════════════════════════════════ */
     .reveal {
       opacity: 0;
@@ -665,7 +820,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       SECTION COMMONS (unchanged)
+       SECTION COMMONS
     ═══════════════════════════════════════════════ */
     section {
       padding: 8rem 5vw
@@ -698,7 +853,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       MARQUEE STRIP (unchanged)
+       MARQUEE STRIP
     ═══════════════════════════════════════════════ */
     .marquee-strip {
       background: var(--gold);
@@ -732,7 +887,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       ABOUT (unchanged)
+       ABOUT
     ═══════════════════════════════════════════════ */
     #about {
       display: grid;
@@ -812,7 +967,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       WHY CHOOSE US (unchanged)
+       WHY CHOOSE US
     ═══════════════════════════════════════════════ */
     #why-us {
       background: #0f0f0f;
@@ -853,7 +1008,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       SERVICES (unchanged)
+       SERVICES
     ═══════════════════════════════════════════════ */
     #services {
       background: #0a0a0a;
@@ -961,7 +1116,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       PARALLAX DIVIDERS (unchanged)
+       PARALLAX DIVIDERS
     ═══════════════════════════════════════════════ */
     .parallax-divider {
       position: relative;
@@ -1015,7 +1170,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       COLLECTIONS (unchanged)
+       COLLECTIONS
     ═══════════════════════════════════════════════ */
     #collections {
       background: var(--ink)
@@ -1145,7 +1300,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       TESTIMONIALS (unchanged)
+       TESTIMONIALS
     ═══════════════════════════════════════════════ */
     #testimonials {
       background: #0a0a0a;
@@ -1221,7 +1376,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       PROCESS (unchanged)
+       PROCESS
     ═══════════════════════════════════════════════ */
     #process {
       background: #0f0f0f;
@@ -1291,7 +1446,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       FAQ (unchanged)
+       FAQ
     ═══════════════════════════════════════════════ */
     #faq {
       background: var(--ink);
@@ -1345,7 +1500,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       CONTACT (unchanged)
+       CONTACT
     ═══════════════════════════════════════════════ */
     #contact {
       background: #0f0f0f;
@@ -1439,7 +1594,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       CTA BANNER (unchanged)
+       CTA BANNER
     ═══════════════════════════════════════════════ */
     #cta-banner {
       position: relative;
@@ -1494,7 +1649,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       NEWSLETTER (unchanged)
+       NEWSLETTER
     ═══════════════════════════════════════════════ */
     #newsletter {
       background: var(--ink);
@@ -1569,7 +1724,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       INSTAGRAM (unchanged)
+       INSTAGRAM
     ═══════════════════════════════════════════════ */
     #insta {
       background: var(--ink);
@@ -1626,7 +1781,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       FOOTER (unchanged)
+       FOOTER
     ═══════════════════════════════════════════════ */
     footer {
       background: #050505;
@@ -1732,7 +1887,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       WHATSAPP FLOAT (unchanged)
+       WHATSAPP FLOAT
     ═══════════════════════════════════════════════ */
     #wa-float {
       position: fixed;
@@ -1765,7 +1920,7 @@
     }
 
     /* ═══════════════════════════════════════════════
-       RESPONSIVE (updated to keep visibility)
+       RESPONSIVE
     ═══════════════════════════════════════════════ */
     @media(max-width:1024px) {
       #about {
@@ -1998,7 +2153,6 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      /* Hero mobile adjustments */
       .hero-btns {
         gap: 0.6rem;
       }
@@ -2294,25 +2448,18 @@
       <div class="hero-slide" style="background-image:url('https://i.pinimg.com/1200x/df/9a/5c/df9a5cc1849596afb0214c86d1e80d0f.jpg?w=1800&q=85&auto=format&fit=crop')"></div>
     </div>
 
-    <!-- Large GC Monogram Background -->
     <div class="hero-monogram" aria-hidden="true">GC</div>
 
     <div class="hero-content">
-
-      <!-- ★ NEW: Small sub-writeup above headline -->
       <p class="hero-tagline">Bespoke Tailoring • Since 2016</p>
-
-      <!-- Existing eyebrow -->
       <p class="hero-eyebrow">Ibadan, Oyo State — Nigeria</p>
 
-      <!-- Main Headline -->
       <h1 class="hero-title">
         <span id="hero-line1">Where Every</span><br>
         <span id="hero-line2">Stitch Tells</span><br>
         <em id="hero-line3">Your Story</em>
       </h1>
 
-      <!-- ★ NEW: Stats Row (immediately after headline) -->
       <div class="hero-stats">
         <div class="hero-stat">
           <span class="num">500+</span>
@@ -2330,10 +2477,8 @@
         </div>
       </div>
 
-      <!-- Existing subtext -->
       <p class="hero-sub">Premium garments crafted with precision, passion, and an obsession with perfection — for those who wear their identity.</p>
 
-      <!-- ★ NEW: Extended CTAs (5 buttons) -->
       <div class="hero-btns">
         <a href="#contact" class="btn-primary">
           <span>Book a Fitting</span>
@@ -2342,7 +2487,6 @@
         <a href="#collections" class="btn-outline btn-small">View Our Collection</a>
         <a href="#about" class="btn-ghost btn-small">Know Us</a>
         <a href="#contact" class="btn-ghost btn-small">Contact</a>
-        
       </div>
     </div>
 
@@ -2358,7 +2502,7 @@
     <div class="scroll-hint" aria-hidden="true">Scroll</div>
   </section>
 
-  <!-- ── MARQUEE ── (unchanged) -->
+  <!-- ── MARQUEE ── -->
   <div class="marquee-strip" aria-hidden="true">
     <div class="marquee-inner">
       <span>Bespoke Tailoring</span><span class="dot">◆</span>
@@ -2378,7 +2522,27 @@
     </div>
   </div>
 
-  <!-- ── ABOUT ── (unchanged) -->
+  <!-- ═══════════════════════════════════════════════
+       🆕 COLLECTIONS CAROUSEL (NEW SECTION)
+  ═══════════════════════════════════════════════ -->
+  <section class="carousel-section" aria-label="Featured collections carousel">
+    <div class="carousel-header reveal">
+      <span class="eyebrow">Explore Our</span>
+      <h2>Signature <em>Collections</em></h2>
+      <p>Curated with passion, crafted for distinction.</p>
+    </div>
+
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper" id="carousel-wrapper">
+        <!-- Slides injected via JavaScript -->
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
   <section id="about" aria-label="About Goke Couture">
     <div class="about-img-wrap reveal-left">
       <img class="about-img" src="https://i.pinimg.com/1200x/75/41/28/7541288a2b4bc73f20bae30c9301c357.jpg?w=900&q=85&auto=format&fit=crop" alt="Tailor carefully crafting a bespoke garment" loading="lazy"/>
@@ -2409,7 +2573,7 @@
     </div>
   </section>
 
-  <!-- ── WHY CHOOSE US ── (unchanged) -->
+  <!-- ── WHY CHOOSE US ── -->
   <section id="why-us" aria-label="Why choose us">
     <div class="services-header" style="max-width:700px;margin:0 auto 4rem;text-align:center;">
       <span class="sec-eyebrow reveal">Why Goke Couture</span>
@@ -2439,7 +2603,7 @@
     </div>
   </section>
 
-  <!-- ── PARALLAX DIVIDER 1 ── (unchanged) -->
+  <!-- ── PARALLAX DIVIDER 1 ── -->
   <div class="parallax-divider" style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80&auto=format&fit=crop');">
     <div class="content">
       <h2>Where <em>Perfection</em> Meets Fabric</h2>
@@ -2447,7 +2611,7 @@
     </div>
   </div>
 
-  <!-- ── SERVICES ── (unchanged) -->
+  <!-- ── SERVICES ── -->
   <section id="services" aria-label="Our services">
     <div class="services-header">
       <span class="sec-eyebrow reveal">What We Create</span>
@@ -2508,7 +2672,7 @@
     </div>
   </section>
 
-  <!-- ── PARALLAX DIVIDER 2 ── (unchanged) -->
+  <!-- ── PARALLAX DIVIDER 2 ── -->
   <div class="parallax-divider" style="background-image:url('https://i.pinimg.com/736x/58/86/cf/5886cf09a733465cf223210214aae121.jpg?w=1600&q=80&auto=format&fit=crop');">
     <div class="content">
       <h2>Every <em>Detail</em> Matters</h2>
@@ -2516,7 +2680,7 @@
     </div>
   </div>
 
-  <!-- ── COLLECTIONS ── (unchanged) -->
+  <!-- ── COLLECTIONS ── -->
   <section id="collections" aria-label="Featured collections">
     <div class="coll-header">
       <div>
@@ -2569,7 +2733,7 @@
     </div>
   </section>
 
-  <!-- ── GALLERY ── (unchanged) -->
+  <!-- ── GALLERY ── -->
   <section id="gallery" aria-label="Image gallery">
     <div class="services-header" style="max-width:700px;margin:0 auto 3rem;text-align:center;">
       <span class="sec-eyebrow reveal">Visual Inspiration</span>
@@ -2587,7 +2751,7 @@
     </div>
   </section>
 
-  <!-- ── PARALLAX DIVIDER 3 ── (unchanged) -->
+  <!-- ── PARALLAX DIVIDER 3 ── -->
   <div class="parallax-divider" style="background-image:url('https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=1600&q=80&auto=format&fit=crop');">
     <div class="content">
       <h2>Where <em>Craftsmanship</em> Speaks</h2>
@@ -2595,7 +2759,7 @@
     </div>
   </div>
 
-  <!-- ── TESTIMONIALS ── (unchanged) -->
+  <!-- ── TESTIMONIALS ── -->
   <section id="testimonials" aria-label="Client testimonials">
     <div class="testi-header">
       <span class="sec-eyebrow reveal">Testimonials</span>
@@ -2637,7 +2801,7 @@
     </div>
   </section>
 
-  <!-- ── PROCESS ── (unchanged) -->
+  <!-- ── PROCESS ── -->
   <section id="process" aria-label="Our tailoring process">
     <div class="process-inner">
       <div>
@@ -2682,7 +2846,7 @@
     </div>
   </section>
 
-  <!-- ── FAQ ── (unchanged) -->
+  <!-- ── FAQ ── -->
   <section id="faq" aria-label="Frequently asked questions">
     <div class="services-header" style="max-width:700px;margin:0 auto 4rem;text-align:center;">
       <span class="sec-eyebrow reveal">Got Questions?</span>
@@ -2734,7 +2898,7 @@
     </div>
   </section>
 
-  <!-- ── CONTACT ── (unchanged) -->
+  <!-- ── CONTACT ── -->
   <section id="contact" aria-label="Contact us">
     <div class="services-header" style="max-width:700px;margin:0 auto 4rem;text-align:center;">
       <span class="sec-eyebrow reveal">Get in Touch</span>
@@ -2811,7 +2975,7 @@
     </div>
   </section>
 
-  <!-- ── CTA BANNER ── (unchanged) -->
+  <!-- ── CTA BANNER ── -->
   <section id="cta-banner" aria-label="Book a consultation">
     <div class="cta-bg" aria-hidden="true"></div>
     <div class="cta-inner">
@@ -2827,7 +2991,7 @@
     </div>
   </section>
 
-  <!-- ── NEWSLETTER ── (unchanged) -->
+  <!-- ── NEWSLETTER ── -->
   <section id="newsletter" aria-label="Newsletter signup">
     <div class="newsletter-wrap reveal">
       <h3>Join the <em>Goke Couture</em> Circle</h3>
@@ -2839,7 +3003,7 @@
     </div>
   </section>
 
-  <!-- ── INSTAGRAM ── (unchanged) -->
+  <!-- ── INSTAGRAM ── -->
   <section id="insta" aria-label="Instagram feed">
     <div class="insta-header">
       <span class="sec-eyebrow reveal">Follow the Journey</span>
@@ -2876,7 +3040,7 @@
     </div>
   </section>
 
-  <!-- ── FOOTER ── (unchanged) -->
+  <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-top">
       <div class="footer-brand">
@@ -2894,7 +3058,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           </a>
           <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 0 006.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
           </a>
           <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -2944,11 +3108,14 @@
     </div>
   </footer>
 
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
   <!-- ═══════════════════════════════════════════════
-     JAVASCRIPT (unchanged – but now hero loads with all visible)
+     JAVASCRIPT
   ═══════════════════════════════════════════════ -->
   <script>
-    // ── Firebase Configuration  ──
+    // ── Firebase Configuration ──
     const firebaseConfig = {
       apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
       authDomain: "gokecouture-26a61.firebaseapp.com",
@@ -2961,7 +3128,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── Scroll progress ──────────────────────────────
+    // ── Scroll progress ──
     (function() {
       const sbar = document.getElementById('scroll-bar');
       window.addEventListener('scroll', function() {
@@ -2971,7 +3138,7 @@
       }, { passive: true });
     })();
 
-    // ── Sticky nav ───────────────────────────────────
+    // ── Sticky nav ──
     (function() {
       const nav = document.getElementById('nav');
       window.addEventListener('scroll', function() {
@@ -2979,7 +3146,7 @@
       }, { passive: true });
     })();
 
-    // ── Mobile menu ──────────────────────────────────
+    // ── Mobile menu ──
     (function() {
       const ham = document.getElementById('hamburger');
       const mNav = document.getElementById('mobile-nav');
@@ -3024,7 +3191,7 @@
       });
     })();
 
-    // ── Hero slideshow ───────────────────────────────
+    // ── Hero slideshow ──
     (function() {
       var slides = document.querySelectorAll('.hero-slide');
       var indicators = document.querySelectorAll('.hi');
@@ -3061,11 +3228,10 @@
       startAutoPlay();
     })();
 
-    // ── Hero text animation (only for headline chars) ──
+    // ── Hero text animation ──
     (function() {
       function animateHeroText() {
         var hero = document.getElementById('hero');
-        // Add loaded class to reveal chars
         if (hero) hero.classList.add('loaded');
 
         ['hero-line1', 'hero-line2', 'hero-line3'].forEach(function(id, li) {
@@ -3082,7 +3248,6 @@
             s.style.transitionDelay = delay + 's';
             el.appendChild(s);
           });
-          // After a short delay, trigger the transition
           setTimeout(function() {
             var spans = el.querySelectorAll('.char');
             spans.forEach(function(s) {
@@ -3099,7 +3264,7 @@
       }
     })();
 
-    // ── Scroll reveal (for other sections) ─────────────
+    // ── Scroll reveal ──
     (function() {
       var revealObs = new IntersectionObserver(function(entries) {
         entries.forEach(function(e) {
@@ -3113,7 +3278,7 @@
         .forEach(function(el) { revealObs.observe(el); });
     })();
 
-    // ── Counter animation ─────────────────────────────
+    // ── Counter animation ──
     (function() {
       function animateCounter(el, target, duration) {
         duration = duration || 1800;
@@ -3145,7 +3310,7 @@
       if (statsSection) statObs.observe(statsSection);
     })();
 
-    // ── Testimonial slider ───────────────────────────
+    // ── Testimonial slider ──
     (function() {
       var track = document.getElementById('testi-track');
       var dots = document.querySelectorAll('.testi-dot');
@@ -3177,7 +3342,7 @@
       startTTimer();
     })();
 
-    // ── Process step interaction ──────────────────────
+    // ── Process step interaction ──
     (function() {
       var pSteps = document.querySelectorAll('.process-step');
       var pImg = document.getElementById('process-img');
@@ -3211,7 +3376,7 @@
       if (pSteps.length) activateStep(pSteps[0]);
     })();
 
-    // ── FAQ accordion ─────────────────────────────────
+    // ── FAQ accordion ──
     (function() {
       var faqItems = document.querySelectorAll('.faq-item');
       faqItems.forEach(function(item) {
@@ -3229,7 +3394,98 @@
       }
     })();
 
-    // ── Contact Form (saves to Firebase) ─────────────
+    // ── Load Collections Carousel ──
+    (function() {
+      const wrapper = document.getElementById('carousel-wrapper');
+      if (!wrapper) return;
+
+      const ref = db.ref('collections');
+
+      ref.once('value').then(function(snapshot) {
+        const data = snapshot.val();
+        if (!data) {
+          wrapper.innerHTML = '<p style="text-align:center;color:rgba(245,240,232,.3);padding:2rem;">No collections available.</p>';
+          return;
+        }
+
+        let items = Object.values(data);
+        items.sort((a, b) => (a.order || 0) - (b.order || 0));
+        items = items.slice(0, 6);
+
+        if (items.length === 0) {
+          wrapper.innerHTML = '<p style="text-align:center;color:rgba(245,240,232,.3);padding:2rem;">No items to display.</p>';
+          return;
+        }
+
+        let slides = '';
+        items.forEach(function(item) {
+          let imageUrl = '';
+          if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+            const first = item.images[0];
+            imageUrl = typeof first === 'string' ? first : (first.url || '');
+          } else if (item.image && typeof item.image === 'string') {
+            imageUrl = item.image;
+          }
+          if (!imageUrl) imageUrl = 'https://placehold.co/1200x600/1a1a1a/555?text=No+Image';
+
+          const category = item.category || 'Collection';
+          const title = item.title || 'Untitled';
+          const description = item.description || '';
+
+          slides += `
+            <div class="swiper-slide">
+              <img src="${imageUrl}" alt="${title}" loading="lazy" />
+              <div class="slide-overlay">
+                <div class="category">${category}</div>
+                <h3>${title}</h3>
+                ${description ? `<div class="desc">${description}</div>` : ''}
+                <a href="collections.html" class="btn-outline-gold">View Collection</a>
+              </div>
+            </div>
+          `;
+        });
+        wrapper.innerHTML = slides;
+
+        // Initialize Swiper
+        const swiper = new Swiper('.mySwiper', {
+          loop: true,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+          },
+          speed: 800,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+          breakpoints: {
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+          },
+          effect: 'slide',
+        });
+
+      }).catch(function(err) {
+        console.error('Error loading carousel:', err);
+        wrapper.innerHTML = '<p style="text-align:center;color:rgba(245,240,232,.3);padding:2rem;">Could not load collections.</p>';
+      });
+    })();
+
+    // ── Contact Form ──
     (function() {
       var form = document.getElementById('contact-form');
       if (form) {
@@ -3280,7 +3536,7 @@
       }
     })();
 
-    // ── Newsletter Form (saves to Firebase) ──────────
+    // ── Newsletter Form ──
     (function() {
       var form = document.getElementById('newsletter-form');
       if (form) {
@@ -3318,7 +3574,7 @@
       }
     })();
 
-    console.log('Goke Couture hero content is now visible!');
+    console.log('✅ Goke Couture homepage loaded with carousel!');
   </script>
 </body>
 </html>
