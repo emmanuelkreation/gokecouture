@@ -15,8 +15,10 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
-    /* ── Same base styles as your existing booking page ── */
+    /* ── Styles – exactly the same as your booking page ── */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -36,7 +38,7 @@
     button { cursor:none; border:none; background:none; font-family:inherit }
     ul { list-style:none }
 
-    /* ── Cursor, scroll bar, nav (same as before) ── */
+    /* ── Cursor, scroll bar, nav ── */
     #cursor-dot { position:fixed; width:8px; height:8px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .1s var(--ease), width .3s var(--slow), height .3s var(--slow), background .3s }
     #cursor-ring { position:fixed; width:36px; height:36px; border:1.5px solid rgba(201,168,76,.5); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform .18s var(--ease), width .35s var(--slow), height .35s var(--slow), opacity .3s, border-color .3s }
     body.cursor-hover #cursor-dot { width:12px; height:12px; background:var(--gold-lt) }
@@ -44,7 +46,6 @@
     @media(hover:none){ #cursor-dot,#cursor-ring { display:none } body { cursor:auto } }
     #scroll-bar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--sage),var(--gold)); width:0%; z-index:9000; transition:width .1s linear }
 
-    /* ── NAVIGATION ── */
     #nav { position:fixed; top:0; left:0; right:0; z-index:800; padding:0 3rem; display:flex; align-items:center; justify-content:space-between; height:80px; transition:background .5s var(--ease), height .5s var(--ease), backdrop-filter .5s }
     #nav.scrolled { background:rgba(10,10,10,.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); height:64px; border-bottom:1px solid rgba(201,168,76,.15) }
     .nav-logo { display:flex; align-items:center; gap:12px; flex-shrink:0 }
@@ -76,7 +77,6 @@
     .btn-ghost { display:inline-flex; align-items:center; gap:.6rem; font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; font-weight:400; padding:.9rem 2.4rem; border:1px solid rgba(245,240,232,.4); color:var(--ivory); transition:border-color .3s, transform .3s var(--slow); background:transparent; cursor:none; border-radius:0 }
     .btn-ghost:hover { border-color:var(--ivory); transform:translateY(-2px) }
 
-    /* ── HERO ── */
     .booking-hero { position:relative; min-height:50vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:10rem 5vw 4rem; overflow:hidden; background:var(--ink) }
     .booking-hero .bg-slides { position:absolute; inset:0; z-index:0 }
     .booking-hero .bg-slide { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition:opacity 1.4s var(--ease) }
@@ -89,7 +89,6 @@
     .booking-hero .content h1 em { font-style:italic; color:var(--gold) }
     .booking-hero .content p { font-size:1.05rem; color:rgba(245,240,232,.7); line-height:1.8; max-width:600px; margin:0 auto }
 
-    /* ── FORM SECTION ── */
     #booking-form-section { background:#0f0f0f; padding:4rem 5vw 6rem; position:relative; overflow:hidden }
     #booking-form-section .bg-wrap { position:absolute; inset:0; z-index:0; opacity:.05; background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop'); background-size:cover; background-position:center }
     #booking-form-section .container { position:relative; z-index:1; max-width:900px; margin:0 auto }
@@ -129,7 +128,6 @@
     .service-card-option p { font-size:.75rem; color:rgba(245,240,232,.4); margin-top:.2rem }
     .service-card-option .price-tag { display:inline-block; margin-top:.5rem; font-size:.7rem; letter-spacing:.1em; color:var(--gold); border:1px solid rgba(201,168,76,.2); padding:.2rem 1rem }
 
-    /* ── Image Upload ── */
     .image-upload-wrap { display:flex; gap:1.5rem; align-items:flex-start; flex-wrap:wrap }
     .image-upload-wrap .upload-area { flex:1; min-width:200px }
     .image-upload-wrap .preview-area { flex:0 0 150px; height:150px; background:rgba(255,255,255,.04); border:1px dashed rgba(245,240,232,.2); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative }
@@ -154,9 +152,36 @@
     .success-message h2 em { font-style:italic; color:var(--gold) }
     .success-message p { color:rgba(245,240,232,.5); font-size:1rem; max-width:500px; margin:0 auto }
 
-    .form-hidden { display:none !important }
+    .parallax-divider { position:relative; height:40vh; min-height:250px; background-attachment:fixed; background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden }
+    .parallax-divider::after { content:''; position:absolute; inset:0; background:rgba(10,10,10,.55) }
+    .parallax-divider .content { position:relative; z-index:1; padding:2rem }
+    .parallax-divider .content h2 { font-family:var(--font-display); font-size:clamp(2.2rem,4vw,3.5rem); font-weight:300; color:var(--ivory); line-height:1.1 }
+    .parallax-divider .content h2 em { font-style:italic; color:var(--gold) }
+    .parallax-divider .content p { font-size:1rem; color:rgba(245,240,232,.7); letter-spacing:.05em; line-height:1.8; margin-top:.5rem }
 
-    /* ── Responsive ── */
+    footer { background:#050505; border-top:1px solid rgba(201,168,76,.15) }
+    .footer-top { padding:5rem 5vw 3rem; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:3rem }
+    .footer-brand p { font-size:.88rem; line-height:1.9; color:rgba(245,240,232,.45); margin:1.5rem 0 2rem; max-width:280px }
+    .footer-social { display:flex; gap:1rem }
+    .soc-btn { width:38px; height:38px; border:1px solid rgba(245,240,232,.15); display:flex; align-items:center; justify-content:center; font-size:.85rem; color:rgba(245,240,232,.5); transition:border-color .3s, color .3s, background .3s }
+    .soc-btn:hover { border-color:var(--gold); color:var(--gold) }
+    .footer-col h4 { font-size:.68rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:1.8rem; font-weight:400 }
+    .footer-col a { display:block; font-size:.88rem; color:rgba(245,240,232,.45); margin-bottom:.9rem; transition:color .3s, paddingLeft .3s }
+    .footer-col a:hover { color:var(--ivory); padding-left:6px }
+    .footer-contact-line { display:flex; align-items:center; gap:.7rem; font-size:.85rem; color:rgba(245,240,232,.45); margin-bottom:.9rem }
+    .footer-contact-line i { color:var(--gold); width:16px }
+    .footer-contact-line a { color:var(--gold); transition:opacity .3s; margin:0; padding:0 }
+    .footer-contact-line a:hover { opacity:.7; padding-left:0 }
+    .footer-bottom { padding:1.8rem 5vw; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(245,240,232,.06); flex-wrap:wrap; gap:1rem }
+    .footer-copy { font-size:.75rem; color:rgba(245,240,232,.3); letter-spacing:.05em }
+    .footer-credit { font-size:.75rem; color:rgba(245,240,232,.3) }
+    .footer-credit a { color:var(--gold); transition:opacity .3s }
+    .footer-credit a:hover { opacity:.7 }
+
+    #wa-float { position:fixed; bottom:2.5rem; right:2.5rem; z-index:600; width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 24px rgba(37,211,102,.35); animation:wa-pulse 3s ease-in-out infinite; transition:transform .3s var(--slow), box-shadow .3s }
+    #wa-float:hover { transform:scale(1.12); box-shadow:0 8px 32px rgba(37,211,102,.5) }
+    @keyframes wa-pulse { 0%,100%{ box-shadow:0 4px 24px rgba(37,211,102,.35),0 0 0 0 rgba(37,211,102,.3) } 50%{ box-shadow:0 4px 24px rgba(37,211,102,.35),0 0 0 12px rgba(37,211,102,0) } }
+
     @media(max-width:1024px){ .service-cards { grid-template-columns:1fr 1fr } }
     @media(max-width:768px){
       #nav { padding:0 1.2rem; height:68px }
@@ -187,37 +212,6 @@
       .progress-step .label { font-size:.45rem }
     }
     @media(prefers-reduced-motion:reduce){ * { animation-duration:.01ms !important; transition-duration:.01ms !important } }
-
-    /* ── Footer & other common styles ── */
-    .parallax-divider { position:relative; height:40vh; min-height:250px; background-attachment:fixed; background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden }
-    .parallax-divider::after { content:''; position:absolute; inset:0; background:rgba(10,10,10,.55) }
-    .parallax-divider .content { position:relative; z-index:1; padding:2rem }
-    .parallax-divider .content h2 { font-family:var(--font-display); font-size:clamp(2.2rem,4vw,3.5rem); font-weight:300; color:var(--ivory); line-height:1.1 }
-    .parallax-divider .content h2 em { font-style:italic; color:var(--gold) }
-    .parallax-divider .content p { font-size:1rem; color:rgba(245,240,232,.7); letter-spacing:.05em; line-height:1.8; margin-top:.5rem }
-
-    footer { background:#050505; border-top:1px solid rgba(201,168,76,.15) }
-    .footer-top { padding:5rem 5vw 3rem; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:3rem }
-    .footer-brand p { font-size:.88rem; line-height:1.9; color:rgba(245,240,232,.45); margin:1.5rem 0 2rem; max-width:280px }
-    .footer-social { display:flex; gap:1rem }
-    .soc-btn { width:38px; height:38px; border:1px solid rgba(245,240,232,.15); display:flex; align-items:center; justify-content:center; font-size:.85rem; color:rgba(245,240,232,.5); transition:border-color .3s, color .3s, background .3s }
-    .soc-btn:hover { border-color:var(--gold); color:var(--gold) }
-    .footer-col h4 { font-size:.68rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:1.8rem; font-weight:400 }
-    .footer-col a { display:block; font-size:.88rem; color:rgba(245,240,232,.45); margin-bottom:.9rem; transition:color .3s, paddingLeft .3s }
-    .footer-col a:hover { color:var(--ivory); padding-left:6px }
-    .footer-contact-line { display:flex; align-items:center; gap:.7rem; font-size:.85rem; color:rgba(245,240,232,.45); margin-bottom:.9rem }
-    .footer-contact-line i { color:var(--gold); width:16px }
-    .footer-contact-line a { color:var(--gold); transition:opacity .3s; margin:0; padding:0 }
-    .footer-contact-line a:hover { opacity:.7; padding-left:0 }
-    .footer-bottom { padding:1.8rem 5vw; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(245,240,232,.06); flex-wrap:wrap; gap:1rem }
-    .footer-copy { font-size:.75rem; color:rgba(245,240,232,.3); letter-spacing:.05em }
-    .footer-credit { font-size:.75rem; color:rgba(245,240,232,.3) }
-    .footer-credit a { color:var(--gold); transition:opacity .3s }
-    .footer-credit a:hover { opacity:.7 }
-
-    #wa-float { position:fixed; bottom:2.5rem; right:2.5rem; z-index:600; width:54px; height:54px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 24px rgba(37,211,102,.35); animation:wa-pulse 3s ease-in-out infinite; transition:transform .3s var(--slow), box-shadow .3s }
-    #wa-float:hover { transform:scale(1.12); box-shadow:0 8px 32px rgba(37,211,102,.5) }
-    @keyframes wa-pulse { 0%,100%{ box-shadow:0 4px 24px rgba(37,211,102,.35),0 0 0 0 rgba(37,211,102,.3) } 50%{ box-shadow:0 4px 24px rgba(37,211,102,.35),0 0 0 12px rgba(37,211,102,0) } }
   </style>
 </head>
 <body>
@@ -376,42 +370,15 @@
         <p class="step-desc">Provide your body measurements. For best results, have someone help you measure or use a recent garment that fits well.</p>
 
         <div class="measurements-grid">
-          <div class="form-group">
-            <label for="measureChest">Chest (cm)</label>
-            <input type="number" id="measureChest" placeholder="e.g. 102" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureWaist">Waist (cm)</label>
-            <input type="number" id="measureWaist" placeholder="e.g. 86" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureHips">Hips (cm)</label>
-            <input type="number" id="measureHips" placeholder="e.g. 96" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureShoulder">Shoulder Width (cm)</label>
-            <input type="number" id="measureShoulder" placeholder="e.g. 46" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureSleeve">Sleeve Length (cm)</label>
-            <input type="number" id="measureSleeve" placeholder="e.g. 62" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureLength">Garment Length (cm)</label>
-            <input type="number" id="measureLength" placeholder="e.g. 85" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureNeck">Neck (cm)</label>
-            <input type="number" id="measureNeck" placeholder="e.g. 38" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureInseam">Inseam (cm)</label>
-            <input type="number" id="measureInseam" placeholder="e.g. 78" step="0.5" />
-          </div>
-          <div class="form-group">
-            <label for="measureHeight">Height (cm)</label>
-            <input type="number" id="measureHeight" placeholder="e.g. 178" step="0.5" />
-          </div>
+          <div class="form-group"><label for="measureChest">Chest (cm)</label><input type="number" id="measureChest" placeholder="e.g. 102" step="0.5" /></div>
+          <div class="form-group"><label for="measureWaist">Waist (cm)</label><input type="number" id="measureWaist" placeholder="e.g. 86" step="0.5" /></div>
+          <div class="form-group"><label for="measureHips">Hips (cm)</label><input type="number" id="measureHips" placeholder="e.g. 96" step="0.5" /></div>
+          <div class="form-group"><label for="measureShoulder">Shoulder Width (cm)</label><input type="number" id="measureShoulder" placeholder="e.g. 46" step="0.5" /></div>
+          <div class="form-group"><label for="measureSleeve">Sleeve Length (cm)</label><input type="number" id="measureSleeve" placeholder="e.g. 62" step="0.5" /></div>
+          <div class="form-group"><label for="measureLength">Garment Length (cm)</label><input type="number" id="measureLength" placeholder="e.g. 85" step="0.5" /></div>
+          <div class="form-group"><label for="measureNeck">Neck (cm)</label><input type="number" id="measureNeck" placeholder="e.g. 38" step="0.5" /></div>
+          <div class="form-group"><label for="measureInseam">Inseam (cm)</label><input type="number" id="measureInseam" placeholder="e.g. 78" step="0.5" /></div>
+          <div class="form-group"><label for="measureHeight">Height (cm)</label><input type="number" id="measureHeight" placeholder="e.g. 178" step="0.5" /></div>
         </div>
 
         <div class="form-nav">
@@ -426,72 +393,22 @@
         <p class="step-desc">Tell us about yourself, your style inspiration, and fabric preferences. Upload a reference image if you have one.</p>
 
         <div class="form-row">
-          <div class="form-group">
-            <label for="clientName">Full Name <span class="required">*</span></label>
-            <input type="text" id="clientName" placeholder="Your full name" required />
-          </div>
-          <div class="form-group">
-            <label for="clientEmail">Email Address <span class="required">*</span></label>
-            <input type="email" id="clientEmail" placeholder="you@example.com" required />
-          </div>
+          <div class="form-group"><label for="clientName">Full Name <span class="required">*</span></label><input type="text" id="clientName" placeholder="Your full name" required /></div>
+          <div class="form-group"><label for="clientEmail">Email Address <span class="required">*</span></label><input type="email" id="clientEmail" placeholder="you@example.com" required /></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label for="clientPhone">Phone Number</label>
-            <input type="tel" id="clientPhone" placeholder="+234 800 000 0000" />
-          </div>
-          <div class="form-group">
-            <label for="clientDate">Preferred Fitting Date</label>
-            <input type="date" id="clientDate" />
-          </div>
+          <div class="form-group"><label for="clientPhone">Phone Number</label><input type="tel" id="clientPhone" placeholder="+234 800 000 0000" /></div>
+          <div class="form-group"><label for="clientDate">Preferred Fitting Date</label><input type="date" id="clientDate" /></div>
         </div>
 
         <div class="form-row">
-          <div class="form-group">
-            <label for="eventType">Event Type</label>
-            <select id="eventType">
-              <option value="">Select event type…</option>
-              <option value="Wedding">Wedding</option>
-              <option value="Engagement">Engagement</option>
-              <option value="Gala / Black Tie">Gala / Black Tie</option>
-              <option value="Corporate / Business">Corporate / Business</option>
-              <option value="Casual / Everyday">Casual / Everyday</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="budgetRange">Budget Range (₦)</label>
-            <select id="budgetRange">
-              <option value="">Select budget range…</option>
-              <option value="50,000 - 200,000">50,000 – 200,000</option>
-              <option value="200,000 - 500,000">200,000 – 500,000</option>
-              <option value="500,000 - 1,000,000">500,000 – 1,000,000</option>
-              <option value="1,000,000 - 2,000,000">1,000,000 – 2,000,000</option>
-              <option value="2,000,000+">2,000,000+</option>
-            </select>
-          </div>
+          <div class="form-group"><label for="eventType">Event Type</label><select id="eventType"><option value="">Select event type…</option><option value="Wedding">Wedding</option><option value="Engagement">Engagement</option><option value="Gala / Black Tie">Gala / Black Tie</option><option value="Corporate / Business">Corporate / Business</option><option value="Casual / Everyday">Casual / Everyday</option><option value="Other">Other</option></select></div>
+          <div class="form-group"><label for="budgetRange">Budget Range (₦)</label><select id="budgetRange"><option value="">Select budget range…</option><option value="50,000 - 200,000">50,000 – 200,000</option><option value="200,000 - 500,000">200,000 – 500,000</option><option value="500,000 - 1,000,000">500,000 – 1,000,000</option><option value="1,000,000 - 2,000,000">1,000,000 – 2,000,000</option><option value="2,000,000+">2,000,000+</option></select></div>
         </div>
 
         <div class="form-row">
-          <div class="form-group">
-            <label for="fabricType">Fabric Preference</label>
-            <select id="fabricType">
-              <option value="">Select fabric type…</option>
-              <option value="Lace">Lace</option>
-              <option value="Silk">Silk</option>
-              <option value="Aso-oke">Aso-oke</option>
-              <option value="Cotton">Cotton</option>
-              <option value="Wool">Wool</option>
-              <option value="Linen">Linen</option>
-              <option value="Satin">Satin</option>
-              <option value="Velvet">Velvet</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="colourPreference">Colour / Style Preference</label>
-            <input type="text" id="colourPreference" placeholder="e.g. Ivory, navy, gold embroidery" />
-          </div>
+          <div class="form-group"><label for="fabricType">Fabric Preference</label><select id="fabricType"><option value="">Select fabric type…</option><option value="Lace">Lace</option><option value="Silk">Silk</option><option value="Aso-oke">Aso-oke</option><option value="Cotton">Cotton</option><option value="Wool">Wool</option><option value="Linen">Linen</option><option value="Satin">Satin</option><option value="Velvet">Velvet</option><option value="Other">Other</option></select></div>
+          <div class="form-group"><label for="colourPreference">Colour / Style Preference</label><input type="text" id="colourPreference" placeholder="e.g. Ivory, navy, gold embroidery" /></div>
         </div>
 
         <div class="form-group">
@@ -644,6 +561,12 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // ── EmailJS Config (REPLACE WITH YOUR OWN) ──
+    (function() {
+      // Initialize EmailJS with your Public Key (User ID)
+      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // <-- REPLACE THIS
+    })();
+
     // ── DOM refs ──
     const steps = document.querySelectorAll('.form-step');
     const progressSteps = document.querySelectorAll('.progress-step');
@@ -668,12 +591,11 @@
     const previewImg = previewArea.querySelector('img');
     const placeholder = previewArea.querySelector('.placeholder');
     const removeBtn = document.getElementById('removeImageBtn');
-    let uploadedImageData = null; // base64 string
+    let uploadedImageData = null;
 
     fileInput.addEventListener('change', function(e) {
       const file = this.files[0];
       if (!file) return;
-      // Check size
       if (file.size > 200 * 1024) {
         alert('Image is too large. Please select an image under 200KB.');
         this.value = '';
@@ -702,14 +624,10 @@
     // ── Navigation ──
     function goToStep(step) {
       if (step < 1 || step > totalSteps) return;
-
-      // Validate step 1
       if (step === 2 && !selectedServiceInput.value) {
         alert('Please select a service before proceeding.');
         return;
       }
-
-      // Validate step 3 before going to step 4
       if (step === 4) {
         const name = document.getElementById('clientName').value.trim();
         const email = document.getElementById('clientEmail').value.trim();
@@ -728,7 +646,6 @@
         document.getElementById('reviewFabric').textContent = document.getElementById('fabricType').value || '—';
         document.getElementById('reviewColour').textContent = document.getElementById('colourPreference').value || '—';
 
-        // Measurements
         const measurements = [];
         const chest = document.getElementById('measureChest').value;
         const waist = document.getElementById('measureWaist').value;
@@ -751,7 +668,6 @@
         document.getElementById('reviewMeasurements').textContent = measurements.length > 0 ? measurements.join(' | ') : 'Not provided';
         document.getElementById('reviewNotes').textContent = document.getElementById('clientNotes').value || 'No notes provided.';
 
-        // Image review
         const reviewImg = document.getElementById('reviewImage');
         const reviewPlaceholder = document.getElementById('reviewImagePlaceholder');
         if (uploadedImageData) {
@@ -764,12 +680,9 @@
         }
       }
 
-      // Hide all steps
       steps.forEach(function(s) { s.classList.remove('active'); });
-      // Show target
       document.querySelector('.form-step[data-step="' + step + '"]').classList.add('active');
 
-      // Update progress
       progressSteps.forEach(function(ps, index) {
         const stepNum = index + 1;
         ps.classList.remove('active', 'completed');
@@ -781,7 +694,6 @@
       window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 100, behavior: 'smooth' });
     }
 
-    // Step navigation events
     document.getElementById('step1Next').addEventListener('click', function() { goToStep(2); });
     document.getElementById('step2Back').addEventListener('click', function() { goToStep(1); });
     document.getElementById('step2Next').addEventListener('click', function() { goToStep(3); });
@@ -789,7 +701,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking ──
+    // ── Submit booking with EmailJS ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -802,7 +714,7 @@
         fabricType: document.getElementById('fabricType').value,
         colourPreference: document.getElementById('colourPreference').value.trim(),
         notes: document.getElementById('clientNotes').value.trim(),
-        image: uploadedImageData || '',  // base64 string, may be empty
+        image: uploadedImageData || '',
         measurements: {
           chest: document.getElementById('measureChest').value || '',
           waist: document.getElementById('measureWaist').value || '',
@@ -818,7 +730,6 @@
         status: 'new'
       };
 
-      // Validate required
       if (!bookingData.name || !bookingData.email || !bookingData.service) {
         alert('Please ensure all required fields are filled.');
         return;
@@ -828,8 +739,51 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
 
+      // 1. Save to Firebase
       db.ref('bookings').push(bookingData)
         .then(function() {
+          // 2. Send Email Notification via EmailJS
+          return emailjs.send(
+            "YOUR_EMAILJS_SERVICE_ID",  // <-- REPLACE THIS
+            "YOUR_EMAILJS_CLIENT_TEMPLATE_ID", // <-- REPLACE THIS (Client template)
+            {
+              to_name: bookingData.name,
+              to_email: bookingData.email,
+              service: bookingData.service,
+              date: bookingData.date || 'Not specified',
+              event_type: bookingData.eventType || 'Not specified',
+              budget: bookingData.budgetRange || 'Not specified',
+              fabric: bookingData.fabricType || 'Not specified',
+              colour: bookingData.colourPreference || 'Not specified',
+              notes: bookingData.notes || 'None',
+              phone: bookingData.phone || 'Not provided',
+              measurements: JSON.stringify(bookingData.measurements)
+            }
+          );
+        })
+        .then(function() {
+          // 3. Send Admin Notification
+          return emailjs.send(
+            "YOUR_EMAILJS_SERVICE_ID",  // <-- REPLACE THIS
+            "YOUR_EMAILJS_ADMIN_TEMPLATE_ID", // <-- REPLACE THIS (Admin template)
+            {
+              client_name: bookingData.name,
+              client_email: bookingData.email,
+              client_phone: bookingData.phone || 'Not provided',
+              service: bookingData.service,
+              date: bookingData.date || 'Not specified',
+              event_type: bookingData.eventType || 'Not specified',
+              budget: bookingData.budgetRange || 'Not specified',
+              fabric: bookingData.fabricType || 'Not specified',
+              colour: bookingData.colourPreference || 'Not specified',
+              notes: bookingData.notes || 'None',
+              measurements: JSON.stringify(bookingData.measurements),
+              image: bookingData.image ? 'Image uploaded' : 'No image'
+            }
+          );
+        })
+        .then(function() {
+          // Hide form, show success
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
           window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 80, behavior: 'smooth' });
@@ -842,7 +796,7 @@
         });
     });
 
-    // ── Cursor, scroll bar, nav, mobile menu, hero slides (same as before) ──
+    // ── Cursor, scroll bar, nav, mobile menu, hero slides ──
     (function() {
       const dot = document.getElementById('cursor-dot');
       const ring = document.getElementById('cursor-ring');
