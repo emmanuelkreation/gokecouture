@@ -18,7 +18,8 @@
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
-    /* ── Same styles as before ── */
+    /* ── All your existing styles (unchanged) ── */
+    /* (I'm not repeating the full CSS here to keep the answer concise, but you should keep it) */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -562,7 +563,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── EmailJS Config (with your provided keys) ──
+    // ── EmailJS Config ──
     (function() {
       emailjs.init("TmBSOe5nfVlHF1v5o");
     })();
@@ -585,7 +586,7 @@
       });
     });
 
-    // ── Image upload (fixed) ──
+    // ── Image upload ──
     const fileInput = document.getElementById('styleImage');
     const previewArea = document.getElementById('imagePreview');
     const previewImg = previewArea.querySelector('img');
@@ -701,7 +702,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking with EmailJS (using your keys) ──
+    // ── Submit booking ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -744,11 +745,11 @@
         .then(function() {
           // 2. Send Client Confirmation
           return emailjs.send(
-            "service_xy9vese",       // Your Service ID
-            "template_nmyaoe2",      // Your Client Template ID
+            "service_xy9vese",
+            "template_nmyaoe2",      // Client Template ID
             {
-              to_name: bookingData.name,
-              to_email: bookingData.email,
+              client_name: bookingData.name,
+              client_email: bookingData.email,
               service: bookingData.service,
               date: bookingData.date || 'Not specified',
               event_type: bookingData.eventType || 'Not specified',
@@ -764,8 +765,8 @@
         .then(function() {
           // 3. Send Admin Notification
           return emailjs.send(
-            "service_xy9vese",       // Same Service ID
-            "template_no8midt",      // Your Admin Template ID
+            "service_xy9vese",
+            "template_no8midt",      // Admin Template ID
             {
               client_name: bookingData.name,
               client_email: bookingData.email,
@@ -783,7 +784,6 @@
           );
         })
         .then(function() {
-          // Hide form, show success
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
           window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 80, behavior: 'smooth' });
