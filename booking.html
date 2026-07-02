@@ -564,7 +564,7 @@
     // ── EmailJS Config (REPLACE WITH YOUR OWN) ──
     (function() {
       // Initialize EmailJS with your Public Key (User ID)
-      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // <-- REPLACE THIS
+      emailjs.init("TmBSOe5nfVlHF1v5o"); // <-- REPLACE THIS
     })();
 
     // ── DOM refs ──
@@ -744,8 +744,8 @@
         .then(function() {
           // 2. Send Email Notification via EmailJS
           return emailjs.send(
-            "YOUR_EMAILJS_SERVICE_ID",  // <-- REPLACE THIS
-            "YOUR_EMAILJS_CLIENT_TEMPLATE_ID", // <-- REPLACE THIS (Client template)
+            "service_xy9vese",  // <-- REPLACE THIS
+            "template_nmyaoe2", // <-- REPLACE THIS (Client template)
             {
               to_name: bookingData.name,
               to_email: bookingData.email,
@@ -764,8 +764,8 @@
         .then(function() {
           // 3. Send Admin Notification
           return emailjs.send(
-            "YOUR_EMAILJS_SERVICE_ID",  // <-- REPLACE THIS
-            "YOUR_EMAILJS_ADMIN_TEMPLATE_ID", // <-- REPLACE THIS (Admin template)
+            "service_xy9vese",  // <-- REPLACE THIS
+            "template_no8midt", // <-- REPLACE THIS (Admin template)
             {
               client_name: bookingData.name,
               client_email: bookingData.email,
