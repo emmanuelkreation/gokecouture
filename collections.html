@@ -12,6 +12,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <style>
     /* ── Same styles as before ── */
+    /* (all styles remain unchanged) */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -953,12 +954,12 @@
 
     <ul class="nav-links" role="list">
       <li><a href="index.html">Home</a></li>
-      <li><a href="about">About</a></li>
-      <li><a href="services">Services</a></li>
-      <li><a href="collections" class="active">Collections</a></li>
-      <li><a href="portfolio">Portfolio</a></li>
-      <li><a href="reviews">Reviews</a></li>
-      <li><a href="contact">Contact</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="collections.html" class="active">Collections</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
     <a href="booking.html" class="nav-cta">Book a Fitting</a>
 
@@ -971,13 +972,13 @@
   <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
     <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
     <a href="index.html" class="mob-link">Home</a>
-    <a href="about" class="mob-link">About</a>
-    <a href="services" class="mob-link">Services</a>
-    <a href="collections" class="mob-link">Collections</a>
-    <a href="portfolio" class="mob-link">Portfolio</a>
-    <a href="reviews" class="mob-link">Reviews</a>
-    <a href="contact" class="mob-link">Contact</a>
-    <a href="booking" class="mob-link">Book a Fitting</a>
+    <a href="about.html" class="mob-link">About</a>
+    <a href="services.html" class="mob-link">Services</a>
+    <a href="collections.html" class="mob-link">Collections</a>
+    <a href="portfolio.html" class="mob-link">Portfolio</a>
+    <a href="reviews.html" class="mob-link">Reviews</a>
+    <a href="contact.html" class="mob-link">Contact</a>
+    <a href="booking.html" class="mob-link">Book a Fitting</a>
   </div>
 
   <!-- ── HERO ── -->
@@ -1348,11 +1349,11 @@
 
       // Fallback data
       const fallbackData = [
-        { title: 'The Bridal Atelier', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Elegance redefined for the modern bride – each gown is a couture masterpiece.' },
-        { title: 'Executive Authority', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sharp, tailored suits that command respect and exude confidence.' },
-        { title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Aso-oke and gold embroidery – a celebration of culture and royalty.' },
-        { title: 'Evening Glamour', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk and dramatic silhouettes for unforgettable nights.' },
-        { title: 'Casual Luxury', category: 'casual', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Effortless style with premium fabrics and relaxed tailoring.' }
+        { id: '1', title: 'The Bridal Atelier', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Elegance redefined for the modern bride – each gown is a couture masterpiece.' },
+        { id: '2', title: 'Executive Authority', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sharp, tailored suits that command respect and exude confidence.' },
+        { id: '3', title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Aso-oke and gold embroidery – a celebration of culture and royalty.' },
+        { id: '4', title: 'Evening Glamour', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk and dramatic silhouettes for unforgettable nights.' },
+        { id: '5', title: 'Casual Luxury', category: 'casual', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Effortless style with premium fabrics and relaxed tailoring.' }
       ];
 
       function getImageUrl(item) {
@@ -1379,6 +1380,7 @@
               <div class="cat">${item.category || 'Collection'}</div>
               <h3>${item.title}</h3>
               <p>${item.description || ''}</p>
+              <a href="booking.html?collectionId=${item.id}" class="btn-outline-gold" style="margin-top:0.5rem;display:inline-block;text-decoration:none;">Book Now →</a>
             </div>
           `;
           featuredGrid.appendChild(div);
@@ -1405,7 +1407,7 @@
               <div class="cat">${item.category || 'Collection'}</div>
               <h3>${item.title}</h3>
               <div class="desc">${item.description || ''}</div>
-              <button class="btn-outline-gold">View Collection →</button>
+              <a href="booking.html?collectionId=${item.id}" class="btn-outline-gold" style="text-decoration:none;display:inline-block;margin-top:0.5rem;">Book Now →</a>
             </div>
           `;
           mainGrid.appendChild(card);
@@ -1430,18 +1432,15 @@
       const ref = db.ref('collections');
       ref.on('value', function(snapshot) {
         const data = snapshot.val();
-        console.log('🔥 Collections data from Firebase:', data); // DEBUG: Check console
-
         let items = [];
         if (data) {
-          // Convert object to array and sort by order
-          items = Object.values(data).sort((a, b) => (a.order || 0) - (b.order || 0));
-          console.log('✅ Loaded ' + items.length + ' collections from Firebase');
+          // Convert object to array and keep the key as id
+          items = Object.entries(data).map(([key, val]) => ({ id: key, ...val }));
+          items.sort((a, b) => (a.order || 0) - (b.order || 0));
         } else {
           console.log('📂 No collections in Firebase, using fallback data');
           items = fallbackData;
         }
-
         renderFeatured(items);
         renderAll(items);
       }, function(error) {
@@ -1451,7 +1450,6 @@
       });
     })();
 
-    // Log to console to confirm script is running
     console.log('✅ Collections page loaded. Listening for real-time updates...');
   </script>
 </body>
