@@ -562,9 +562,9 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── EmailJS Config ──
+    // ── EmailJS Config with CORRECT credentials ──
     (function() {
-      emailjs.init("TmBSOe5nfVlHF1v5o");
+      emailjs.init("TmBSOe5nfVlHF1v5o"); // public key (unchanged)
     })();
 
     // ── DOM refs ──
@@ -591,7 +591,7 @@
     const previewImg = previewArea.querySelector('img');
     const placeholder = previewArea.querySelector('.placeholder');
     const removeBtn = document.getElementById('removeImageBtn');
-    let uploadedImageData = null; // can be base64 or URL
+    let uploadedImageData = null;
 
     fileInput.addEventListener('change', function(e) {
       const file = this.files[0];
@@ -603,7 +603,7 @@
       }
       const reader = new FileReader();
       reader.onload = function(event) {
-        uploadedImageData = event.target.result; // base64
+        uploadedImageData = event.target.result;
         previewImg.src = uploadedImageData;
         previewImg.style.display = 'block';
         placeholder.style.display = 'none';
@@ -613,7 +613,7 @@
     });
 
     function setImageFromUrl(url) {
-      uploadedImageData = url; // store URL
+      uploadedImageData = url;
       previewImg.src = url;
       previewImg.style.display = 'block';
       placeholder.style.display = 'none';
@@ -644,7 +644,7 @@
           alert('Please enter your name and email address.');
           return;
         }
-        // Update review
+        // Update review...
         document.getElementById('reviewService').textContent = selectedServiceInput.value || '—';
         document.getElementById('reviewName').textContent = name || '—';
         document.getElementById('reviewEmail').textContent = email || '—';
@@ -710,7 +710,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking with your template ──
+    // ── Submit booking with corrected EmailJS IDs ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -762,18 +762,12 @@
           // ── Prepare email parameters for your template ──
           const orderId = 'BOOK-' + Date.now().toString().slice(-8);
 
-          // The template expects:
-          // - client_email (used in To Email)
-          // - order_id
-          // - units
-          // - cost_shipping
-          // - #orders loop with name and units
           const emailParams = {
             client_email: bookingData.email,
             order_id: orderId,
-            units: '1',                             // quantity
-            cost_shipping: '0',                     // shipping cost
-            // Additional fields (your template might not use them, but we include them for reference)
+            units: '1',
+            cost_shipping: '0',
+            // Additional fields (your template may not use them, but we include them for reference)
             client_name: bookingData.name,
             service: bookingData.service,
             date: bookingData.date || 'Not specified',
@@ -787,22 +781,21 @@
             image: bookingData.image ? 'Image uploaded' : 'No image'
           };
 
-          // The template uses {{#orders}} loop – we need to pass an array of objects.
-          // EmailJS supports arrays; we send a single order item with name and units.
-          // The template variable inside the loop is "name" and "units".
-          // We'll send an array called "orders" containing one object.
+          // The template uses {{#orders}} loop – we send an array of one item.
           emailParams.orders = [
             { name: bookingData.service, units: '1' }
           ];
 
           console.log('📧 Email params:', emailParams);
 
-          // ── Send using your template ID ──
-          return emailjs.send("service_xy9vese", "template_m8ebl72", emailParams);
+          // ── Send using YOUR correct Service ID and Template ID ──
+          const SERVICE_ID = 'service_2vnv6c5';    // from your screenshot
+          const TEMPLATE_ID = 'template_m8ebj72';  // from your screenshot (note 'j', not 'l')
+
+          return emailjs.send(SERVICE_ID, TEMPLATE_ID, emailParams);
         })
         .then(function(response) {
           console.log('✅ Email sent:', response);
-          // Show success
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
           window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 80, behavior: 'smooth' });
