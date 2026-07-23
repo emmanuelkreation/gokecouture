@@ -618,7 +618,6 @@
       previewImg.style.display = 'block';
       placeholder.style.display = 'none';
       removeBtn.classList.add('show');
-      // Clear file input so that user can still upload a new one if they want
       fileInput.value = '';
     }
 
@@ -711,7 +710,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking with enhanced error logging ──
+    // ── Submit booking with your template ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -740,13 +739,11 @@
         status: 'new'
       };
 
-      // If collection was pre-filled, add its info
       if (window.collectionData) {
         bookingData.collectionId = window.collectionData.id;
         bookingData.collectionTitle = window.collectionData.title;
       }
 
-      // Validate required fields
       if (!bookingData.name || !bookingData.email || !bookingData.service) {
         alert('Please ensure all required fields are filled.');
         return;
@@ -756,17 +753,28 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
 
-      // ─── Log the data being sent (for debugging) ───
       console.log('📤 Booking data:', bookingData);
 
-      // 1. Save to Firebase
       db.ref('bookings').push(bookingData)
         .then(function() {
           console.log('✅ Firebase saved successfully.');
-          // 2. Send Client Confirmation
-          const clientParams = {
-            client_name: bookingData.name,
+
+          // ── Prepare email parameters for your template ──
+          const orderId = 'BOOK-' + Date.now().toString().slice(-8);
+
+          // The template expects:
+          // - client_email (used in To Email)
+          // - order_id
+          // - units
+          // - cost_shipping
+          // - #orders loop with name and units
+          const emailParams = {
             client_email: bookingData.email,
+            order_id: orderId,
+            units: '1',                             // quantity
+            cost_shipping: '0',                     // shipping cost
+            // Additional fields (your template might not use them, but we include them for reference)
+            client_name: bookingData.name,
             service: bookingData.service,
             date: bookingData.date || 'Not specified',
             event_type: bookingData.eventType || 'Not specified',
@@ -775,33 +783,25 @@
             colour: bookingData.colourPreference || 'Not specified',
             notes: bookingData.notes || 'None',
             phone: bookingData.phone || 'Not provided',
-            measurements: JSON.stringify(bookingData.measurements)
-          };
-          console.log('📧 Client email params:', clientParams);
-          return emailjs.send("service_xy9vese", "template_nmyaoe2", clientParams);
-        })
-        .then(function(response) {
-          console.log('✅ Client email sent:', response);
-          // 3. Send Admin Notification
-          const adminParams = {
-            client_name: bookingData.name,
-            client_email: bookingData.email,
-            client_phone: bookingData.phone || 'Not provided',
-            service: bookingData.service,
-            date: bookingData.date || 'Not specified',
-            event_type: bookingData.eventType || 'Not specified',
-            budget: bookingData.budgetRange || 'Not specified',
-            fabric: bookingData.fabricType || 'Not specified',
-            colour: bookingData.colourPreference || 'Not specified',
-            notes: bookingData.notes || 'None',
             measurements: JSON.stringify(bookingData.measurements),
             image: bookingData.image ? 'Image uploaded' : 'No image'
           };
-          console.log('📧 Admin email params:', adminParams);
-          return emailjs.send("service_xy9vese", "template_no8midt", adminParams);
+
+          // The template uses {{#orders}} loop – we need to pass an array of objects.
+          // EmailJS supports arrays; we send a single order item with name and units.
+          // The template variable inside the loop is "name" and "units".
+          // We'll send an array called "orders" containing one object.
+          emailParams.orders = [
+            { name: bookingData.service, units: '1' }
+          ];
+
+          console.log('📧 Email params:', emailParams);
+
+          // ── Send using your template ID ──
+          return emailjs.send("service_xy9vese", "template_m8ebl72", emailParams);
         })
         .then(function(response) {
-          console.log('✅ Admin email sent:', response);
+          console.log('✅ Email sent:', response);
           // Show success
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
@@ -809,14 +809,11 @@
         })
         .catch(function(error) {
           console.error('❌ EmailJS error:', error);
-          // Try to extract detailed error message
           let errorMsg = 'Unknown error';
           if (error.text) {
             try {
               const parsed = JSON.parse(error.text);
-              if (parsed.message) errorMsg = parsed.message;
-              else if (parsed.error) errorMsg = parsed.error;
-              else errorMsg = error.text;
+              errorMsg = parsed.message || parsed.error || error.text;
             } catch (e) {
               errorMsg = error.text || error.message || 'Unknown error';
             }
@@ -829,15 +826,12 @@
         });
     });
 
-    // ── ─────────────────────────────────────────────── ──
-    // ── HANDLE COLLECTION PRE-POPULATION FROM URL ──────
-    // ── ─────────────────────────────────────────────── ──
+    // ── Collection pre-population ──
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
       const collectionId = urlParams.get('collectionId');
       if (!collectionId) return;
 
-      // Fetch collection data from Firebase
       db.ref('collections/' + collectionId).once('value')
         .then(function(snapshot) {
           const data = snapshot.val();
@@ -846,10 +840,8 @@
             return;
           }
 
-          // Store for later use in booking submission
           window.collectionData = { id: collectionId, ...data };
 
-          // 1. Auto-select service based on category
           const category = data.category ? data.category.toLowerCase() : '';
           const serviceMap = {
             'bridal': 'Bridal Couture',
@@ -861,14 +853,12 @@
           };
           const targetService = serviceMap[category] || 'Other / Not sure';
 
-          // Find and click the matching service card
           serviceCards.forEach(function(card) {
             if (card.dataset.service === targetService) {
               card.click();
             }
           });
 
-          // 2. Set style image (first image from collection)
           let imageUrl = '';
           if (data.images && Array.isArray(data.images) && data.images.length > 0) {
             imageUrl = data.images[0].url || data.images[0];
@@ -879,7 +869,6 @@
             setImageFromUrl(imageUrl);
           }
 
-          // 3. Pre-fill notes with collection title and description
           const notesField = document.getElementById('clientNotes');
           let notes = '';
           if (data.title) notes += 'Collection: ' + data.title + '\n';
@@ -889,7 +878,6 @@
             notesField.value = notes.trim();
           }
 
-          // 4. Optionally pre-fill budget range based on price
           if (data.price && typeof data.price === 'number') {
             const budgetSelect = document.getElementById('budgetRange');
             const ranges = [
