@@ -562,7 +562,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── EmailJS with your EXACT credentials ──
+    // ── EmailJS Config with YOUR CORRECT IDs ──
     (function() {
       emailjs.init("TmBSOe5nfVlHF1v5o");
     })();
@@ -710,7 +710,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking with your EXACT Service ID and Template ID ──
+    // ── Submit booking with YOUR CORRECT IDs ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -783,9 +783,9 @@
 
           console.log('📧 Email params:', emailParams);
 
-          // ── YOUR EXACT CREDENTIALS ──
-          const SERVICE_ID = 'service_2vnv6c5';   // as you specified
-          const TEMPLATE_ID = 'template_m8ebl72'; // as you specified
+          // ── YOUR CORRECT CREDENTIALS ──
+          const SERVICE_ID = 'service_xy9vese';
+          const TEMPLATE_ID = 'template_nmyaoe2';
 
           return emailjs.send(SERVICE_ID, TEMPLATE_ID, emailParams);
         })
