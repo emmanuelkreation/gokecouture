@@ -562,9 +562,9 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── EmailJS Config with CORRECT credentials ──
+    // ── EmailJS with CORRECT credentials ──
     (function() {
-      emailjs.init("TmBSOe5nfVlHF1v5o"); // public key (unchanged)
+      emailjs.init("TmBSOe5nfVlHF1v5o");
     })();
 
     // ── DOM refs ──
@@ -710,7 +710,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking with corrected EmailJS IDs ──
+    // ── Submit booking with CORRECT Service ID and Template ID ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -759,7 +759,7 @@
         .then(function() {
           console.log('✅ Firebase saved successfully.');
 
-          // ── Prepare email parameters for your template ──
+          // ── Prepare email parameters ──
           const orderId = 'BOOK-' + Date.now().toString().slice(-8);
 
           const emailParams = {
@@ -767,7 +767,6 @@
             order_id: orderId,
             units: '1',
             cost_shipping: '0',
-            // Additional fields (your template may not use them, but we include them for reference)
             client_name: bookingData.name,
             service: bookingData.service,
             date: bookingData.date || 'Not specified',
@@ -778,27 +777,28 @@
             notes: bookingData.notes || 'None',
             phone: bookingData.phone || 'Not provided',
             measurements: JSON.stringify(bookingData.measurements),
-            image: bookingData.image ? 'Image uploaded' : 'No image'
+            image: bookingData.image ? 'Image uploaded' : 'No image',
+            orders: [ { name: bookingData.service, units: '1' } ]
           };
-
-          // The template uses {{#orders}} loop – we send an array of one item.
-          emailParams.orders = [
-            { name: bookingData.service, units: '1' }
-          ];
 
           console.log('📧 Email params:', emailParams);
 
-          // ── Send using YOUR correct Service ID and Template ID ──
-          const SERVICE_ID = 'service_2vnv6c5';    // from your screenshot
-          const TEMPLATE_ID = 'template_m8ebj72';  // from your screenshot (note 'j', not 'l')
+          // ── YOUR CORRECT CREDENTIALS ──
+          const SERVICE_ID = 'service_2vnv6c5';   // correct service ID
+          const TEMPLATE_ID = 'template_m8ebl72'; // correct template ID
 
           return emailjs.send(SERVICE_ID, TEMPLATE_ID, emailParams);
         })
         .then(function(response) {
           console.log('✅ Email sent:', response);
+          // Show success and redirect to checkout
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
-          window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 80, behavior: 'smooth' });
+
+          // ─── REDIRECT TO CHECKOUT PAGE AFTER 2 SECONDS ───
+          setTimeout(function() {
+            window.location.href = 'checkout.html?order=BOOK-' + Date.now().toString().slice(-8);
+          }, 2000);
         })
         .catch(function(error) {
           console.error('❌ EmailJS error:', error);
