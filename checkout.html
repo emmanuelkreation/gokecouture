@@ -554,6 +554,7 @@
             transition: background .3s;
             border: none;
             cursor: pointer;
+            text-decoration: none;
         }
         .error-state .btn-primary:hover {
             background: var(--gold-lt);
@@ -700,8 +701,7 @@
         const db = firebase.database();
 
         // ─── Paystack Public Key ──────────────────────────
-        // 🔑 REPLACE WITH YOUR ACTUAL PAYSTACK PUBLIC KEY
-        const PAYSTACK_PUBLIC_KEY = 'pk_test_e8f1780a7f60f91c671ccac891356d9c6e39006e'; // <-- CHANGE THIS
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_e8f1780a7f60f91c671ccac891356d9c6e39006e'; // Test key provided
 
         // ─── Bank Details ──────────────────────────────────
         const BANK_DETAILS = [{
@@ -829,13 +829,14 @@
                 return;
             }
 
-            // Determine price
+            // Determine price – try multiple sources
             let price = 0;
-            if (booking.collectionPrice) {
+            if (booking.collectionPrice && booking.collectionPrice > 0) {
                 price = booking.collectionPrice;
-            } else if (booking.price) {
+            } else if (booking.price && booking.price > 0) {
                 price = booking.price;
             } else if (booking.budgetRange) {
+                // Try to parse a numeric value from budgetRange
                 const range = booking.budgetRange.replace(/,/g, '').replace('+', '');
                 const parts = range.split(' - ');
                 if (parts.length === 2) {
@@ -866,6 +867,11 @@
                     </div>
                 `;
             });
+
+            // Check if already paid
+            const isPaid = booking.paymentStatus === 'paid';
+            const statusClass = isPaid ? 'paid' : 'new';
+            const statusLabel = isPaid ? 'Paid ✓' : 'Pending Payment';
 
             const html = `
                 <div class="checkout-grid">
@@ -915,12 +921,18 @@
                             <span class="value">${priceDisplay}</span>
                         </div>
                         <div style="margin-top:.8rem;text-align:right;">
-                            <span class="order-status new">Pending Payment</span>
+                            <span class="order-status ${statusClass}">${statusLabel}</span>
                         </div>
                         ${booking.notes ? `
                         <div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid rgba(245,240,232,.06);">
                             <div style="font-size:.7rem;color:rgba(245,240,232,.3);letter-spacing:.1em;text-transform:uppercase;">Style Notes</div>
                             <p style="font-size:.85rem;color:rgba(245,240,232,.5);margin-top:.2rem;">${booking.notes}</p>
+                        </div>
+                        ` : ''}
+                        ${booking.image ? `
+                        <div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid rgba(245,240,232,.06);">
+                            <div style="font-size:.7rem;color:rgba(245,240,232,.3);letter-spacing:.1em;text-transform:uppercase;">Style Image</div>
+                            <img src="${booking.image}" style="max-width:100%;max-height:150px;object-fit:contain;margin-top:.3rem;border:1px solid rgba(245,240,232,.1);border-radius:4px;" />
                         </div>
                         ` : ''}
                     </div>
@@ -941,9 +953,15 @@
                         <!-- Paystack Card Payment -->
                         <div class="paystack-section">
                             <p><i class="fas fa-lock" style="margin-right:.4rem;color:var(--gold);"></i> Secured payment via Paystack</p>
-                            <button class="btn-paystack" id="paystackBtn">
-                                <i class="fas fa-credit-card"></i> Pay with Card
-                            </button>
+                            ${isPaid ? `
+                                <button class="btn-paystack" style="background:#2D5016;cursor:default;" disabled>
+                                    <i class="fas fa-check-circle"></i> Already Paid
+                                </button>
+                            ` : `
+                                <button class="btn-paystack" id="paystackBtn">
+                                    <i class="fas fa-credit-card"></i> Pay with Card
+                                </button>
+                            `}
                             <p style="font-size:.65rem;color:rgba(245,240,232,.25);margin-top:.6rem;">We accept all major cards. Your payment is secure and encrypted.</p>
                         </div>
 
@@ -959,60 +977,64 @@
             checkoutContent.innerHTML = html;
 
             // ─── Paystack integration ──────────────────────
-            const paystackBtn = document.getElementById('paystackBtn');
-            if (paystackBtn && price > 0) {
-                paystackBtn.addEventListener('click', function() {
-                    const email = booking.email || 'customer@gokecouture.com';
-                    const amount = price * 100; // Paystack uses kobo
+            if (!isPaid) {
+                const paystackBtn = document.getElementById('paystackBtn');
+                if (paystackBtn) {
+                    if (price > 0) {
+                        paystackBtn.addEventListener('click', function() {
+                            const email = booking.email || 'customer@gokecouture.com';
+                            const amount = price * 100; // Paystack uses kobo
 
-                    const handler = PaystackPop.setup({
-                        key: PAYSTACK_PUBLIC_KEY,
-                        email: email,
-                        amount: amount,
-                        currency: 'NGN',
-                        ref: orderId + '_' + Date.now(),
-                        metadata: {
-                            custom_fields: [{
-                                display_name: "Order ID",
-                                variable_name: "order_id",
-                                value: orderId
-                            }, {
-                                display_name: "Client",
-                                variable_name: "client",
-                                value: booking.name || '—'
-                            }, {
-                                display_name: "Service",
-                                variable_name: "service",
-                                value: booking.service || '—'
-                            }]
-                        },
-                        callback: function(response) {
-                            // Payment successful
-                            console.log('✅ Paystack payment successful:', response);
-                            // Update booking status in Firebase
-                            db.ref('bookings/' + orderId).update({
-                                paymentStatus: 'paid',
-                                paymentReference: response.reference,
-                                paidAt: new Date().toISOString()
-                            }).then(function() {
-                                alert('🎉 Payment successful! Your booking is now confirmed. We\'ll contact you shortly.');
-                                window.location.href = 'index.html';
-                            }).catch(function(err) {
-                                console.error('Error updating booking:', err);
-                                alert('Payment successful but we had trouble updating your booking. Please contact us directly.');
+                            const handler = PaystackPop.setup({
+                                key: PAYSTACK_PUBLIC_KEY,
+                                email: email,
+                                amount: amount,
+                                currency: 'NGN',
+                                ref: orderId + '_' + Date.now(),
+                                metadata: {
+                                    custom_fields: [{
+                                        display_name: "Order ID",
+                                        variable_name: "order_id",
+                                        value: orderId
+                                    }, {
+                                        display_name: "Client",
+                                        variable_name: "client",
+                                        value: booking.name || '—'
+                                    }, {
+                                        display_name: "Service",
+                                        variable_name: "service",
+                                        value: booking.service || '—'
+                                    }]
+                                },
+                                callback: function(response) {
+                                    // Payment successful
+                                    console.log('✅ Paystack payment successful:', response);
+                                    // Update booking status in Firebase
+                                    db.ref('bookings/' + orderId).update({
+                                        paymentStatus: 'paid',
+                                        paymentReference: response.reference,
+                                        paidAt: new Date().toISOString()
+                                    }).then(function() {
+                                        alert('🎉 Payment successful! Your booking is now confirmed. We\'ll contact you shortly.');
+                                        window.location.href = 'index.html';
+                                    }).catch(function(err) {
+                                        console.error('Error updating booking:', err);
+                                        alert('Payment successful but we had trouble updating your booking. Please contact us directly.');
+                                    });
+                                },
+                                onClose: function() {
+                                    alert('Payment window closed. You can try again or use bank transfer.');
+                                }
                             });
-                        },
-                        onClose: function() {
-                            alert('Payment window closed. You can try again or use bank transfer.');
-                        }
-                    });
-                    handler.openIframe();
-                });
-            } else if (paystackBtn && price <= 0) {
-                paystackBtn.disabled = true;
-                paystackBtn.style.opacity = '0.5';
-                paystackBtn.title = 'Please contact us for pricing';
-                paystackBtn.innerHTML = '<i class="fas fa-credit-card"></i> Price Not Set – Contact Us';
+                            handler.openIframe();
+                        });
+                    } else {
+                        paystackBtn.disabled = true;
+                        paystackBtn.style.opacity = '0.5';
+                        paystackBtn.title = 'Please contact us for pricing';
+                        paystackBtn.innerHTML = '<i class="fas fa-credit-card"></i> Price Not Set – Contact Us';
+                    }
+                }
             }
         }
 
@@ -1040,49 +1062,21 @@
                 </div>
             `;
 
-            // Try to fetch by key (the order ID might be the Firebase key)
-            // Since we store bookings with push keys, we need to search
-            db.ref('bookings').orderByKey().equalTo(orderId).once('value')
+            // Directly read the booking by its key (orderId)
+            db.ref('bookings/' + orderId).once('value')
                 .then(function(snapshot) {
-                    const data = snapshot.val();
-                    if (data) {
-                        const key = Object.keys(data)[0];
-                        const booking = data[key];
+                    const booking = snapshot.val();
+                    if (booking) {
                         renderCheckout(booking, orderId);
                     } else {
-                        // Try searching by order ID stored in the booking
-                        db.ref('bookings').once('value').then(function(allSnap) {
-                            const allData = allSnap.val();
-                            if (allData) {
-                                let found = false;
-                                for (let key in allData) {
-                                    if (allData[key].orderId === orderId || key === orderId) {
-                                        renderCheckout(allData[key], key);
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                                if (!found) {
-                                    checkoutContent.innerHTML = `
-                                        <div class="error-state">
-                                            <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
-                                            <h2>Order Not Found</h2>
-                                            <p>We couldn't find your booking. Please go back and try again.</p>
-                                            <a href="booking.html" class="btn-primary">Return to Booking</a>
-                                        </div>
-                                    `;
-                                }
-                            } else {
-                                checkoutContent.innerHTML = `
-                                    <div class="error-state">
-                                        <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
-                                        <h2>No Bookings Found</h2>
-                                        <p>Please complete your booking first.</p>
-                                        <a href="booking.html" class="btn-primary">Book Now</a>
-                                    </div>
-                                `;
-                            }
-                        });
+                        checkoutContent.innerHTML = `
+                            <div class="error-state">
+                                <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+                                <h2>Order Not Found</h2>
+                                <p>We couldn't find your booking. Please go back and try again.</p>
+                                <a href="booking.html" class="btn-primary">Return to Booking</a>
+                            </div>
+                        `;
                     }
                 })
                 .catch(function(error) {
@@ -1101,9 +1095,8 @@
         // ─── Init ──────────────────────────────────────────
         loadOrder();
 
-        console.log('✅ Checkout page loaded.');
+        console.log('✅ Checkout page loaded with test key.');
         console.log('💡 Bank accounts displayed. Paystack integration ready.');
-        console.log('🔑 Replace PAYSTACK_PUBLIC_KEY with your live key.');
     </script>
 </body>
 </html>
