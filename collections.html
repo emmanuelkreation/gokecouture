@@ -877,6 +877,8 @@
             }
         }
 
+        /* ═══ RESPONSIVE ENHANCEMENTS ═══ */
+        /* Tablets and smaller */
         @media(max-width:1024px) {
             .featured-grid {
                 grid-template-columns: 1fr;
@@ -885,7 +887,12 @@
             .collections-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 2.5rem;
+            }
         }
+
         @media(max-width:768px) {
             #nav {
                 padding: 0 1.2rem;
@@ -918,6 +925,11 @@
             }
             .filter-bar {
                 justify-content: flex-start;
+                gap: 0.4rem;
+            }
+            .filter-btn {
+                font-size: 0.55rem;
+                padding: 0.3rem 1rem;
             }
             .featured-card .overlay h3 {
                 font-size: 1.4rem;
@@ -928,13 +940,95 @@
             .collection-card .card-body .price {
                 font-size: 1rem;
             }
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 4rem 5vw 2rem;
+            }
+            .footer-brand p {
+                max-width: 100%;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
         }
+
         @media(max-width:480px) {
+            .collections-hero {
+                min-height: 50vh;
+                padding: 6rem 5vw 3rem;
+            }
             .collections-hero .content h1 {
                 font-size: 2.2rem;
             }
             .collections-hero .content .quote {
                 font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            .collections-hero .content .eyebrow {
+                font-size: 0.6rem;
+                margin-bottom: 0.8rem;
+            }
+            .expertise-badge {
+                font-size: 0.55rem;
+                padding: 0.3rem 1.2rem;
+                margin-top: 1.2rem;
+            }
+            .featured-header h2 {
+                font-size: 1.8rem;
+            }
+            .featured-card .overlay {
+                padding: 1.2rem;
+            }
+            .featured-card .overlay h3 {
+                font-size: 1.2rem;
+            }
+            .featured-card .overlay p {
+                font-size: 0.8rem;
+                max-width: 100%;
+            }
+            .featured-card .overlay .price {
+                font-size: 0.9rem;
+            }
+            .featured-card .overlay .btn-outline-gold {
+                font-size: 0.55rem;
+                padding: 0.3rem 1rem;
+            }
+            .collection-card .card-body {
+                padding: 1rem;
+            }
+            .collection-card .card-body h3 {
+                font-size: 1rem;
+            }
+            .collection-card .card-body .desc {
+                font-size: 0.8rem;
+            }
+            .collection-card .card-body .price {
+                font-size: 0.9rem;
+            }
+            .collection-card .card-body .btn-outline-gold {
+                font-size: 0.5rem;
+                padding: 0.2rem 0.8rem;
+            }
+            .filter-btn {
+                font-size: 0.5rem;
+                padding: 0.2rem 0.8rem;
+            }
+            .section-header h2 {
+                font-size: 1.4rem;
+            }
+            .cta-section h2 {
+                font-size: 1.6rem !important;
+            }
+            .cta-section p {
+                font-size: 0.9rem;
+                margin: 1rem 0 1.5rem;
+            }
+            .btn-primary {
+                font-size: 0.65rem;
+                padding: 0.7rem 1.8rem;
             }
             #cursor-dot,
             #cursor-ring {
@@ -947,6 +1041,53 @@
             .btn-outline-gold,
             .filter-btn {
                 cursor: auto;
+            }
+            .lightbox .nav-btn {
+                font-size: 1.5rem;
+                padding: 0.5rem;
+            }
+            .lightbox .close {
+                font-size: 2rem;
+                top: 1rem;
+                right: 1rem;
+            }
+            .lightbox .lightbox-info .lb-name {
+                font-size: 1.2rem;
+            }
+            .lightbox .lightbox-info .lb-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Extra small screens (e.g., iPhone SE) */
+        @media(max-width:380px) {
+            .collections-hero .content h1 {
+                font-size: 1.8rem;
+            }
+            .collections-hero .content .quote {
+                font-size: 0.9rem;
+            }
+            .featured-card .overlay h3 {
+                font-size: 1rem;
+            }
+            .featured-card .overlay p {
+                font-size: 0.7rem;
+            }
+            .featured-card .overlay .price {
+                font-size: 0.8rem;
+            }
+            .collection-card .card-body h3 {
+                font-size: 0.9rem;
+            }
+            .collection-card .card-body .desc {
+                font-size: 0.7rem;
+            }
+            .collection-card .card-body .price {
+                font-size: 0.8rem;
+            }
+            .filter-btn {
+                font-size: 0.45rem;
+                padding: 0.2rem 0.6rem;
             }
         }
     </style>
