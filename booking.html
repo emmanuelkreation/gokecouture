@@ -18,7 +18,7 @@
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
-    /* ── All your existing styles (unchanged) ── */
+    /* ── All your existing styles ── */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -38,7 +38,6 @@
     button { cursor:none; border:none; background:none; font-family:inherit }
     ul { list-style:none }
 
-    /* ── Cursor, scroll bar, nav ── */
     #cursor-dot { position:fixed; width:8px; height:8px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .1s var(--ease), width .3s var(--slow), height .3s var(--slow), background .3s }
     #cursor-ring { position:fixed; width:36px; height:36px; border:1.5px solid rgba(201,168,76,.5); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform .18s var(--ease), width .35s var(--slow), height .35s var(--slow), opacity .3s, border-color .3s }
     body.cursor-hover #cursor-dot { width:12px; height:12px; background:var(--gold-lt) }
@@ -710,7 +709,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking ──
+    // ── SUBMIT BOOKING (FIXED – baseParams defined once) ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -761,49 +760,48 @@
 
       console.log('📤 Booking data:', bookingData);
 
+      // ── Prepare baseParams ONCE (now outside the chain) ──
+      const baseParams = {
+        client_name: bookingData.name,
+        client_email: bookingData.email,
+        phone: bookingData.phone || 'Not provided',
+        order_id: orderId,
+        service: bookingData.service,
+        date: bookingData.date || 'Not specified',
+        event_type: bookingData.eventType || 'Not specified',
+        budget: bookingData.budgetRange || 'Not specified',
+        fabric: bookingData.fabricType || 'Not specified',
+        colour: bookingData.colourPreference || 'Not specified',
+        notes: bookingData.notes || 'None',
+        image: bookingData.image ? 'Image uploaded' : 'No image',
+        chest: bookingData.measurements.chest || '',
+        waist: bookingData.measurements.waist || '',
+        hips: bookingData.measurements.hips || '',
+        shoulder: bookingData.measurements.shoulder || '',
+        sleeve: bookingData.measurements.sleeve || '',
+        length: bookingData.measurements.length || '',
+        neck: bookingData.measurements.neck || '',
+        inseam: bookingData.measurements.inseam || '',
+        height: bookingData.measurements.height || ''
+      };
+
       // ── Save to Firebase under public-bookings ──
       db.ref('public-bookings/' + orderId).set(bookingData)
         .then(function() {
           console.log('✅ Firebase saved with key:', orderId);
-
-          // ── Prepare email parameters ──
-          const baseParams = {
-            client_name: bookingData.name,
-            client_email: bookingData.email,
-            phone: bookingData.phone || 'Not provided',
-            order_id: orderId,
-            service: bookingData.service,
-            date: bookingData.date || 'Not specified',
-            event_type: bookingData.eventType || 'Not specified',
-            budget: bookingData.budgetRange || 'Not specified',
-            fabric: bookingData.fabricType || 'Not specified',
-            colour: bookingData.colourPreference || 'Not specified',
-            notes: bookingData.notes || 'None',
-            image: bookingData.image ? 'Image uploaded' : 'No image',
-            chest: bookingData.measurements.chest || '',
-            waist: bookingData.measurements.waist || '',
-            hips: bookingData.measurements.hips || '',
-            shoulder: bookingData.measurements.shoulder || '',
-            sleeve: bookingData.measurements.sleeve || '',
-            length: bookingData.measurements.length || '',
-            neck: bookingData.measurements.neck || '',
-            inseam: bookingData.measurements.inseam || '',
-            height: bookingData.measurements.height || ''
-          };
-
-          // 1. Send Client Email
+          // 1. Send client email
           console.log('📧 Sending client confirmation...');
           return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', baseParams);
         })
         .then(function(response) {
           console.log('✅ Client email sent:', response);
-          // 2. Send Admin Email
+          // 2. Send admin email
           console.log('📧 Sending admin notification...');
           return emailjs.send('service_n4rqpwc', 'template_m9ua74n', baseParams);
         })
         .then(function(response) {
           console.log('✅ Admin email sent:', response);
-          // Show success and redirect to checkout
+          // Show success and redirect
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
 
