@@ -1,1 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout — Goke Couture</title>
+    <meta name="description" content="Complete your booking with Goke Couture. Pay securely via bank transfer or card." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- Paystack SDK -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        :root {
+            --ink: #0A0A0A;
+            --ivory: #F5F0E8;
+            --gold: #C9A84C;
+            --gold-lt: #E8D48A;
+            --sage: #2D5016;
+            --sage-lt: #3D6B1F;
+            --charcoal: #1A1A1A;
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Jost', system-ui, sans-serif;
+            --ease: cubic-bezier(.25, .46, .45, .94);
+            --slow: cubic-bezier(.16, 1, .3, 1);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        body {
+            background: var(--ink);
+            color: var(--ivory);
+            font-family: var(--font-body);
+            font-weight: 300;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            border: none;
+            background: none;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        ul {
+            list-style: none;
+        }
 
+        /* ── Navigation ── */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 800;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            transition: background .5s var(--ease), height .5s var(--ease), backdrop-filter .5s;
+            background: rgba(10, 10, 10, .92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 168, 76, .15);
+        }
+        #nav.scrolled {
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .nav-logo svg {
+            height: 44px;
+            width: auto;
+            transition: height .5s var(--ease);
+        }
+        #nav.scrolled .nav-logo svg {
+            height: 36px;
+        }
+        .logo-wordmark {
+            font-family: var(--font-body);
+            font-weight: 200;
+            font-size: .72rem;
+            letter-spacing: .35em;
+            text-transform: uppercase;
+            color: var(--ivory);
+            line-height: 1;
+        }
+        .logo-wordmark span {
+            display: block;
+            font-weight: 400;
+            letter-spacing: .12em;
+            font-size: .55rem;
+            color: var(--gold);
+            margin-top: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            font-size: .72rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            font-weight: 400;
+            color: rgba(245, 240, 232, .75);
+            position: relative;
+            transition: color .3s;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 100%;
+            height: 1px;
+            background: var(--gold);
+            transition: right .35s var(--slow);
+        }
+        .nav-links a:hover {
+            color: var(--ivory);
+        }
+        .nav-links a:hover::after {
+            right: 0;
+        }
+        .nav-links a.active {
+            color: var(--gold);
+        }
+        .nav-links a.active::after {
+            right: 0;
+            background: var(--gold);
+        }
+        .nav-cta {
+            font-size: .68rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            font-weight: 400;
+            padding: .65rem 1.6rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            transition: background .3s, color .3s;
+            flex-shrink: 0;
+        }
+        .nav-cta:hover {
+            background: var(--gold);
+            color: var(--ink);
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 4px;
+            background: transparent;
+            cursor: pointer;
+            z-index: 801;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 26px;
+            height: 1.5px;
+            background: var(--ivory);
+            transition: transform .4s var(--slow), opacity .3s;
+            transform-origin: center;
+        }
+
+        #mobile-nav {
+            position: fixed;
+            inset: 0;
+            z-index: 700;
+            background: var(--ink);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s var(--ease);
+            padding: 2rem;
+        }
+        #mobile-nav.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .mob-link {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 300;
+            color: var(--ivory);
+            letter-spacing: .05em;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity .5s var(--slow), transform .5s var(--slow), color .3s;
+        }
+        #mobile-nav.open .mob-link {
+            opacity: 1;
+            transform: none;
+        }
+        .mob-link:hover {
+            color: var(--gold);
+        }
+        .mob-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2.2rem;
+            color: var(--ivory);
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity .3s, transform .3s;
+            line-height: 1;
+            padding: 0.5rem;
+        }
+        .mob-close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        /* ── Main Checkout ── */
+        .checkout-hero {
+            padding: 10rem 5vw 4rem;
+            text-align: center;
+            background: var(--ink);
+            border-bottom: 1px solid rgba(201, 168, 76, .1);
+        }
+        .checkout-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            color: var(--ivory);
+            line-height: 1.1;
+        }
+        .checkout-hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+        .checkout-hero .sub {
+            color: rgba(245, 240, 232, .5);
+            font-size: 1rem;
+            margin-top: .5rem;
+            letter-spacing: .05em;
+        }
+
+        #checkout-section {
+            padding: 4rem 5vw 6rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        /* ── Order Summary ── */
+        .order-summary {
+            background: #0f0f0f;
+            border: 1px solid rgba(201, 168, 76, .15);
+            padding: 2rem;
+        }
+        .order-summary h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--ivory);
+            margin-bottom: 1.5rem;
+            padding-bottom: .5rem;
+            border-bottom: 1px solid rgba(201, 168, 76, .1);
+        }
+        .order-summary h2 em {
+            color: var(--gold);
+            font-style: italic;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: .6rem 0;
+            border-bottom: 1px solid rgba(245, 240, 232, .04);
+            font-size: .9rem;
+        }
+        .order-item .label {
+            color: rgba(245, 240, 232, .4);
+        }
+        .order-item .value {
+            color: var(--ivory);
+            font-weight: 400;
+        }
+        .order-item .value.price {
+            color: var(--gold);
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+        }
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0 .5rem;
+            border-top: 2px solid var(--gold);
+            margin-top: .5rem;
+            font-size: 1.1rem;
+        }
+        .order-total .label {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: var(--ivory);
+        }
+        .order-total .value {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--gold);
+        }
+        .order-status {
+            display: inline-block;
+            padding: .3rem 1.2rem;
+            font-size: .6rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            margin-top: .5rem;
+        }
+        .order-status.new {
+            background: rgba(201, 168, 76, .15);
+            color: var(--gold);
+        }
+        .order-status.paid {
+            background: rgba(45, 80, 22, .2);
+            color: var(--sage-lt);
+        }
+
+        /* ── Payment Section ── */
+        .payment-section {
+            background: #0f0f0f;
+            border: 1px solid rgba(201, 168, 76, .15);
+            padding: 2rem;
+        }
+        .payment-section h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--ivory);
+            margin-bottom: 1.5rem;
+            padding-bottom: .5rem;
+            border-bottom: 1px solid rgba(201, 168, 76, .1);
+        }
+        .payment-section h2 em {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* ── Bank Details ── */
+        .bank-details {
+            margin-bottom: 2rem;
+        }
+        .bank-details h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            letter-spacing: .05em;
+        }
+        .bank-item {
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(245, 240, 232, .06);
+            padding: 1rem 1.2rem;
+            margin-bottom: .8rem;
+            border-radius: 4px;
+            transition: border-color .3s;
+            cursor: pointer;
+        }
+        .bank-item:hover {
+            border-color: rgba(201, 168, 76, .3);
+        }
+        .bank-item .bank-name {
+            font-weight: 500;
+            color: var(--ivory);
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+        .bank-item .bank-name .badge {
+            font-size: .5rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            background: rgba(201, 168, 76, .15);
+            color: var(--gold);
+            padding: .1rem .6rem;
+            border-radius: 10px;
+        }
+        .bank-item .account-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: .1em;
+            margin: .2rem 0 .1rem;
+        }
+        .bank-item .account-name {
+            font-size: .8rem;
+            color: rgba(245, 240, 232, .4);
+        }
+        .bank-item .copy-btn {
+            background: rgba(201, 168, 76, .1);
+            color: var(--gold);
+            border: 1px solid rgba(201, 168, 76, .2);
+            padding: .2rem .8rem;
+            font-size: .6rem;
+            border-radius: 3px;
+            transition: background .3s;
+            cursor: pointer;
+            margin-top: .3rem;
+        }
+        .bank-item .copy-btn:hover {
+            background: rgba(201, 168, 76, .2);
+        }
+        .copy-feedback {
+            font-size: .7rem;
+            color: var(--sage-lt);
+            margin-left: .5rem;
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        .copy-feedback.show {
+            opacity: 1;
+        }
+
+        /* ── Paystack Button ── */
+        .paystack-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(245, 240, 232, .06);
+        }
+        .paystack-section p {
+            color: rgba(245, 240, 232, .4);
+            font-size: .85rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .btn-paystack {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .8rem;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: #0A9ED5;
+            color: #fff;
+            font-size: .85rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: background .3s, transform .3s var(--slow);
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-body);
+        }
+        .btn-paystack:hover {
+            background: #0883b3;
+            transform: translateY(-2px);
+        }
+        .btn-paystack i {
+            font-size: 1.2rem;
+        }
+
+        .payment-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: rgba(245, 240, 232, .2);
+            font-size: .7rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+        }
+        .payment-divider::before,
+        .payment-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(245, 240, 232, .06);
+        }
+
+        /* ── Loading State ── */
+        .loading-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .loading-state .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(201, 168, 76, .15);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loading-state p {
+            color: rgba(245, 240, 232, .4);
+        }
+        .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .error-state .icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .error-state h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: .5rem;
+        }
+        .error-state p {
+            color: rgba(245, 240, 232, .4);
+            margin-bottom: 1.5rem;
+        }
+        .error-state .btn-primary {
+            display: inline-block;
+            padding: .7rem 2rem;
+            background: var(--gold);
+            color: var(--ink);
+            font-size: .7rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            transition: background .3s;
+            border: none;
+            cursor: pointer;
+        }
+        .error-state .btn-primary:hover {
+            background: var(--gold-lt);
+        }
+
+        /* ── Responsive ── */
+        @media(max-width:1024px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        @media(max-width:768px) {
+            #nav {
+                padding: 0 1.2rem;
+                height: 68px;
+            }
+            .nav-links,
+            .nav-cta {
+                display: none;
+            }
+            .nav-hamburger {
+                display: flex;
+            }
+            .checkout-hero {
+                padding: 8rem 5vw 2rem;
+            }
+            .checkout-hero h1 {
+                font-size: 2rem;
+            }
+            #checkout-section {
+                padding: 2rem 5vw 4rem;
+            }
+            .order-summary,
+            .payment-section {
+                padding: 1.5rem;
+            }
+            .bank-item .account-number {
+                font-size: 1rem;
+            }
+        }
+        @media(max-width:480px) {
+            .checkout-hero h1 {
+                font-size: 1.6rem;
+            }
+            .order-summary h2,
+            .payment-section h2 {
+                font-size: 1.3rem;
+            }
+            .bank-item {
+                padding: .8rem 1rem;
+            }
+            .bank-item .account-number {
+                font-size: .9rem;
+            }
+            .btn-paystack {
+                font-size: .75rem;
+                padding: .8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── NAVIGATION ── -->
+    <nav id="nav" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+                <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+                <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+            </svg>
+            <div class="logo-wordmark">
+                Goke Couture
+                <span>Ibadan · Oyo, Nigeria</span>
+            </div>
+        </a>
+
+        <ul class="nav-links" role="list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="collections.html">Collections</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="booking.html">Book</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="booking.html" class="nav-cta">Book a Fitting</a>
+
+        <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+        <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
+        <a href="index.html" class="mob-link">Home</a>
+        <a href="about.html" class="mob-link">About</a>
+        <a href="services.html" class="mob-link">Services</a>
+        <a href="collections.html" class="mob-link">Collections</a>
+        <a href="portfolio.html" class="mob-link">Portfolio</a>
+        <a href="booking.html" class="mob-link">Book</a>
+        <a href="reviews.html" class="mob-link">Reviews</a>
+        <a href="contact.html" class="mob-link">Contact</a>
+        <a href="booking.html" class="mob-link">Book a Fitting</a>
+    </div>
+
+    <!-- ── HERO ── -->
+    <section class="checkout-hero">
+        <h1>Complete Your <em>Booking</em></h1>
+        <p class="sub">Review your order and choose your payment method.</p>
+    </section>
+
+    <!-- ── CHECKOUT ── -->
+    <section id="checkout-section">
+        <div id="checkout-content">
+            <!-- Dynamically populated -->
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer style="background:#050505;border-top:1px solid rgba(201,168,76,.15);padding:2rem 5vw;text-align:center;">
+        <p style="font-size:.75rem;color:rgba(245,240,232,.3);letter-spacing:.05em;">© 2025 Goke Couture. All rights reserved.</p>
+        <p style="font-size:.75rem;color:rgba(245,240,232,.3);margin-top:.3rem;">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" style="color:var(--gold);">Kreation Digitals</a></p>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════
+    JAVASCRIPT
+    ═══════════════════════════════════════════════ -->
+    <script>
+        // ── Firebase Config ──
+        const firebaseConfig = {
+            apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
+            authDomain: "gokecouture-26a61.firebaseapp.com",
+            databaseURL: "https://gokecouture-26a61-default-rtdb.firebaseio.com",
+            projectId: "gokecouture-26a61",
+            storageBucket: "gokecouture-26a61.firebasestorage.app",
+            messagingSenderId: "527866719903",
+            appId: "1:527866719903:web:c3bb9997ecde72cac43caa"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // ─── Paystack Public Key ──────────────────────────
+        // 🔑 REPLACE WITH YOUR ACTUAL PAYSTACK PUBLIC KEY
+        const PAYSTACK_PUBLIC_KEY = 'pk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // <-- CHANGE THIS
+
+        // ─── Bank Details ──────────────────────────────────
+        const BANK_DETAILS = [{
+            bank: 'Zenith Bank',
+            accountNumber: '1016241355',
+            accountName: 'GOKE COUTURE INT',
+            type: 'Corporate'
+        }, {
+            bank: 'OPAY',
+            accountNumber: '6104954388',
+            accountName: 'GOKE COUTURE INT',
+            type: 'Digital'
+        }, {
+            bank: 'First Bank',
+            accountNumber: '3087347356',
+            accountName: 'Adegoke Sulaimon Adeyemi',
+            type: 'Personal'
+        }];
+
+        // ─── DOM refs ──────────────────────────────────────
+        const checkoutContent = document.getElementById('checkout-content');
+
+        // ─── Mobile Menu ──────────────────────────────────
+        (function() {
+            const ham = document.getElementById('hamburger');
+            const mNav = document.getElementById('mobile-nav');
+            const closeBtn = document.getElementById('mob-close');
+            let mOpen = false;
+
+            function toggleMenu(open) {
+                mOpen = (open !== undefined) ? open : !mOpen;
+                if (mNav) mNav.classList.toggle('open', mOpen);
+                if (ham) ham.setAttribute('aria-expanded', mOpen);
+                const spans = ham ? ham.querySelectorAll('span') : [];
+                if (mOpen) {
+                    if (spans[0]) spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+                    if (spans[1]) spans[1].style.opacity = '0';
+                    if (spans[2]) spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+                } else {
+                    if (spans[0]) spans[0].style.transform = '';
+                    if (spans[1]) spans[1].style.opacity = '';
+                    if (spans[2]) spans[2].style.transform = '';
+                }
+            }
+            if (ham) {
+                ham.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleMenu();
+                });
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() { toggleMenu(false); });
+            }
+            if (mNav) {
+                mNav.querySelectorAll('.mob-link').forEach(function(l) {
+                    l.addEventListener('click', function() { toggleMenu(false); });
+                });
+                mNav.addEventListener('click', function(e) {
+                    if (e.target === mNav) toggleMenu(false);
+                });
+            }
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mOpen) toggleMenu(false);
+            });
+        })();
+
+        // ─── Sticky nav ──────────────────────────────────
+        (function() {
+            const nav = document.getElementById('nav');
+            window.addEventListener('scroll', function() {
+                if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
+            }, { passive: true });
+        })();
+
+        // ─── Copy to clipboard ────────────────────────────
+        function copyToClipboard(text, element) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    const feedback = element.querySelector('.copy-feedback');
+                    if (feedback) {
+                        feedback.classList.add('show');
+                        setTimeout(function() {
+                            feedback.classList.remove('show');
+                        }, 2000);
+                    }
+                }).catch(function() {
+                    fallbackCopy(text, element);
+                });
+            } else {
+                fallbackCopy(text, element);
+            }
+        }
+
+        function fallbackCopy(text, element) {
+            const input = document.createElement('input');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            try {
+                document.execCommand('copy');
+                const feedback = element.querySelector('.copy-feedback');
+                if (feedback) {
+                    feedback.classList.add('show');
+                    setTimeout(function() {
+                        feedback.classList.remove('show');
+                    }, 2000);
+                }
+            } catch (e) {
+                alert('Could not copy. Please select and copy manually: ' + text);
+            }
+            document.body.removeChild(input);
+        }
+
+        // ─── Render Checkout ──────────────────────────────
+        function renderCheckout(booking, orderId) {
+            if (!booking) {
+                checkoutContent.innerHTML = `
+                    <div class="error-state">
+                        <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+                        <h2>Order Not Found</h2>
+                        <p>We couldn't find your booking. Please go back and try again.</p>
+                        <a href="booking.html" class="btn-primary">Return to Booking</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Determine price
+            let price = 0;
+            if (booking.collectionPrice) {
+                price = booking.collectionPrice;
+            } else if (booking.price) {
+                price = booking.price;
+            } else if (booking.budgetRange) {
+                const range = booking.budgetRange.replace(/,/g, '').replace('+', '');
+                const parts = range.split(' - ');
+                if (parts.length === 2) {
+                    price = (parseInt(parts[0]) + parseInt(parts[1])) / 2;
+                } else {
+                    price = parseInt(range) || 0;
+                }
+            }
+
+            const priceDisplay = price > 0 ? '₦' + price.toLocaleString('en-NG', { minimumFractionDigits: 0,
+                maximumFractionDigits: 0 }) : 'To be discussed';
+
+            // Build bank details HTML
+            let banksHtml = '';
+            BANK_DETAILS.forEach(function(bank) {
+                banksHtml += `
+                    <div class="bank-item" onclick="copyToClipboard('${bank.accountNumber}', this)">
+                        <div class="bank-name">
+                            ${bank.bank}
+                            <span class="badge">${bank.type}</span>
+                        </div>
+                        <div class="account-number">${bank.accountNumber}</div>
+                        <div class="account-name">${bank.accountName}</div>
+                        <button class="copy-btn" onclick="event.stopPropagation(); copyToClipboard('${bank.accountNumber}', this.parentElement)">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <span class="copy-feedback">✓ Copied!</span>
+                    </div>
+                `;
+            });
+
+            const html = `
+                <div class="checkout-grid">
+                    <!-- Order Summary -->
+                    <div class="order-summary">
+                        <h2>Order <em>Summary</em></h2>
+                        <div class="order-item">
+                            <span class="label">Order ID</span>
+                            <span class="value" style="color:var(--gold);">#${orderId}</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="label">Client</span>
+                            <span class="value">${booking.name || '—'}</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="label">Email</span>
+                            <span class="value">${booking.email || '—'}</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="label">Service</span>
+                            <span class="value">${booking.service || '—'}</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="label">Event Type</span>
+                            <span class="value">${booking.eventType || '—'}</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="label">Preferred Date</span>
+                            <span class="value">${booking.date ? new Date(booking.date).toLocaleDateString('en-GB', {year:'numeric',month:'short',day:'numeric'}) : '—'}</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="label">Fabric</span>
+                            <span class="value">${booking.fabricType || '—'}</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="label">Colour / Style</span>
+                            <span class="value">${booking.colourPreference || '—'}</span>
+                        </div>
+                        ${booking.collectionTitle ? `
+                        <div class="order-item">
+                            <span class="label">Collection</span>
+                            <span class="value" style="color:var(--gold);">${booking.collectionTitle}</span>
+                        </div>
+                        ` : ''}
+                        <div class="order-total">
+                            <span class="label">Total</span>
+                            <span class="value">${priceDisplay}</span>
+                        </div>
+                        <div style="margin-top:.8rem;text-align:right;">
+                            <span class="order-status new">Pending Payment</span>
+                        </div>
+                        ${booking.notes ? `
+                        <div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid rgba(245,240,232,.06);">
+                            <div style="font-size:.7rem;color:rgba(245,240,232,.3);letter-spacing:.1em;text-transform:uppercase;">Style Notes</div>
+                            <p style="font-size:.85rem;color:rgba(245,240,232,.5);margin-top:.2rem;">${booking.notes}</p>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Payment Section -->
+                    <div class="payment-section">
+                        <h2>Payment <em>Options</em></h2>
+
+                        <!-- Bank Transfer -->
+                        <div class="bank-details">
+                            <h3><i class="fas fa-university" style="margin-right:.6rem;"></i> Bank Transfer</h3>
+                            <p style="font-size:.8rem;color:rgba(245,240,232,.4);margin-bottom:.8rem;">Transfer the exact amount to any of these accounts. Click an account number to copy it.</p>
+                            ${banksHtml}
+                        </div>
+
+                        <div class="payment-divider">or</div>
+
+                        <!-- Paystack Card Payment -->
+                        <div class="paystack-section">
+                            <p><i class="fas fa-lock" style="margin-right:.4rem;color:var(--gold);"></i> Secured payment via Paystack</p>
+                            <button class="btn-paystack" id="paystackBtn">
+                                <i class="fas fa-credit-card"></i> Pay with Card
+                            </button>
+                            <p style="font-size:.65rem;color:rgba(245,240,232,.25);margin-top:.6rem;">We accept all major cards. Your payment is secure and encrypted.</p>
+                        </div>
+
+                        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(245,240,232,.06);text-align:center;">
+                            <a href="index.html" style="font-size:.7rem;color:rgba(245,240,232,.3);letter-spacing:.1em;text-transform:uppercase;transition:color .3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(245,240,232,.3)'">
+                                <i class="fas fa-arrow-left"></i> Return Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            checkoutContent.innerHTML = html;
+
+            // ─── Paystack integration ──────────────────────
+            const paystackBtn = document.getElementById('paystackBtn');
+            if (paystackBtn && price > 0) {
+                paystackBtn.addEventListener('click', function() {
+                    const email = booking.email || 'customer@gokecouture.com';
+                    const amount = price * 100; // Paystack uses kobo
+
+                    const handler = PaystackPop.setup({
+                        key: PAYSTACK_PUBLIC_KEY,
+                        email: email,
+                        amount: amount,
+                        currency: 'NGN',
+                        ref: orderId + '_' + Date.now(),
+                        metadata: {
+                            custom_fields: [{
+                                display_name: "Order ID",
+                                variable_name: "order_id",
+                                value: orderId
+                            }, {
+                                display_name: "Client",
+                                variable_name: "client",
+                                value: booking.name || '—'
+                            }, {
+                                display_name: "Service",
+                                variable_name: "service",
+                                value: booking.service || '—'
+                            }]
+                        },
+                        callback: function(response) {
+                            // Payment successful
+                            console.log('✅ Paystack payment successful:', response);
+                            // Update booking status in Firebase
+                            db.ref('bookings/' + orderId).update({
+                                paymentStatus: 'paid',
+                                paymentReference: response.reference,
+                                paidAt: new Date().toISOString()
+                            }).then(function() {
+                                alert('🎉 Payment successful! Your booking is now confirmed. We\'ll contact you shortly.');
+                                window.location.href = 'index.html';
+                            }).catch(function(err) {
+                                console.error('Error updating booking:', err);
+                                alert('Payment successful but we had trouble updating your booking. Please contact us directly.');
+                            });
+                        },
+                        onClose: function() {
+                            alert('Payment window closed. You can try again or use bank transfer.');
+                        }
+                    });
+                    handler.openIframe();
+                });
+            } else if (paystackBtn && price <= 0) {
+                paystackBtn.disabled = true;
+                paystackBtn.style.opacity = '0.5';
+                paystackBtn.title = 'Please contact us for pricing';
+                paystackBtn.innerHTML = '<i class="fas fa-credit-card"></i> Price Not Set – Contact Us';
+            }
+        }
+
+        // ─── Load Order ─────────────────────────────────────
+        function loadOrder() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order');
+
+            if (!orderId) {
+                checkoutContent.innerHTML = `
+                    <div class="error-state">
+                        <div class="icon"><i class="fas fa-search"></i></div>
+                        <h2>No Order Specified</h2>
+                        <p>Please return to your booking and complete the checkout process.</p>
+                        <a href="booking.html" class="btn-primary">Book Now</a>
+                    </div>
+                `;
+                return;
+            }
+
+            checkoutContent.innerHTML = `
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading your order details...</p>
+                </div>
+            `;
+
+            // Try to fetch by key (the order ID might be the Firebase key)
+            // Since we store bookings with push keys, we need to search
+            db.ref('bookings').orderByKey().equalTo(orderId).once('value')
+                .then(function(snapshot) {
+                    const data = snapshot.val();
+                    if (data) {
+                        const key = Object.keys(data)[0];
+                        const booking = data[key];
+                        renderCheckout(booking, orderId);
+                    } else {
+                        // Try searching by order ID stored in the booking
+                        db.ref('bookings').once('value').then(function(allSnap) {
+                            const allData = allSnap.val();
+                            if (allData) {
+                                let found = false;
+                                for (let key in allData) {
+                                    if (allData[key].orderId === orderId || key === orderId) {
+                                        renderCheckout(allData[key], key);
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    checkoutContent.innerHTML = `
+                                        <div class="error-state">
+                                            <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+                                            <h2>Order Not Found</h2>
+                                            <p>We couldn't find your booking. Please go back and try again.</p>
+                                            <a href="booking.html" class="btn-primary">Return to Booking</a>
+                                        </div>
+                                    `;
+                                }
+                            } else {
+                                checkoutContent.innerHTML = `
+                                    <div class="error-state">
+                                        <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+                                        <h2>No Bookings Found</h2>
+                                        <p>Please complete your booking first.</p>
+                                        <a href="booking.html" class="btn-primary">Book Now</a>
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading order:', error);
+                    checkoutContent.innerHTML = `
+                        <div class="error-state">
+                            <div class="icon"><i class="fas fa-exclamation-circle"></i></div>
+                            <h2>Error Loading Order</h2>
+                            <p>There was a problem loading your order. Please try again.</p>
+                            <a href="booking.html" class="btn-primary">Back to Booking</a>
+                        </div>
+                    `;
+                });
+        }
+
+        // ─── Init ──────────────────────────────────────────
+        loadOrder();
+
+        console.log('✅ Checkout page loaded.');
+        console.log('💡 Bank accounts displayed. Paystack integration ready.');
+        console.log('🔑 Replace PAYSTACK_PUBLIC_KEY with your live key.');
+    </script>
+</body>
+</html>
