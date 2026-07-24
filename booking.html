@@ -562,9 +562,9 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // ── EmailJS Config with YOUR CORRECT IDs ──
+    // ── EmailJS Config with YOUR NEW CREDENTIALS ──
     (function() {
-      emailjs.init("TmBSOe5nfVlHF1v5o");
+      emailjs.init("6amF7IyTodQftXxU3");   // Your new public key
     })();
 
     // ── DOM refs ──
@@ -710,7 +710,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── Submit booking with YOUR CORRECT IDs ──
+    // ── Submit booking with NEW credentials ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -755,49 +755,60 @@
 
       console.log('📤 Booking data:', bookingData);
 
+      // ── Generate order ID ──
+      const orderId = 'BOOK-' + Date.now().toString().slice(-8);
+
+      // ── Common parameters for both emails ──
+      const baseParams = {
+        client_name: bookingData.name,
+        client_email: bookingData.email,
+        phone: bookingData.phone || 'Not provided',
+        order_id: orderId,
+        service: bookingData.service,
+        date: bookingData.date || 'Not specified',
+        event_type: bookingData.eventType || 'Not specified',
+        budget: bookingData.budgetRange || 'Not specified',
+        fabric: bookingData.fabricType || 'Not specified',
+        colour: bookingData.colourPreference || 'Not specified',
+        notes: bookingData.notes || 'None',
+        image: bookingData.image ? 'Image uploaded' : 'No image',
+        // Individual measurement fields (flat)
+        chest: bookingData.measurements.chest || '',
+        waist: bookingData.measurements.waist || '',
+        hips: bookingData.measurements.hips || '',
+        shoulder: bookingData.measurements.shoulder || '',
+        sleeve: bookingData.measurements.sleeve || '',
+        length: bookingData.measurements.length || '',
+        neck: bookingData.measurements.neck || '',
+        inseam: bookingData.measurements.inseam || '',
+        height: bookingData.measurements.height || ''
+      };
+
+      // ── Send emails ──
       db.ref('bookings').push(bookingData)
         .then(function() {
           console.log('✅ Firebase saved successfully.');
 
-          // ── Prepare email parameters ──
-          const orderId = 'BOOK-' + Date.now().toString().slice(-8);
-
-          const emailParams = {
-            client_email: bookingData.email,
-            order_id: orderId,
-            units: '1',
-            cost_shipping: '0',
-            client_name: bookingData.name,
-            service: bookingData.service,
-            date: bookingData.date || 'Not specified',
-            event_type: bookingData.eventType || 'Not specified',
-            budget: bookingData.budgetRange || 'Not specified',
-            fabric: bookingData.fabricType || 'Not specified',
-            colour: bookingData.colourPreference || 'Not specified',
-            notes: bookingData.notes || 'None',
-            phone: bookingData.phone || 'Not provided',
-            measurements: JSON.stringify(bookingData.measurements),
-            image: bookingData.image ? 'Image uploaded' : 'No image',
-            orders: [ { name: bookingData.service, units: '1' } ]
-          };
-
-          console.log('📧 Email params:', emailParams);
-
-          // ── YOUR CORRECT CREDENTIALS ──
-          const SERVICE_ID = 'service_xy9vese';
-          const TEMPLATE_ID = 'template_nmyaoe2';
-
-          return emailjs.send(SERVICE_ID, TEMPLATE_ID, emailParams);
+          // 1. Send Client Confirmation
+          console.log('📧 Sending client confirmation...');
+          return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', baseParams);
         })
         .then(function(response) {
-          console.log('✅ Email sent:', response);
-          // Show success and redirect to checkout
+          console.log('✅ Client email sent:', response);
+
+          // 2. Send Admin Notification
+          console.log('📧 Sending admin notification...');
+          // Admin template will use its own fixed "To Email" set in the template settings.
+          return emailjs.send('service_n4rqpwc', 'template_m9ua74n', baseParams);
+        })
+        .then(function(response) {
+          console.log('✅ Admin email sent:', response);
+          // Show success and redirect
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
 
-          // ─── REDIRECT TO CHECKOUT PAGE AFTER 2 SECONDS ───
           setTimeout(function() {
-            window.location.href = 'checkout.html?order=BOOK-' + Date.now().toString().slice(-8);
+            window.location.href = 'checkout.html?order=' + orderId;
           }, 2000);
         })
         .catch(function(error) {
