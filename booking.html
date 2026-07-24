@@ -709,7 +709,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── SUBMIT BOOKING ──
+    // ── SUBMIT BOOKING (FIXED – split params, sanitize client) ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -760,8 +760,29 @@
 
       console.log('📤 Booking data:', bookingData);
 
-      // ── Prepare baseParams (NO image variable to avoid corruption) ──
-      const baseParams = {
+      // ── Helper: sanitize string (remove newlines, extra spaces) ──
+      function sanitize(str) {
+        if (!str) return 'None';
+        return str.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+      }
+
+      // ── CLIENT PARAMS: only fields used in client template, sanitized ──
+      const clientParams = {
+        client_name: bookingData.name,
+        client_email: bookingData.email,
+        order_id: orderId,
+        service: bookingData.service,
+        date: bookingData.date || 'Not specified',
+        event_type: bookingData.eventType || 'Not specified',
+        budget: bookingData.budgetRange || 'Not specified',
+        fabric: bookingData.fabricType || 'Not specified',
+        colour: bookingData.colourPreference || 'Not specified',
+        notes: sanitize(bookingData.notes)
+        // image NOT sent to client to avoid corruption
+      };
+
+      // ── ADMIN PARAMS: all fields (except image) – no sanitisation needed ──
+      const adminParams = {
         client_name: bookingData.name,
         client_email: bookingData.email,
         phone: bookingData.phone || 'Not provided',
@@ -773,7 +794,7 @@
         fabric: bookingData.fabricType || 'Not specified',
         colour: bookingData.colourPreference || 'Not specified',
         notes: bookingData.notes || 'None',
-        // image: removed – causes corrupted variables error
+        // image removed
         chest: bookingData.measurements.chest || '',
         waist: bookingData.measurements.waist || '',
         hips: bookingData.measurements.hips || '',
@@ -789,15 +810,15 @@
       db.ref('public-bookings/' + orderId).set(bookingData)
         .then(function() {
           console.log('✅ Firebase saved with key:', orderId);
-          // 1. Send client email
+          // 1. Send client email (sanitized)
           console.log('📧 Sending client confirmation...');
-          return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', baseParams);
+          return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', clientParams);
         })
         .then(function(response) {
           console.log('✅ Client email sent:', response);
-          // 2. Send admin email
+          // 2. Send admin email (full details)
           console.log('📧 Sending admin notification...');
-          return emailjs.send('service_n4rqpwc', 'template_m9ua74n', baseParams);
+          return emailjs.send('service_n4rqpwc', 'template_m9ua74n', adminParams);
         })
         .then(function(response) {
           console.log('✅ Admin email sent:', response);
