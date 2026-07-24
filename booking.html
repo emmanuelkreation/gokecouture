@@ -762,7 +762,7 @@
       console.log('📤 Booking data:', bookingData);
 
       // ── Save to Firebase using the orderId as key ──
-      db.ref('bookings/' + orderId).set(bookingData)
+      db.ref('public-bookings/' + orderId).set(bookingData)
         .then(function() {
           console.log('✅ Firebase saved with key:', orderId);
 
