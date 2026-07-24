@@ -18,7 +18,7 @@
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
-    /* ── All your existing styles ── */
+    /* ── All your existing styles (unchanged) ── */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -709,7 +709,7 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── SUBMIT BOOKING (FIXED – baseParams defined once) ──
+    // ── SUBMIT BOOKING ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
         service: document.getElementById('selectedService').value,
@@ -760,7 +760,7 @@
 
       console.log('📤 Booking data:', bookingData);
 
-      // ── Prepare baseParams ONCE (now outside the chain) ──
+      // ── Prepare baseParams (NO image variable to avoid corruption) ──
       const baseParams = {
         client_name: bookingData.name,
         client_email: bookingData.email,
@@ -773,7 +773,7 @@
         fabric: bookingData.fabricType || 'Not specified',
         colour: bookingData.colourPreference || 'Not specified',
         notes: bookingData.notes || 'None',
-        image: bookingData.image ? 'Image uploaded' : 'No image',
+        // image: removed – causes corrupted variables error
         chest: bookingData.measurements.chest || '',
         waist: bookingData.measurements.waist || '',
         hips: bookingData.measurements.hips || '',
@@ -785,7 +785,7 @@
         height: bookingData.measurements.height || ''
       };
 
-      // ── Save to Firebase under public-bookings ──
+      // ── Save to Firebase ──
       db.ref('public-bookings/' + orderId).set(bookingData)
         .then(function() {
           console.log('✅ Firebase saved with key:', orderId);
