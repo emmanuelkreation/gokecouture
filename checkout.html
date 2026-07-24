@@ -1063,7 +1063,7 @@
             `;
 
             // Directly read the booking by its key (orderId)
-            db.ref('bookings/' + orderId).once('value')
+            db.ref('public-bookings/' + orderId).once('value')
                 .then(function(snapshot) {
                     const booking = snapshot.val();
                     if (booking) {
