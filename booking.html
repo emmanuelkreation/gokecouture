@@ -18,7 +18,7 @@
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
-    /* ── All your existing styles (unchanged) ── */
+    /* ── All your existing styles ── */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -545,7 +545,7 @@
   </footer>
 
   <!-- ═══════════════════════════════════════════════
-     JAVASCRIPT (fixed version with sanitization)
+     JAVASCRIPT (FIXED)
   ═══════════════════════════════════════════════ -->
   <script>
     // ── Firebase Config ──
@@ -754,21 +754,24 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
 
-      // ── Generate order ID ──
       const orderId = 'BOOK-' + Date.now().toString().slice(-8);
       bookingData.orderId = orderId;
 
       console.log('📤 Booking data:', bookingData);
 
-      // ── Robust sanitizer ──
+      // ── Sanitizer ──
       function sanitize(str) {
         if (typeof str !== 'string') return 'None';
-        // Remove all newlines, carriage returns, and collapse multiple spaces
-        return str.replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim() || 'None';
+        return str.replace(/[\r\n\t]+/g, ' ').replace(/\s{2,}/g, ' ').trim() || 'None';
       }
 
-      // ── Prepare baseParams for BOTH emails ──
-      const baseParams = {
+      // ── Build measurement JSON string and has_image flag ──
+      const hasMeasurements = Object.values(bookingData.measurements).some(val => val && val.length > 0);
+      const measurementsJSON = JSON.stringify(bookingData.measurements, null, 2);
+      const hasImage = (bookingData.image && bookingData.image.length > 0) ? 'yes' : 'no';
+
+      // ── Admin params ──
+      const adminParams = {
         client_name: sanitize(bookingData.name),
         client_email: bookingData.email,
         phone: sanitize(bookingData.phone || 'Not provided'),
@@ -780,38 +783,35 @@
         fabric: sanitize(bookingData.fabricType || 'Not specified'),
         colour: sanitize(bookingData.colourPreference || 'Not specified'),
         notes: sanitize(bookingData.notes),
-        // image NOT included to avoid corruption
-        chest: sanitize(bookingData.measurements.chest),
-        waist: sanitize(bookingData.measurements.waist),
-        hips: sanitize(bookingData.measurements.hips),
-        shoulder: sanitize(bookingData.measurements.shoulder),
-        sleeve: sanitize(bookingData.measurements.sleeve),
-        length: sanitize(bookingData.measurements.length),
-        neck: sanitize(bookingData.measurements.neck),
-        inseam: sanitize(bookingData.measurements.inseam),
-        height: sanitize(bookingData.measurements.height)
+        has_image: hasImage,
+        measurements_json: hasMeasurements ? measurementsJSON : '{}'
+      };
+
+      // ── Client params (only what the client template uses) ──
+      const clientParams = {
+        client_email: bookingData.email,
+        client_name: bookingData.name,
+        order_id: orderId
       };
 
       // ── Save to Firebase ──
       db.ref('public-bookings/' + orderId).set(bookingData)
         .then(function() {
           console.log('✅ Firebase saved with key:', orderId);
-          // 1. Send client email
+          // 1. Send client email (minimal)
           console.log('📧 Sending client confirmation...');
-          return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', baseParams);
+          return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', clientParams);
         })
         .then(function(response) {
           console.log('✅ Client email sent:', response);
-          // 2. Send admin email (same sanitized params)
+          // 2. Send admin email (full)
           console.log('📧 Sending admin notification...');
-          return emailjs.send('service_n4rqpwc', 'template_m9ua74n', baseParams);
+          return emailjs.send('service_n4rqpwc', 'template_m9ua74n', adminParams);
         })
         .then(function(response) {
           console.log('✅ Admin email sent:', response);
-          // Show success and redirect
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
-
           setTimeout(function() {
             window.location.href = 'checkout.html?order=' + orderId;
           }, 2000);
