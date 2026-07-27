@@ -1,1634 +1,1704 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Collections — Goke Couture | Expertise in Bespoke Tailoring</title>
-    <meta name="description" content="Explore our expert collections — each a testament to precision, heritage, and contemporary luxury." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js">
-    </script>
-    <style>
-        /* ── Same styles as before ── */
-        /* (all styles remain unchanged) */
-        :root {
-            --ink: #0A0A0A;
-            --ivory: #F5F0E8;
-            --gold: #C9A84C;
-            --gold-lt: #E8D48A;
-            --sage: #2D5016;
-            --charcoal: #1A1A1A;
-            --warm-gold: #B8943C;
-            --font-display: 'Cormorant Garamond', Georgia, serif;
-            --font-body: 'Jost', system-ui, sans-serif;
-            --ease: cubic-bezier(.25, .46, .45, .94);
-            --slow: cubic-bezier(.16, 1, .3, 1);
-        }
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px
-        }
-        body {
-            background: var(--ink);
-            color: var(--ivory);
-            font-family: var(--font-body);
-            font-weight: 300;
-            overflow-x: hidden;
-            cursor: default;
-        }
-        img {
-            display: block;
-            max-width: 100%
-        }
-        a {
-            text-decoration: none;
-            color: inherit
-        }
-        button {
-            border: none;
-            background: none;
-            font-family: inherit;
-            cursor: pointer;
-        }
-        ul {
-            list-style: none
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collections — Goke Couture | Expertise in Bespoke Tailoring</title>
+  <meta name="description" content="Explore our expert collections — each a testament to precision, heritage, and contemporary luxury." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <style>
+    /* ── Same styles as before ── */
+    /* (all styles remain unchanged) */
+    :root {
+      --ink: #0A0A0A;
+      --ivory: #F5F0E8;
+      --gold: #C9A84C;
+      --gold-lt: #E8D48A;
+      --sage: #2D5016;
+      --charcoal: #1A1A1A;
+      --warm-gold: #B8943C;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', system-ui, sans-serif;
+      --ease: cubic-bezier(.25, .46, .45, .94);
+      --slow: cubic-bezier(.16, 1, .3, 1);
+    }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px
+    }
+    body {
+      background: var(--ink);
+      color: var(--ivory);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+    img {
+      display: block;
+      max-width: 100%
+    }
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+    button {
+      border: none;
+      background: none;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    ul {
+      list-style: none
+    }
 
-        #cursor-dot {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--gold);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform .1s var(--ease), width .3s var(--slow), height .3s var(--slow), background .3s;
-        }
-        #cursor-ring {
-            position: fixed;
-            width: 36px;
-            height: 36px;
-            border: 1.5px solid rgba(201, 168, 76, .5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: transform .18s var(--ease), width .35s var(--slow), height .35s var(--slow), opacity .3s, border-color .3s;
-        }
-        body.cursor-hover #cursor-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--gold-lt)
-        }
-        body.cursor-hover #cursor-ring {
-            width: 54px;
-            height: 54px;
-            border-color: var(--gold)
-        }
-        @media(hover:none) {
-            #cursor-dot,
-            #cursor-ring {
-                display: none
-            }
-            body {
-                cursor: auto
-            }
-        }
+    #cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .1s var(--ease), width .3s var(--slow), height .3s var(--slow), background .3s;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(201, 168, 76, .5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform .18s var(--ease), width .35s var(--slow), height .35s var(--slow), opacity .3s, border-color .3s;
+    }
+    body.cursor-hover #cursor-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--gold-lt)
+    }
+    body.cursor-hover #cursor-ring {
+      width: 54px;
+      height: 54px;
+      border-color: var(--gold)
+    }
+    @media(hover:none) {
+      #cursor-dot,
+      #cursor-ring {
+        display: none
+      }
+      body {
+        cursor: auto
+      }
+    }
 
-        #scroll-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--warm-gold), var(--gold));
-            width: 0%;
-            z-index: 9000;
-            transition: width .1s linear;
-        }
+    #scroll-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--warm-gold), var(--gold));
+      width: 0%;
+      z-index: 9000;
+      transition: width .1s linear;
+    }
 
-        #nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 800;
-            padding: 0 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-            transition: background .5s var(--ease), height .5s var(--ease),
-                backdrop-filter .5s;
-        }
-        #nav.scrolled {
-            background: rgba(10, 10, 10, .92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            height: 64px;
-            border-bottom: 1px solid rgba(201, 168, 76, .15);
-        }
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            flex-shrink: 0;
-        }
-        .nav-logo svg {
-            height: 44px;
-            width: auto;
-            transition: height .5s var(--ease);
-        }
-        #nav.scrolled .nav-logo svg {
-            height: 36px
-        }
-        .logo-wordmark {
-            font-family: var(--font-body);
-            font-weight: 200;
-            font-size: .72rem;
-            letter-spacing: .35em;
-            text-transform: uppercase;
-            color: var(--ivory);
-            line-height: 1;
-        }
-        .logo-wordmark span {
-            display: block;
-            font-weight: 400;
-            letter-spacing: .12em;
-            font-size: .55rem;
-            color: var(--gold);
-            margin-top: 2px
-        }
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center
-        }
-        .nav-links a {
-            font-size: .72rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            font-weight: 400;
-            color: rgba(245, 240, 232, .75);
-            position: relative;
-            transition: color .3s;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            right: 100%;
-            height: 1px;
-            background: var(--gold);
-            transition: right .35s var(--slow);
-        }
-        .nav-links a:hover {
-            color: var(--ivory)
-        }
-        .nav-links a:hover::after {
-            right: 0
-        }
-        .nav-links a.active {
-            color: var(--gold)
-        }
-        .nav-links a.active::after {
-            right: 0;
-            background: var(--gold)
-        }
-        .nav-cta {
-            font-size: .68rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            font-weight: 400;
-            padding: .65rem 1.6rem;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            transition: background .3s, color .3s;
-            flex-shrink: 0;
-        }
-        .nav-cta:hover {
-            background: var(--gold);
-            color: var(--ink)
-        }
-        .nav-hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            padding: 4px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 801;
-        }
-        .nav-hamburger span {
-            display: block;
-            width: 26px;
-            height: 1.5px;
-            background: var(--ivory);
-            transition: transform .4s var(--slow), opacity .3s;
-            transform-origin: center;
-        }
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 800;
+      padding: 0 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      transition: background .5s var(--ease), height .5s var(--ease),
+        backdrop-filter .5s;
+    }
+    #nav.scrolled {
+      background: rgba(10, 10, 10, .92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      height: 64px;
+      border-bottom: 1px solid rgba(201, 168, 76, .15);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo svg {
+      height: 44px;
+      width: auto;
+      transition: height .5s var(--ease);
+    }
+    #nav.scrolled .nav-logo svg {
+      height: 36px
+    }
+    .logo-wordmark {
+      font-family: var(--font-body);
+      font-weight: 200;
+      font-size: .72rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      line-height: 1;
+    }
+    .logo-wordmark span {
+      display: block;
+      font-weight: 400;
+      letter-spacing: .12em;
+      font-size: .55rem;
+      color: var(--gold);
+      margin-top: 2px
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center
+    }
+    .nav-links a {
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: rgba(245, 240, 232, .75);
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 100%;
+      height: 1px;
+      background: var(--gold);
+      transition: right .35s var(--slow);
+    }
+    .nav-links a:hover {
+      color: var(--ivory)
+    }
+    .nav-links a:hover::after {
+      right: 0
+    }
+    .nav-links a.active {
+      color: var(--gold)
+    }
+    .nav-links a.active::after {
+      right: 0;
+      background: var(--gold)
+    }
+    .nav-cta {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .65rem 1.6rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      transition: background .3s, color .3s;
+      flex-shrink: 0;
+    }
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--ink)
+    }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 801;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 1.5px;
+      background: var(--ivory);
+      transition: transform .4s var(--slow), opacity .3s;
+      transform-origin: center;
+    }
 
-        #mobile-nav {
-            position: fixed;
-            inset: 0;
-            z-index: 700;
-            background: var(--ink);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2.5rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .4s var(--ease);
-            padding: 2rem;
-        }
-        #mobile-nav.open {
-            opacity: 1;
-            pointer-events: all
-        }
-        .mob-link {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 300;
-            color: var(--ivory);
-            letter-spacing: .05em;
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: opacity .5s var(--slow), transform .5s var(--slow), color .3s;
-        }
-        #mobile-nav.open .mob-link {
-            opacity: 1;
-            transform: none
-        }
-        .mob-link:hover {
-            color: var(--gold)
-        }
-        .mob-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            font-size: 2.2rem;
-            color: var(--ivory);
-            background: none;
-            border: none;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity .3s, transform .3s;
-            line-height: 1;
-            padding: 0.5rem;
-        }
-        .mob-close:hover {
-            opacity: 1;
-            transform: rotate(90deg);
-        }
+    #mobile-nav {
+      position: fixed;
+      inset: 0;
+      z-index: 700;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s var(--ease);
+      padding: 2rem;
+    }
+    #mobile-nav.open {
+      opacity: 1;
+      pointer-events: all
+    }
+    .mob-link {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 300;
+      color: var(--ivory);
+      letter-spacing: .05em;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity .5s var(--slow), transform .5s var(--slow), color .3s;
+    }
+    #mobile-nav.open .mob-link {
+      opacity: 1;
+      transform: none
+    }
+    .mob-link:hover {
+      color: var(--gold)
+    }
+    .mob-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 2.2rem;
+      color: var(--ivory);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity .3s, transform .3s;
+      line-height: 1;
+      padding: 0.5rem;
+    }
+    .mob-close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
 
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: .6rem;
-            font-size: .72rem;
-            letter-spacing: .22em;
-            text-transform: uppercase;
-            font-weight: 400;
-            padding: .9rem 2.4rem;
-            background: var(--gold);
-            color: var(--ink);
-            transition: background .3s, transform .3s var(--slow), letter-spacing .3s;
-            border: none;
-            cursor: none;
-        }
-        .btn-primary:hover {
-            background: var(--gold-lt);
-            transform: translateY(-2px);
-            letter-spacing: .28em
-        }
-        .btn-outline-gold {
-            font-size: .68rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            padding: .6rem 1.8rem;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            background: transparent;
-            transition: background .3s, color .3s;
-            cursor: none;
-        }
-        .btn-outline-gold:hover {
-            background: var(--gold);
-            color: var(--ink);
-        }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .9rem 2.4rem;
+      background: var(--gold);
+      color: var(--ink);
+      transition: background .3s, transform .3s var(--slow), letter-spacing .3s;
+      border: none;
+      cursor: none;
+    }
+    .btn-primary:hover {
+      background: var(--gold-lt);
+      transform: translateY(-2px);
+      letter-spacing: .28em
+    }
+    .btn-outline-gold {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: .6rem 1.8rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+      transition: background .3s, color .3s;
+      cursor: none;
+    }
+    .btn-outline-gold:hover {
+      background: var(--gold);
+      color: var(--ink);
+    }
 
-        /* ── Hero ── */
-        .collections-hero {
-            position: relative;
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 10rem 5vw 6rem;
-            overflow: hidden;
-            background: var(--ink);
-        }
-        .collections-hero .bg {
-            position: absolute;
-            inset: 0;
-            background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1800&q=85&auto=format&fit=crop') center/cover no-repeat;
-            opacity: .15;
-            z-index: 0;
-        }
-        .collections-hero .content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-        }
-        .collections-hero .content .eyebrow {
-            font-size: .7rem;
-            letter-spacing: .5em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-        }
-        .collections-hero .content h1 {
-            font-family: var(--font-display);
-            font-size: clamp(3.5rem, 8vw, 6rem);
-            font-weight: 300;
-            line-height: 1.05;
-            color: var(--ivory);
-            margin-bottom: 1.5rem;
-        }
-        .collections-hero .content h1 em {
-            font-style: italic;
-            color: var(--gold);
-        }
-        .collections-hero .content .quote {
-            font-size: 1.2rem;
-            color: rgba(245, 240, 232, .7);
-            font-style: italic;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            line-height: 1.8;
-            font-family: var(--font-display);
-            letter-spacing: .02em;
-        }
-        .collections-hero .content .attribution {
-            font-size: .85rem;
-            color: rgba(245, 240, 232, .4);
-            letter-spacing: .15em;
-            text-transform: uppercase;
-        }
-        .expertise-badge {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: .5rem 1.8rem;
-            border: 1px solid rgba(201, 168, 76, .3);
-            font-size: .65rem;
-            letter-spacing: .25em;
-            text-transform: uppercase;
-            color: var(--gold);
-            background: rgba(201, 168, 76, .05);
-            backdrop-filter: blur(4px);
-        }
+    /* ── Hero ── */
+    .collections-hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10rem 5vw 6rem;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .collections-hero .bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1800&q=85&auto=format&fit=crop') center/cover no-repeat;
+      opacity: .15;
+      z-index: 0;
+    }
+    .collections-hero .content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+    .collections-hero .content .eyebrow {
+      font-size: .7rem;
+      letter-spacing: .5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .collections-hero .content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--ivory);
+      margin-bottom: 1.5rem;
+    }
+    .collections-hero .content h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .collections-hero .content .quote {
+      font-size: 1.2rem;
+      color: rgba(245, 240, 232, .7);
+      font-style: italic;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+      font-family: var(--font-display);
+      letter-spacing: .02em;
+    }
+    .collections-hero .content .attribution {
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .4);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .expertise-badge {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: .5rem 1.8rem;
+      border: 1px solid rgba(201, 168, 76, .3);
+      font-size: .65rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201, 168, 76, .05);
+      backdrop-filter: blur(4px);
+    }
 
-        /* ── Featured ── */
-        #featured-collections {
-            padding: 6rem 5vw 4rem;
-            background: var(--charcoal);
-        }
-        .featured-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .featured-header .sec-eyebrow {
-            font-size: .7rem;
-            letter-spacing: .4em;
-            color: var(--gold);
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: .5rem;
-        }
-        .featured-header h2 {
-            font-family: var(--font-display);
-            font-size: clamp(2.2rem, 4vw, 3.4rem);
-            font-weight: 300;
-            color: var(--ivory);
-        }
-        .featured-header h2 em {
-            font-style: italic;
-            color: var(--gold);
-        }
-        .featured-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        .featured-card {
-            position: relative;
-            overflow: hidden;
-            background: #111;
-            aspect-ratio: 4/3;
-            cursor: none;
-            border: 1px solid rgba(201, 168, 76, .1);
-            transition: border-color .3s;
-        }
-        .featured-card:hover {
-            border-color: var(--gold);
-        }
-        .featured-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .8s var(--slow), filter .5s;
-            filter: grayscale(30%);
-        }
-        .featured-card:hover img {
-            transform: scale(1.05);
-            filter: grayscale(0%);
-        }
-        .featured-card .overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(10, 10, 10, .85) 0%, transparent 60%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
-        }
-        .featured-card .overlay .cat {
-            font-size: .6rem;
-            letter-spacing: .3em;
-            text-transform: uppercase;
-            color: var(--gold);
-        }
-        .featured-card .overlay h3 {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 300;
-            color: var(--ivory);
-            margin: .2rem 0 .3rem;
-        }
-        .featured-card .overlay p {
-            font-size: .9rem;
-            color: rgba(245, 240, 232, .6);
-            max-width: 80%;
-            margin-bottom: .4rem;
-        }
-        .featured-card .overlay .price {
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--gold);
-            letter-spacing: .05em;
-            margin-bottom: .6rem;
-        }
-        .featured-card .badge-new {
-            position: absolute;
-            top: 1.2rem;
-            right: 1.2rem;
-            background: var(--gold);
-            color: var(--ink);
-            padding: .2rem 1rem;
-            font-size: .55rem;
-            letter-spacing: .15em;
-            text-transform: uppercase;
-            font-weight: 500;
-            z-index: 2;
-        }
+    /* ── Featured ── */
+    #featured-collections {
+      padding: 6rem 5vw 4rem;
+      background: var(--charcoal);
+    }
+    .featured-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .featured-header .sec-eyebrow {
+      font-size: .7rem;
+      letter-spacing: .4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: .5rem;
+    }
+    .featured-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 300;
+      color: var(--ivory);
+    }
+    .featured-header h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .featured-card {
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      aspect-ratio: 4/3;
+      cursor: none;
+      border: 1px solid rgba(201, 168, 76, .1);
+      transition: border-color .3s;
+    }
+    .featured-card:hover {
+      border-color: var(--gold);
+    }
+    .featured-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .8s var(--slow), filter .5s;
+      filter: grayscale(30%);
+    }
+    .featured-card:hover img {
+      transform: scale(1.05);
+      filter: grayscale(0%);
+    }
+    .featured-card .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 10, 10, .85) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+    }
+    .featured-card .overlay .cat {
+      font-size: .6rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .featured-card .overlay h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--ivory);
+      margin: .2rem 0 .3rem;
+    }
+    .featured-card .overlay p {
+      font-size: .9rem;
+      color: rgba(245, 240, 232, .6);
+      max-width: 80%;
+      margin-bottom: .4rem;
+    }
+    .featured-card .overlay .price {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: .05em;
+      margin-bottom: .6rem;
+    }
+    .featured-card .badge-new {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: var(--gold);
+      color: var(--ink);
+      padding: .2rem 1rem;
+      font-size: .55rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      z-index: 2;
+    }
 
-        /* ── All Collections ── */
-        #all-collections {
-            padding: 4rem 5vw 6rem;
-            background: var(--ink);
-        }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid rgba(201, 168, 76, .1);
-            padding-bottom: 1rem;
-        }
-        .section-header h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 3vw, 2.8rem);
-            font-weight: 300;
-            color: var(--ivory);
-        }
-        .section-header h2 em {
-            font-style: italic;
-            color: var(--gold);
-        }
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .6rem;
-        }
-        .filter-btn {
-            font-size: .6rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            font-weight: 400;
-            padding: .4rem 1.4rem;
-            border: 1px solid rgba(245, 240, 232, .15);
-            color: rgba(245, 240, 232, .5);
-            transition: all .3s var(--ease);
-            background: transparent;
-            cursor: none;
-        }
-        .filter-btn:hover {
-            border-color: var(--gold);
-            color: var(--ivory);
-        }
-        .filter-btn.active {
-            border-color: var(--gold);
-            background: var(--gold);
-            color: var(--ink);
-        }
+    /* ── All Collections ── */
+    #all-collections {
+      padding: 4rem 5vw 6rem;
+      background: var(--ink);
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(201, 168, 76, .1);
+      padding-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300;
+      color: var(--ivory);
+    }
+    .section-header h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
 
-        .collections-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-        .collection-card {
-            background: #111;
-            border: 1px solid rgba(245, 240, 232, .06);
-            transition: transform .4s var(--slow), border-color .3s;
-            cursor: none;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .collection-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(201, 168, 76, .3);
-        }
-        .collection-card .card-img {
-            aspect-ratio: 4/3;
-            overflow: hidden;
-            background: #1a1a1a;
-            position: relative;
-        }
-        .collection-card .card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .7s var(--slow), filter .5s;
-            filter: grayscale(20%);
-        }
-        .collection-card:hover .card-img img {
-            transform: scale(1.06);
-            filter: grayscale(0%);
-        }
-        .collection-card .card-body {
-            padding: 1.2rem 1.5rem 1.8rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .collection-card .card-body .cat {
-            font-size: .55rem;
-            letter-spacing: .3em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: .3rem;
-        }
-        .collection-card .card-body h3 {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: var(--ivory);
-        }
-        .collection-card .card-body .desc {
-            font-size: .85rem;
-            color: rgba(245, 240, 232, .5);
-            margin: .4rem 0 .6rem;
-            flex: 1;
-        }
-        .collection-card .card-body .price {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            font-weight: 400;
-            color: var(--gold);
-            letter-spacing: .04em;
-            margin-bottom: .6rem;
-        }
-        .collection-card .card-body .btn-outline-gold {
-            align-self: flex-start;
-            font-size: .6rem;
-            padding: .3rem 1.2rem;
-        }
-        .collection-card .badge-new {
-            position: absolute;
-            top: 0.8rem;
-            right: 0.8rem;
-            background: var(--gold);
-            color: var(--ink);
-            padding: .1rem .8rem;
-            font-size: .5rem;
-            letter-spacing: .15em;
-            text-transform: uppercase;
-            font-weight: 500;
-            z-index: 2;
-        }
-        .collection-card {
-            position: relative;
-        }
+    /* ── Search & Filters ── */
+    .filter-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      align-items: center;
+      background: rgba(255, 255, 255, .02);
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(245, 240, 232, .06);
+    }
+    .filter-controls .search-box {
+      flex: 2;
+      min-width: 200px;
+      position: relative;
+    }
+    .filter-controls .search-box input {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(245, 240, 232, .12);
+      padding: .6rem 1rem .6rem 2.4rem;
+      font-family: var(--font-body);
+      font-size: .85rem;
+      color: var(--ivory);
+      outline: none;
+      transition: border-color .3s;
+      border-radius: 0;
+    }
+    .filter-controls .search-box input:focus {
+      border-color: var(--gold);
+    }
+    .filter-controls .search-box .icon {
+      position: absolute;
+      left: .8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(245, 240, 232, .3);
+      font-size: .9rem;
+    }
+    .filter-controls .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      align-items: center;
+    }
+    .filter-controls .filter-group .filter-label {
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .3);
+      margin-right: .2rem;
+    }
+    .filter-controls .price-input {
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .filter-controls .price-input input {
+      width: 80px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(245, 240, 232, .12);
+      padding: .4rem .6rem;
+      font-family: var(--font-body);
+      font-size: .75rem;
+      color: var(--ivory);
+      outline: none;
+      transition: border-color .3s;
+      border-radius: 0;
+    }
+    .filter-controls .price-input input:focus {
+      border-color: var(--gold);
+    }
+    .filter-controls .price-input span {
+      color: rgba(245, 240, 232, .3);
+      font-size: .7rem;
+    }
+    .filter-controls .sort-select {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(245, 240, 232, .12);
+      padding: .4rem 1rem .4rem .6rem;
+      font-family: var(--font-body);
+      font-size: .75rem;
+      color: var(--ivory);
+      outline: none;
+      transition: border-color .3s;
+      border-radius: 0;
+      cursor: pointer;
+    }
+    .filter-controls .sort-select:focus {
+      border-color: var(--gold);
+    }
+    .filter-controls .sort-select option {
+      background: var(--ink);
+      color: var(--ivory);
+    }
+    .filter-controls .btn-reset {
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, .3);
+      border: 1px solid rgba(245, 240, 232, .1);
+      padding: .3rem 1rem;
+      transition: all .3s;
+      cursor: pointer;
+      background: transparent;
+    }
+    .filter-controls .btn-reset:hover {
+      border-color: var(--gold);
+      color: var(--ivory);
+    }
 
-        /* ── Lightbox ── */
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            z-index: 999;
-            background: rgba(10, 10, 10, .95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .4s var(--ease);
-        }
-        .lightbox.open {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .lightbox .close {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            font-size: 2.5rem;
-            color: var(--ivory);
-            cursor: pointer;
-            opacity: .6;
-            transition: opacity .3s;
-        }
-        .lightbox .close:hover {
-            opacity: 1;
-        }
-        .lightbox .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            color: var(--ivory);
-            padding: 1rem;
-            cursor: pointer;
-            opacity: .4;
-            transition: opacity .3s;
-        }
-        .lightbox .nav-btn:hover {
-            opacity: 1;
-        }
-        .lightbox .nav-btn.prev {
-            left: 2rem;
-        }
-        .lightbox .nav-btn.next {
-            right: 2rem;
-        }
-        .lightbox .lightbox-content {
-            max-width: 80vw;
-            max-height: 70vh;
-            object-fit: contain;
-        }
-        .lightbox .lightbox-info {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            color: var(--ivory);
-            max-width: 90%;
-        }
-        .lightbox .lightbox-info .lb-cat {
-            font-size: .6rem;
-            letter-spacing: .3em;
-            text-transform: uppercase;
-            color: var(--gold);
-        }
-        .lightbox .lightbox-info .lb-name {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            font-weight: 300;
-        }
-        .lightbox .lightbox-info .lb-desc {
-            font-size: .85rem;
-            color: rgba(245, 240, 232, .5);
-            margin-top: .2rem;
-        }
+    /* ── Category filter bar ── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-bottom: 2rem;
+    }
+    .filter-btn {
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: .4rem 1.4rem;
+      border: 1px solid rgba(245, 240, 232, .15);
+      color: rgba(245, 240, 232, .5);
+      transition: all .3s var(--ease);
+      background: transparent;
+      cursor: none;
+    }
+    .filter-btn:hover {
+      border-color: var(--gold);
+      color: var(--ivory);
+    }
+    .filter-btn.active {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: var(--ink);
+    }
 
-        /* ── CTA & Footer ── */
-        .cta-section {
-            background: var(--ink);
-            text-align: center;
-            padding: 6rem 5vw;
-            border-top: 1px solid rgba(201, 168, 76, .1);
-        }
-        .cta-divider {
-            width: 1px;
-            height: 40px;
-            background: var(--gold);
-            margin: 0 auto 2rem;
-        }
-        footer {
-            background: #050505;
-            border-top: 1px solid rgba(201, 168, 76, .15);
-        }
-        .footer-top {
-            padding: 6rem 5vw 4rem;
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 4rem;
-        }
-        .footer-brand p {
-            font-size: .88rem;
-            line-height: 1.9;
-            color: rgba(245, 240, 232, .45);
-            margin: 1.5rem 0 2rem;
-            max-width: 280px;
-        }
-        .footer-social {
-            display: flex;
-            gap: 1rem
-        }
-        .soc-btn {
-            width: 38px;
-            height: 38px;
-            border: 1px solid rgba(245, 240, 232, .15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: .85rem;
-            color: rgba(245, 240, 232, .5);
-            transition: border-color .3s, color .3s, background .3s;
-        }
-        .soc-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold)
-        }
-        .footer-col h4 {
-            font-size: .68rem;
-            letter-spacing: .3em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1.8rem;
-            font-weight: 400;
-        }
-        .footer-col a {
-            display: block;
-            font-size: .88rem;
-            color: rgba(245, 240, 232, .45);
-            margin-bottom: .9rem;
-            transition: color .3s, paddingLeft .3s;
-        }
-        .footer-col a:hover {
-            color: var(--ivory);
-            padding-left: 6px
-        }
-        .footer-contact-line {
-            display: flex;
-            align-items: center;
-            gap: .7rem;
-            font-size: .85rem;
-            color: rgba(245, 240, 232, .45);
-            margin-bottom: .9rem;
-        }
-        .footer-contact-line svg {
-            color: var(--gold);
-            flex-shrink: 0
-        }
-        .footer-contact-line a {
-            color: var(--gold);
-            transition: opacity .3s;
-            margin: 0;
-            padding: 0;
-        }
-        .footer-contact-line a:hover {
-            opacity: .7;
-            padding-left: 0;
-        }
-        .footer-bottom {
-            padding: 1.8rem 5vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(245, 240, 232, .06);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .footer-copy {
-            font-size: .75rem;
-            color: rgba(245, 240, 232, .3);
-            letter-spacing: .05em;
-        }
-        .footer-credit {
-            font-size: .75rem;
-            color: rgba(245, 240, 232, .3);
-        }
-        .footer-credit a {
-            color: var(--gold);
-            transition: opacity .3s;
-        }
-        .footer-credit a:hover {
-            opacity: .7
-        }
-        #wa-float {
-            position: fixed;
-            bottom: 2.5rem;
-            right: 2.5rem;
-            z-index: 600;
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            background: #25D366;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 24px rgba(37, 211, 102, .35);
-            animation: wa-pulse 3s ease-in-out infinite;
-            transition: transform .3s var(--slow), box-shadow .3s;
-        }
-        #wa-float:hover {
-            transform: scale(1.12);
-            box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
-        }
-        @keyframes wa-pulse {
-            0%,
-            100% {
-                box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
-            }
-            50% {
-                box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
-            }
-        }
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .collection-card {
+      background: #111;
+      border: 1px solid rgba(245, 240, 232, .06);
+      transition: transform .4s var(--slow), border-color .3s;
+      cursor: none;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .collection-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201, 168, 76, .3);
+    }
+    .collection-card .card-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #1a1a1a;
+      position: relative;
+    }
+    .collection-card .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s var(--slow), filter .5s;
+      filter: grayscale(20%);
+    }
+    .collection-card:hover .card-img img {
+      transform: scale(1.06);
+      filter: grayscale(0%);
+    }
+    .collection-card .card-body {
+      padding: 1.2rem 1.5rem 1.8rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .collection-card .card-body .cat {
+      font-size: .55rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+    }
+    .collection-card .card-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--ivory);
+    }
+    .collection-card .card-body .desc {
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .5);
+      margin: .4rem 0 .6rem;
+      flex: 1;
+    }
+    .collection-card .card-body .price {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: .04em;
+      margin-bottom: .6rem;
+    }
+    .collection-card .card-body .btn-outline-gold {
+      align-self: flex-start;
+      font-size: .6rem;
+      padding: .3rem 1.2rem;
+    }
+    .collection-card .badge-new {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      background: var(--gold);
+      color: var(--ink);
+      padding: .1rem .8rem;
+      font-size: .5rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      z-index: 2;
+    }
+    .collection-card {
+      position: relative;
+    }
 
-        /* ═══ RESPONSIVE ENHANCEMENTS ═══ */
-        /* Tablets and smaller */
-        @media(max-width:1024px) {
-            .featured-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .collections-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .footer-top {
-                grid-template-columns: 1fr 1fr;
-                gap: 2.5rem;
-            }
-        }
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(10, 10, 10, .95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s var(--ease);
+    }
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox .close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2.5rem;
+      color: var(--ivory);
+      cursor: pointer;
+      opacity: .6;
+      transition: opacity .3s;
+    }
+    .lightbox .close:hover {
+      opacity: 1;
+    }
+    .lightbox .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: var(--ivory);
+      padding: 1rem;
+      cursor: pointer;
+      opacity: .4;
+      transition: opacity .3s;
+    }
+    .lightbox .nav-btn:hover {
+      opacity: 1;
+    }
+    .lightbox .nav-btn.prev {
+      left: 2rem;
+    }
+    .lightbox .nav-btn.next {
+      right: 2rem;
+    }
+    .lightbox .lightbox-content {
+      max-width: 80vw;
+      max-height: 70vh;
+      object-fit: contain;
+    }
+    .lightbox .lightbox-info {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: var(--ivory);
+      max-width: 90%;
+    }
+    .lightbox .lightbox-info .lb-cat {
+      font-size: .6rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .lightbox .lightbox-info .lb-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 300;
+    }
+    .lightbox .lightbox-info .lb-desc {
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .5);
+      margin-top: .2rem;
+    }
 
-        @media(max-width:768px) {
-            #nav {
-                padding: 0 1.2rem;
-                height: 68px;
-            }
-            #nav.scrolled {
-                height: 56px;
-            }
-            .nav-links,
-            .nav-cta {
-                display: none
-            }
-            .nav-hamburger {
-                display: flex
-            }
-            .collections-hero {
-                min-height: 60vh;
-                padding: 8rem 5vw 4rem;
-            }
-            .collections-hero .content h1 {
-                font-size: 2.8rem;
-            }
-            .collections-grid {
-                grid-template-columns: 1fr;
-            }
-            .section-header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 1rem;
-            }
-            .filter-bar {
-                justify-content: flex-start;
-                gap: 0.4rem;
-            }
-            .filter-btn {
-                font-size: 0.55rem;
-                padding: 0.3rem 1rem;
-            }
-            .featured-card .overlay h3 {
-                font-size: 1.4rem;
-            }
-            .featured-card .overlay .price {
-                font-size: 1rem;
-            }
-            .collection-card .card-body .price {
-                font-size: 1rem;
-            }
-            .footer-top {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                padding: 4rem 5vw 2rem;
-            }
-            .footer-brand p {
-                max-width: 100%;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-                gap: 0.5rem;
-            }
-        }
+    /* ── CTA & Footer ── */
+    .cta-section {
+      background: var(--ink);
+      text-align: center;
+      padding: 6rem 5vw;
+      border-top: 1px solid rgba(201, 168, 76, .1);
+    }
+    .cta-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--gold);
+      margin: 0 auto 2rem;
+    }
+    footer {
+      background: #050505;
+      border-top: 1px solid rgba(201, 168, 76, .15);
+    }
+    .footer-top {
+      padding: 6rem 5vw 4rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 4rem;
+    }
+    .footer-brand p {
+      font-size: .88rem;
+      line-height: 1.9;
+      color: rgba(245, 240, 232, .45);
+      margin: 1.5rem 0 2rem;
+      max-width: 280px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem
+    }
+    .soc-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(245, 240, 232, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .5);
+      transition: border-color .3s, color .3s, background .3s;
+    }
+    .soc-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold)
+    }
+    .footer-col h4 {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      font-weight: 400;
+    }
+    .footer-col a {
+      display: block;
+      font-size: .88rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+      transition: color .3s, paddingLeft .3s;
+    }
+    .footer-col a:hover {
+      color: var(--ivory);
+      padding-left: 6px
+    }
+    .footer-contact-line {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-size: .85rem;
+      color: rgba(245, 240, 232, .45);
+      margin-bottom: .9rem;
+    }
+    .footer-contact-line svg {
+      color: var(--gold);
+      flex-shrink: 0
+    }
+    .footer-contact-line a {
+      color: var(--gold);
+      transition: opacity .3s;
+      margin: 0;
+      padding: 0;
+    }
+    .footer-contact-line a:hover {
+      opacity: .7;
+      padding-left: 0;
+    }
+    .footer-bottom {
+      padding: 1.8rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(245, 240, 232, .06);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+      letter-spacing: .05em;
+    }
+    .footer-credit {
+      font-size: .75rem;
+      color: rgba(245, 240, 232, .3);
+    }
+    .footer-credit a {
+      color: var(--gold);
+      transition: opacity .3s;
+    }
+    .footer-credit a:hover {
+      opacity: .7
+    }
+    #wa-float {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      z-index: 600;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, .35);
+      animation: wa-pulse 3s ease-in-out infinite;
+      transition: transform .3s var(--slow), box-shadow .3s;
+    }
+    #wa-float:hover {
+      transform: scale(1.12);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
+    }
+    @keyframes wa-pulse {
+      0%,
+      100% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
+      }
+      50% {
+        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
+      }
+    }
 
-        @media(max-width:480px) {
-            .collections-hero {
-                min-height: 50vh;
-                padding: 6rem 5vw 3rem;
-            }
-            .collections-hero .content h1 {
-                font-size: 2.2rem;
-            }
-            .collections-hero .content .quote {
-                font-size: 1rem;
-                margin-bottom: 1rem;
-            }
-            .collections-hero .content .eyebrow {
-                font-size: 0.6rem;
-                margin-bottom: 0.8rem;
-            }
-            .expertise-badge {
-                font-size: 0.55rem;
-                padding: 0.3rem 1.2rem;
-                margin-top: 1.2rem;
-            }
-            .featured-header h2 {
-                font-size: 1.8rem;
-            }
-            .featured-card .overlay {
-                padding: 1.2rem;
-            }
-            .featured-card .overlay h3 {
-                font-size: 1.2rem;
-            }
-            .featured-card .overlay p {
-                font-size: 0.8rem;
-                max-width: 100%;
-            }
-            .featured-card .overlay .price {
-                font-size: 0.9rem;
-            }
-            .featured-card .overlay .btn-outline-gold {
-                font-size: 0.55rem;
-                padding: 0.3rem 1rem;
-            }
-            .collection-card .card-body {
-                padding: 1rem;
-            }
-            .collection-card .card-body h3 {
-                font-size: 1rem;
-            }
-            .collection-card .card-body .desc {
-                font-size: 0.8rem;
-            }
-            .collection-card .card-body .price {
-                font-size: 0.9rem;
-            }
-            .collection-card .card-body .btn-outline-gold {
-                font-size: 0.5rem;
-                padding: 0.2rem 0.8rem;
-            }
-            .filter-btn {
-                font-size: 0.5rem;
-                padding: 0.2rem 0.8rem;
-            }
-            .section-header h2 {
-                font-size: 1.4rem;
-            }
-            .cta-section h2 {
-                font-size: 1.6rem !important;
-            }
-            .cta-section p {
-                font-size: 0.9rem;
-                margin: 1rem 0 1.5rem;
-            }
-            .btn-primary {
-                font-size: 0.65rem;
-                padding: 0.7rem 1.8rem;
-            }
-            #cursor-dot,
-            #cursor-ring {
-                display: none;
-            }
-            body {
-                cursor: auto;
-            }
-            .btn-primary,
-            .btn-outline-gold,
-            .filter-btn {
-                cursor: auto;
-            }
-            .lightbox .nav-btn {
-                font-size: 1.5rem;
-                padding: 0.5rem;
-            }
-            .lightbox .close {
-                font-size: 2rem;
-                top: 1rem;
-                right: 1rem;
-            }
-            .lightbox .lightbox-info .lb-name {
-                font-size: 1.2rem;
-            }
-            .lightbox .lightbox-info .lb-desc {
-                font-size: 0.75rem;
-            }
-        }
-
-        /* Extra small screens (e.g., iPhone SE) */
-        @media(max-width:380px) {
-            .collections-hero .content h1 {
-                font-size: 1.8rem;
-            }
-            .collections-hero .content .quote {
-                font-size: 0.9rem;
-            }
-            .featured-card .overlay h3 {
-                font-size: 1rem;
-            }
-            .featured-card .overlay p {
-                font-size: 0.7rem;
-            }
-            .featured-card .overlay .price {
-                font-size: 0.8rem;
-            }
-            .collection-card .card-body h3 {
-                font-size: 0.9rem;
-            }
-            .collection-card .card-body .desc {
-                font-size: 0.7rem;
-            }
-            .collection-card .card-body .price {
-                font-size: 0.8rem;
-            }
-            .filter-btn {
-                font-size: 0.45rem;
-                padding: 0.2rem 0.6rem;
-            }
-        }
-    </style>
+    /* ── Responsive ── */
+    @media(max-width:1024px) {
+      .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .collections-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: .8rem;
+      }
+      .filter-controls .filter-group {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+      .filter-controls .price-input input {
+        width: 70px;
+      }
+    }
+    @media(max-width:768px) {
+      #nav {
+        padding: 0 1.2rem;
+        height: 68px;
+      }
+      #nav.scrolled {
+        height: 56px;
+      }
+      .nav-links,
+      .nav-cta {
+        display: none
+      }
+      .nav-hamburger {
+        display: flex
+      }
+      .collections-hero {
+        min-height: 60vh;
+        padding: 8rem 5vw 4rem;
+      }
+      .collections-hero .content h1 {
+        font-size: 2.8rem;
+      }
+      .collections-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+      .filter-bar {
+        justify-content: flex-start;
+      }
+      .featured-card .overlay h3 {
+        font-size: 1.4rem;
+      }
+      .featured-card .overlay .price {
+        font-size: 1rem;
+      }
+      .collection-card .card-body .price {
+        font-size: 1rem;
+      }
+      .filter-controls .price-input input {
+        width: 60px;
+      }
+    }
+    @media(max-width:480px) {
+      .collections-hero .content h1 {
+        font-size: 2.2rem;
+      }
+      .collections-hero .content .quote {
+        font-size: 1rem;
+      }
+      #cursor-dot,
+      #cursor-ring {
+        display: none;
+      }
+      body {
+        cursor: auto;
+      }
+      .btn-primary,
+      .btn-outline-gold,
+      .filter-btn {
+        cursor: auto;
+      }
+      .filter-controls .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filter-controls .price-input {
+        justify-content: flex-start;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Cursor -->
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
-    <div id="scroll-bar"></div>
+  <!-- Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="scroll-bar"></div>
 
-    <!-- WhatsApp Float -->
-    <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20Goke%20Couture%20collections." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <!-- WhatsApp Float -->
+  <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20Goke%20Couture%20collections." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+        <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+        <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+      </svg>
+      <div class="logo-wordmark">
+        Goke Couture
+        <span>Ibadan · Oyo, Nigeria</span>
+      </div>
     </a>
 
-    <!-- ── NAVIGATION ── -->
-    <nav id="nav" role="navigation" aria-label="Main navigation">
+    <ul class="nav-links" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="collections.html" class="active">Collections</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="booking.html" class="nav-cta">Book a Fitting</a>
+
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+    <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
+    <a href="index.html" class="mob-link">Home</a>
+    <a href="about.html" class="mob-link">About</a>
+    <a href="services.html" class="mob-link">Services</a>
+    <a href="collections.html" class="mob-link">Collections</a>
+    <a href="portfolio.html" class="mob-link">Portfolio</a>
+    <a href="reviews.html" class="mob-link">Reviews</a>
+    <a href="contact.html" class="mob-link">Contact</a>
+    <a href="booking.html" class="mob-link">Book a Fitting</a>
+  </div>
+
+  <!-- ── HERO ── -->
+  <section class="collections-hero">
+    <div class="bg"></div>
+    <div class="content">
+      <p class="eyebrow">Curated with Precision</p>
+      <h1>Collections of <em>Expertise</em></h1>
+      <p class="quote">“Each collection is a chapter in our story – a narrative of heritage, innovation, and the relentless pursuit of perfection.”</p>
+      <p class="attribution">— Goke Couture Atelier</p>
+      <div class="expertise-badge">✦ Since 2010 · Master Tailors</div>
+    </div>
+  </section>
+
+  <!-- ── FEATURED COLLECTIONS ── -->
+  <section id="featured-collections">
+    <div class="featured-header">
+      <span class="sec-eyebrow">Featured</span>
+      <h2>Signature <em>Collections</em></h2>
+    </div>
+    <div class="featured-grid" id="featured-grid">
+      <!-- Dynamically populated -->
+    </div>
+  </section>
+
+  <!-- ── ALL COLLECTIONS ── -->
+  <section id="all-collections">
+    <div class="section-header">
+      <h2>Explore All <em>Collections</em></h2>
+    </div>
+
+    <!-- ── Search & Filters ── -->
+    <div class="filter-controls">
+      <div class="search-box">
+        <span class="icon"><i class="fas fa-search"></i></span>
+        <input type="text" id="searchInput" placeholder="Search collections by name or style..." />
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Price</span>
+        <div class="price-input">
+          <input type="number" id="priceMin" placeholder="Min" min="0" step="1000" />
+          <span>—</span>
+          <input type="number" id="priceMax" placeholder="Max" min="0" step="1000" />
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Sort</span>
+        <select class="sort-select" id="sortSelect">
+          <option value="default">Default</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="name-asc">Name: A → Z</option>
+          <option value="name-desc">Name: Z → A</option>
+        </select>
+      </div>
+      <button class="btn-reset" id="resetFilters">Reset</button>
+    </div>
+
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="bridal">Bridal</button>
+      <button class="filter-btn" data-filter="menswear">Menswear</button>
+      <button class="filter-btn" data-filter="traditional">Traditional</button>
+      <button class="filter-btn" data-filter="evening">Evening</button>
+      <button class="filter-btn" data-filter="casual">Casual</button>
+    </div>
+
+    <div class="collections-grid" id="collections-grid">
+      <!-- Dynamically populated -->
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="cta-divider" aria-hidden="true"></div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;">Let’s Create <em>Your</em> Collection</h2>
+    <p style="color:rgba(245,240,232,.6);margin:1.5rem 0 2.5rem;font-size:1rem;">Book a consultation and let our expertise bring your vision to life.</p>
+    <a href="booking.html" class="btn-primary">Book a Consultation</a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
         <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
-            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
-                <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
-                <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
-            </svg>
-            <div class="logo-wordmark">
-                Goke Couture
-                <span>Ibadan · Oyo, Nigeria</span>
-            </div>
+          <svg viewBox="0 0 56 56" fill="none" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+            <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+            <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+          </svg>
+          <div class="logo-wordmark">Goke Couture<span>Ibadan · Oyo, Nigeria</span></div>
         </a>
-
-        <ul class="nav-links" role="list">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="collections.html" class="active">Collections</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
-            <li><a href="reviews.html">Reviews</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-        <a href="booking.html" class="nav-cta">Book a Fitting</a>
-
-        <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-    </nav>
-
-    <!-- Mobile Nav -->
-    <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
-        <button class="mob-close" id="mob-close" aria-label="Close menu">✕</button>
-        <a href="index.html" class="mob-link">Home</a>
-        <a href="about.html" class="mob-link">About</a>
-        <a href="services.html" class="mob-link">Services</a>
-        <a href="collections.html" class="mob-link">Collections</a>
-        <a href="portfolio.html" class="mob-link">Portfolio</a>
-        <a href="reviews.html" class="mob-link">Reviews</a>
-        <a href="contact.html" class="mob-link">Contact</a>
-        <a href="booking.html" class="mob-link">Book a Fitting</a>
+        <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
+          </a>
+          <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="collections.html">Collections</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="booking.html">Book a Fitting</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="services.html">Bridal Couture</a>
+        <a href="services.html">Agbada & Traditional</a>
+        <a href="services.html">Suits & Corporate</a>
+        <a href="services.html">Casual Luxury</a>
+        <a href="services.html">Alterations</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+          <a href="tel:+2348057059898">+234 805 705 9898</a>
+        </div>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:info@gokecouture.com">info@gokecouture.com</a>
+        </div>
+        <div class="footer-contact-line">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span>
+        </div>
+        <div class="footer-contact-line" style="margin-top:.4rem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Mon – Sat: 9am – 7pm</span>
+        </div>
+      </div>
     </div>
-
-    <!-- ── HERO ── -->
-    <section class="collections-hero">
-        <div class="bg"></div>
-        <div class="content">
-            <p class="eyebrow">Curated with Precision</p>
-            <h1>Collections of <em>Expertise</em></h1>
-            <p class="quote">“Each collection is a chapter in our story – a narrative of heritage, innovation, and the relentless pursuit of perfection.”</p>
-            <p class="attribution">— Goke Couture Atelier</p>
-            <div class="expertise-badge">✦ Since 2010 · Master Tailors</div>
-        </div>
-    </section>
-
-    <!-- ── FEATURED COLLECTIONS ── -->
-    <section id="featured-collections">
-        <div class="featured-header">
-            <span class="sec-eyebrow">Featured</span>
-            <h2>Signature <em>Collections</em></h2>
-        </div>
-        <div class="featured-grid" id="featured-grid">
-            <!-- Dynamically populated -->
-        </div>
-    </section>
-
-    <!-- ── ALL COLLECTIONS ── -->
-    <section id="all-collections">
-        <div class="section-header">
-            <h2>Explore All <em>Collections</em></h2>
-            <div class="filter-bar" id="filter-bar">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="bridal">Bridal</button>
-                <button class="filter-btn" data-filter="menswear">Menswear</button>
-                <button class="filter-btn" data-filter="traditional">Traditional</button>
-                <button class="filter-btn" data-filter="evening">Evening</button>
-                <button class="filter-btn" data-filter="casual">Casual</button>
-            </div>
-        </div>
-        <div class="collections-grid" id="collections-grid">
-            <!-- Dynamically populated -->
-        </div>
-    </section>
-
-    <!-- ── CTA ── -->
-    <section class="cta-section">
-        <div class="cta-divider" aria-hidden="true"></div>
-        <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;">Let’s Create <em>Your</em> Collection</h2>
-        <p style="color:rgba(245,240,232,.6);margin:1.5rem 0 2.5rem;font-size:1rem;">Book a consultation and let our expertise bring your vision to life.</p>
-        <a href="booking.html" class="btn-primary">Book a Consultation</a>
-    </section>
-
-    <!-- ── FOOTER ── -->
-    <footer>
-        <div class="footer-top">
-            <div class="footer-brand">
-                <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
-                    <svg viewBox="0 0 56 56" fill="none" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
-                        <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
-                        <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
-                    </svg>
-                    <div class="logo-wordmark">Goke Couture<span>Ibadan · Oyo, Nigeria</span></div>
-                </a>
-                <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
-                <div class="footer-social" aria-label="Social media links">
-                    <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank" rel="noopener">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-                    </a>
-                    <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank" rel="noopener">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.53V6.75a4.84 4.84 0 01-1-.06z"/></svg>
-                    </a>
-                    <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank" rel="noopener">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    </a>
-                </div>
-            </div>
-            <div class="footer-col">
-                <h4>Navigation</h4>
-                <a href="index.html">Home</a>
-                <a href="about.html">About Us</a>
-                <a href="services.html">Services</a>
-                <a href="collections.html">Collections</a>
-                <a href="portfolio.html">Portfolio</a>
-                <a href="reviews.html">Reviews</a>
-                <a href="booking.html">Book a Fitting</a>
-            </div>
-            <div class="footer-col">
-                <h4>Services</h4>
-                <a href="services.html">Bridal Couture</a>
-                <a href="services.html">Agbada & Traditional</a>
-                <a href="services.html">Suits & Corporate</a>
-                <a href="services.html">Casual Luxury</a>
-                <a href="services.html">Alterations</a>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <div class="footer-contact-line">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
-                    <a href="tel:+2348057059898">+234 805 705 9898</a>
-                </div>
-                <div class="footer-contact-line">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    <a href="mailto:info@gokecouture.com">info@gokecouture.com</a>
-                </div>
-                <div class="footer-contact-line">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span>
-                </div>
-                <div class="footer-contact-line" style="margin-top:.4rem">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span>Mon – Sat: 9am – 7pm</span>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p class="footer-copy">© 2025 Goke Couture. All rights reserved.</p>
-            <p class="footer-credit">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" rel="noopener">Kreation Digitals</a></p>
-        </div>
-    </footer>
-
-    <!-- ── LIGHTBOX ── -->
-    <div class="lightbox" id="lightbox">
-        <button class="close" id="lb-close">✕</button>
-        <button class="nav-btn prev" id="lb-prev">‹</button>
-        <button class="nav-btn next" id="lb-next">›</button>
-        <img class="lightbox-content" id="lb-img" src="" alt="" />
-        <div class="lightbox-info" id="lb-info">
-            <div class="lb-cat" id="lb-cat"></div>
-            <div class="lb-name" id="lb-name"></div>
-            <div class="lb-desc" id="lb-desc"></div>
-        </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Goke Couture. All rights reserved.</p>
+      <p class="footer-credit">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" rel="noopener">Kreation Digitals</a></p>
     </div>
+  </footer>
 
-    <!-- ═══════════════════════════════════════════════
-    JAVASCRIPT
-    ═══════════════════════════════════════════════ -->
-    <script>
-        // ── Firebase Config ──
-        const firebaseConfig = {
-            apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
-            authDomain: "gokecouture-26a61.firebaseapp.com",
-            databaseURL: "https://gokecouture-26a61-default-rtdb.firebaseio.com",
-            projectId: "gokecouture-26a61",
-            storageBucket: "gokecouture-26a61.firebasestorage.app",
-            messagingSenderId: "527866719903",
-            appId: "1:527866719903:web:c3bb9997ecde72cac43caa"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+  <!-- ── LIGHTBOX ── -->
+  <div class="lightbox" id="lightbox">
+    <button class="close" id="lb-close">✕</button>
+    <button class="nav-btn prev" id="lb-prev">‹</button>
+    <button class="nav-btn next" id="lb-next">›</button>
+    <img class="lightbox-content" id="lb-img" src="" alt="" />
+    <div class="lightbox-info" id="lb-info">
+      <div class="lb-cat" id="lb-cat"></div>
+      <div class="lb-name" id="lb-name"></div>
+      <div class="lb-desc" id="lb-desc"></div>
+    </div>
+  </div>
 
-        // ── Cursor ──
-        (function() {
-            const dot = document.getElementById('cursor-dot');
-            const ring = document.getElementById('cursor-ring');
-            let mx = 0,
-                my = 0,
-                rx = 0,
-                ry = 0;
-            if (dot && ring) {
-                document.addEventListener('mousemove', function(e) {
-                    mx = e.clientX;
-                    my = e.clientY;
-                    dot.style.left = mx + 'px';
-                    dot.style.top = my + 'px';
-                });
+  <!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Firebase Config ──
+    const firebaseConfig = {
+      apiKey: "AIzaSyCFc0oxzA8oPO-Z0EN0YwL7-n7GbdnEElQ",
+      authDomain: "gokecouture-26a61.firebaseapp.com",
+      databaseURL: "https://gokecouture-26a61-default-rtdb.firebaseio.com",
+      projectId: "gokecouture-26a61",
+      storageBucket: "gokecouture-26a61.firebasestorage.app",
+      messagingSenderId: "527866719903",
+      appId: "1:527866719903:web:c3bb9997ecde72cac43caa"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-                function animRing() {
-                    rx += (mx - rx) * .12;
-                    ry += (my - ry) * .12;
-                    ring.style.left = rx + 'px';
-                    ring.style.top = ry + 'px';
-                    requestAnimationFrame(animRing);
-                }
-                animRing();
+    // ── Cursor ──
+    (function() {
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      if (dot && ring) {
+        document.addEventListener('mousemove', function(e) {
+          mx = e.clientX;
+          my = e.clientY;
+          dot.style.left = mx + 'px';
+          dot.style.top = my + 'px';
+        });
 
-                document.querySelectorAll('a,button,.collection-card,.featured-card,.filter-btn,.btn-primary,.btn-outline-gold')
-                    .forEach(function(el) {
-                        el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
-                        el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
-                    });
-            }
-        })();
-
-        // ── Scroll progress ──
-        (function() {
-            const sbar = document.getElementById('scroll-bar');
-            window.addEventListener('scroll', function() {
-                const h = document.documentElement;
-                const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-                if (sbar) sbar.style.width = pct + '%';
-            }, { passive: true });
-        })();
-
-        // ── Sticky nav ──
-        (function() {
-            const nav = document.getElementById('nav');
-            window.addEventListener('scroll', function() {
-                if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
-            }, { passive: true });
-        })();
-
-        // ── Mobile menu ──
-        (function() {
-            const ham = document.getElementById('hamburger');
-            const mNav = document.getElementById('mobile-nav');
-            const closeBtn = document.getElementById('mob-close');
-            let mOpen = false;
-
-            function toggleMenu(open) {
-                mOpen = (open !== undefined) ? open : !mOpen;
-                if (mNav) mNav.classList.toggle('open', mOpen);
-                if (ham) ham.setAttribute('aria-expanded', mOpen);
-                const spans = ham ? ham.querySelectorAll('span') : [];
-                if (mOpen) {
-                    if (spans[0]) spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
-                    if (spans[1]) spans[1].style.opacity = '0';
-                    if (spans[2]) spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
-                } else {
-                    if (spans[0]) spans[0].style.transform = '';
-                    if (spans[1]) spans[1].style.opacity = '';
-                    if (spans[2]) spans[2].style.transform = '';
-                }
-            }
-
-            if (ham) {
-                ham.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    toggleMenu();
-                });
-            }
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() { toggleMenu(false); });
-            }
-            if (mNav) {
-                mNav.querySelectorAll('.mob-link').forEach(function(l) {
-                    l.addEventListener('click', function() { toggleMenu(false); });
-                });
-                mNav.addEventListener('click', function(e) {
-                    if (e.target === mNav) toggleMenu(false);
-                });
-            }
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && mOpen) toggleMenu(false);
-            });
-        })();
-
-        // ── Filter functionality ──
-        (function() {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const container = document.getElementById('collections-grid');
-
-            filterBtns.forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    filterBtns.forEach(function(b) { b.classList.remove('active'); });
-                    btn.classList.add('active');
-                    const filter = btn.dataset.filter;
-                    const cards = container.querySelectorAll('.collection-card');
-                    cards.forEach(function(card) {
-                        if (filter === 'all' || card.dataset.category === filter) {
-                            card.style.display = 'flex';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        })();
-
-        // ── Lightbox ──
-        (function() {
-            const lightbox = document.getElementById('lightbox');
-            const lbImg = document.getElementById('lb-img');
-            const lbCat = document.getElementById('lb-cat');
-            const lbName = document.getElementById('lb-name');
-            const lbDesc = document.getElementById('lb-desc');
-            const closeBtn = document.getElementById('lb-close');
-            const prevBtn = document.getElementById('lb-prev');
-            const nextBtn = document.getElementById('lb-next');
-            let currentItems = [];
-            let currentIndex = 0;
-
-            function openLightbox(items, index) {
-                currentItems = items;
-                currentIndex = index;
-                updateLightbox();
-                lightbox.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function updateLightbox() {
-                const item = currentItems[currentIndex];
-                if (!item) return;
-                const img = item.querySelector('img');
-                const cat = item.querySelector('.cat');
-                const name = item.querySelector('h3, .name');
-                const desc = item.querySelector('.desc');
-                lbImg.src = img ? img.src : '';
-                lbImg.alt = img ? img.alt : '';
-                lbCat.textContent = cat ? cat.textContent : '';
-                lbName.textContent = name ? name.textContent : '';
-                lbDesc.textContent = desc ? desc.textContent : '';
-            }
-
-            function closeLightbox() {
-                lightbox.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-
-            function prevItem() {
-                if (currentItems.length === 0) return;
-                currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
-                updateLightbox();
-            }
-
-            function nextItem() {
-                if (currentItems.length === 0) return;
-                currentIndex = (currentIndex + 1) % currentItems.length;
-                updateLightbox();
-            }
-
-            function attachItemEvents() {
-                const items = document.querySelectorAll('.collection-card, .featured-card');
-                items.forEach(function(item) {
-                    item.removeEventListener('click', itemClickHandler);
-                    item.addEventListener('click', itemClickHandler);
-                });
-            }
-
-            function itemClickHandler(e) {
-                const allItems = document.querySelectorAll('.collection-card, .featured-card');
-                const visibleItems = Array.from(allItems).filter(function(el) {
-                    return el.style.display !== 'none';
-                });
-                const index = visibleItems.indexOf(this);
-                if (index !== -1) {
-                    openLightbox(visibleItems, index);
-                }
-            }
-
-            attachItemEvents();
-
-            const observer = new MutationObserver(function() {
-                attachItemEvents();
-            });
-            const containers = [document.getElementById('collections-grid'), document.getElementById('featured-grid')];
-            containers.forEach(function(c) {
-                if (c) observer.observe(c, { childList: true });
-            });
-
-            closeBtn.addEventListener('click', closeLightbox);
-            prevBtn.addEventListener('click', prevItem);
-            nextBtn.addEventListener('click', nextItem);
-            document.addEventListener('keydown', function(e) {
-                if (!lightbox.classList.contains('open')) return;
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowLeft') prevItem();
-                if (e.key === 'ArrowRight') nextItem();
-            });
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox) closeLightbox();
-            });
-        })();
-
-        // ── Helper: format price ──
-        function formatPrice(price) {
-            if (price === undefined || price === null || price === '') return null;
-            const num = typeof price === 'number' ? price : parseFloat(price);
-            if (isNaN(num) || num <= 0) return null;
-            return '₦' + num.toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        function animRing() {
+          rx += (mx - rx) * .12;
+          ry += (my - ry) * .12;
+          ring.style.left = rx + 'px';
+          ring.style.top = ry + 'px';
+          requestAnimationFrame(animRing);
         }
+        animRing();
 
-        // ── Load from Firebase with REAL-TIME updates ──
-        (function() {
-            const featuredGrid = document.getElementById('featured-grid');
-            const mainGrid = document.getElementById('collections-grid');
+        document.querySelectorAll('a,button,.collection-card,.featured-card,.filter-btn,.btn-primary,.btn-outline-gold')
+          .forEach(function(el) {
+            el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+            el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+          });
+      }
+    })();
 
-            // Fallback data (with prices)
-            const fallbackData = [
-                { id: '1', title: 'The Bridal Atelier', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Elegance redefined for the modern bride – each gown is a couture masterpiece.', price: 850000 },
-                { id: '2', title: 'Executive Authority', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sharp, tailored suits that command respect and exude confidence.', price: 450000 },
-                { id: '3', title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Aso-oke and gold embroidery – a celebration of culture and royalty.', price: 620000 },
-                { id: '4', title: 'Evening Glamour', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk and dramatic silhouettes for unforgettable nights.', price: 390000 },
-                { id: '5', title: 'Casual Luxury', category: 'casual', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Effortless style with premium fabrics and relaxed tailoring.', price: 280000 }
-            ];
+    // ── Scroll progress ──
+    (function() {
+      const sbar = document.getElementById('scroll-bar');
+      window.addEventListener('scroll', function() {
+        const h = document.documentElement;
+        const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+        if (sbar) sbar.style.width = pct + '%';
+      }, { passive: true });
+    })();
 
-            function getImageUrl(item) {
-                if (item.images && Array.isArray(item.images) && item.images.length > 0) {
-                    const first = item.images[0];
-                    return typeof first === 'string' ? first : (first.url || '');
-                }
-                if (item.image && typeof item.image === 'string') return item.image;
-                return '';
-            }
+    // ── Sticky nav ──
+    (function() {
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 60);
+      }, { passive: true });
+    })();
 
-            function renderFeatured(items) {
-                featuredGrid.innerHTML = '';
-                const featured = items.slice(0, 2);
-                featured.forEach(function(item) {
-                    const div = document.createElement('div');
-                    div.className = 'featured-card';
-                    div.dataset.category = (item.category || 'other').toLowerCase();
-                    const imgUrl = getImageUrl(item);
-                    const priceStr = formatPrice(item.price);
-                    div.innerHTML = `
-                        <img src="${imgUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/800x600/1a1a1a/555?text=Collection'" />
-                        ${item.isNew ? '<div class="badge-new">New</div>' : ''}
-                        <div class="overlay">
-                            <div class="cat">${item.category || 'Collection'}</div>
-                            <h3>${item.title}</h3>
-                            <p>${item.description || ''}</p>
-                            ${priceStr ? `<div class="price">${priceStr}</div>` : ''}
-                            <a href="booking.html?collectionId=${item.id}" class="btn-outline-gold" style="margin-top:0.5rem;display:inline-block;text-decoration:none;">Book Now →</a>
-                        </div>
-                    `;
-                    featuredGrid.appendChild(div);
-                });
-            }
+    // ── Mobile menu ──
+    (function() {
+      const ham = document.getElementById('hamburger');
+      const mNav = document.getElementById('mobile-nav');
+      const closeBtn = document.getElementById('mob-close');
+      let mOpen = false;
 
-            function renderAll(items) {
-                mainGrid.innerHTML = '';
-                if (!items || items.length === 0) {
-                    mainGrid.innerHTML = '<p style="text-align:center;padding:4rem;color:rgba(245,240,232,.4);grid-column:1/-1;">No collections yet. Check back soon.</p>';
-                    return;
-                }
-                items.forEach(function(item) {
-                    const card = document.createElement('div');
-                    card.className = 'collection-card';
-                    card.dataset.category = (item.category || 'other').toLowerCase();
-                    const imgUrl = getImageUrl(item);
-                    const priceStr = formatPrice(item.price);
-                    card.innerHTML = `
-                        <div class="card-img">
-                            <img src="${imgUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/800x600/1a1a1a/555?text=No+Image'" />
-                            ${item.isNew ? '<div class="badge-new">New</div>' : ''}
-                        </div>
-                        <div class="card-body">
-                            <div class="cat">${item.category || 'Collection'}</div>
-                            <h3>${item.title}</h3>
-                            <div class="desc">${item.description || ''}</div>
-                            ${priceStr ? `<div class="price">${priceStr}</div>` : ''}
-                            <a href="booking.html?collectionId=${item.id}" class="btn-outline-gold" style="text-decoration:none;display:inline-block;margin-top:0.5rem;">Book Now →</a>
-                        </div>
-                    `;
-                    mainGrid.appendChild(card);
-                });
+      function toggleMenu(open) {
+        mOpen = (open !== undefined) ? open : !mOpen;
+        if (mNav) mNav.classList.toggle('open', mOpen);
+        if (ham) ham.setAttribute('aria-expanded', mOpen);
+        const spans = ham ? ham.querySelectorAll('span') : [];
+        if (mOpen) {
+          if (spans[0]) spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+          if (spans[1]) spans[1].style.opacity = '0';
+          if (spans[2]) spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+        } else {
+          if (spans[0]) spans[0].style.transform = '';
+          if (spans[1]) spans[1].style.opacity = '';
+          if (spans[2]) spans[2].style.transform = '';
+        }
+      }
 
-                // Re-apply filter
-                const activeFilter = document.querySelector('.filter-btn.active');
-                if (activeFilter) {
-                    const filter = activeFilter.dataset.filter;
-                    const cards = mainGrid.querySelectorAll('.collection-card');
-                    cards.forEach(function(c) {
-                        if (filter === 'all' || c.dataset.category === filter) {
-                            c.style.display = 'flex';
-                        } else {
-                            c.style.display = 'none';
-                        }
-                    });
-                }
-            }
+      if (ham) {
+        ham.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleMenu();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function() { toggleMenu(false); });
+      }
+      if (mNav) {
+        mNav.querySelectorAll('.mob-link').forEach(function(l) {
+          l.addEventListener('click', function() { toggleMenu(false); });
+        });
+        mNav.addEventListener('click', function(e) {
+          if (e.target === mNav) toggleMenu(false);
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mOpen) toggleMenu(false);
+      });
+    })();
 
-            // ─── REAL-TIME LISTENER ──────────────────────────
-            const ref = db.ref('collections');
-            ref.on('value', function(snapshot) {
-                const data = snapshot.val();
-                let items = [];
-                if (data) {
-                    items = Object.entries(data).map(([key, val]) => ({ id: key, ...val }));
-                    items.sort((a, b) => (a.order || 0) - (b.order || 0));
-                } else {
-                    console.log('📂 No collections in Firebase, using fallback data');
-                    items = fallbackData;
-                }
-                renderFeatured(items);
-                renderAll(items);
-            }, function(error) {
-                console.error('❌ Firebase error:', error);
-                renderFeatured(fallbackData);
-                renderAll(fallbackData);
-            });
-        })();
+    // ── Helper: format price ──
+    function formatPrice(price) {
+      if (price === undefined || price === null || price === '') return null;
+      const num = typeof price === 'number' ? price : parseFloat(price);
+      if (isNaN(num) || num <= 0) return null;
+      return '₦' + num.toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
 
-        console.log('✅ Collections page loaded. Listening for real-time updates...');
-        console.log('💡 Price field is now supported. Add a "price" number field to each collection in Firebase.');
-    </script>
+    // ── Filter & render ──
+    let allItems = [];
+
+    function getImageUrl(item) {
+      if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+        const first = item.images[0];
+        return typeof first === 'string' ? first : (first.url || '');
+      }
+      if (item.image && typeof item.image === 'string') return item.image;
+      return '';
+    }
+
+    function filterAndRender(items, renderFeaturedOnly) {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+      const categoryFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+      const priceMin = parseFloat(document.getElementById('priceMin').value) || 0;
+      const priceMax = parseFloat(document.getElementById('priceMax').value) || Infinity;
+      const sortOption = document.getElementById('sortSelect').value;
+
+      // Filter
+      let filtered = items.filter(item => {
+        // Category
+        if (categoryFilter !== 'all' && (item.category || '').toLowerCase() !== categoryFilter) return false;
+        // Search
+        if (searchTerm) {
+          const title = (item.title || '').toLowerCase();
+          const desc = (item.description || '').toLowerCase();
+          if (!title.includes(searchTerm) && !desc.includes(searchTerm)) return false;
+        }
+        // Price range
+        const price = item.price || 0;
+        if (price < priceMin || price > priceMax) return false;
+        return true;
+      });
+
+      // Sort
+      if (sortOption === 'price-asc') {
+        filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+      } else if (sortOption === 'price-desc') {
+        filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
+      } else if (sortOption === 'name-asc') {
+        filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+      } else if (sortOption === 'name-desc') {
+        filtered.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+      }
+      // 'default' keeps original order from Firebase
+
+      renderFeatured(items); // always show featured (unfiltered)
+      renderGrid(filtered);
+    }
+
+    function renderFeatured(items) {
+      const featuredGrid = document.getElementById('featured-grid');
+      featuredGrid.innerHTML = '';
+      const featured = items.slice(0, 2);
+      featured.forEach(function(item) {
+        const div = document.createElement('div');
+        div.className = 'featured-card';
+        div.dataset.category = (item.category || 'other').toLowerCase();
+        const imgUrl = getImageUrl(item);
+        const priceStr = formatPrice(item.price);
+        div.innerHTML = `
+          <img src="${imgUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/800x600/1a1a1a/555?text=Collection'" />
+          ${item.isNew ? '<div class="badge-new">New</div>' : ''}
+          <div class="overlay">
+            <div class="cat">${item.category || 'Collection'}</div>
+            <h3>${item.title}</h3>
+            <p>${item.description || ''}</p>
+            ${priceStr ? `<div class="price">${priceStr}</div>` : ''}
+            <a href="booking.html?collectionId=${item.id}" class="btn-outline-gold" style="margin-top:0.5rem;display:inline-block;text-decoration:none;">Book Now →</a>
+          </div>
+        `;
+        featuredGrid.appendChild(div);
+      });
+    }
+
+    function renderGrid(items) {
+      const mainGrid = document.getElementById('collections-grid');
+      mainGrid.innerHTML = '';
+      if (!items || items.length === 0) {
+        mainGrid.innerHTML = '<p style="text-align:center;padding:4rem;color:rgba(245,240,232,.4);grid-column:1/-1;">No collections match your filters.</p>';
+        return;
+      }
+      items.forEach(function(item) {
+        const card = document.createElement('div');
+        card.className = 'collection-card';
+        card.dataset.category = (item.category || 'other').toLowerCase();
+        const imgUrl = getImageUrl(item);
+        const priceStr = formatPrice(item.price);
+        card.innerHTML = `
+          <div class="card-img">
+            <img src="${imgUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/800x600/1a1a1a/555?text=No+Image'" />
+            ${item.isNew ? '<div class="badge-new">New</div>' : ''}
+          </div>
+          <div class="card-body">
+            <div class="cat">${item.category || 'Collection'}</div>
+            <h3>${item.title}</h3>
+            <div class="desc">${item.description || ''}</div>
+            ${priceStr ? `<div class="price">${priceStr}</div>` : ''}
+            <a href="booking.html?collectionId=${item.id}" class="btn-outline-gold" style="text-decoration:none;display:inline-block;margin-top:0.5rem;">Book Now →</a>
+          </div>
+        `;
+        mainGrid.appendChild(card);
+      });
+    }
+
+    // ── Attach filter events ──
+    function attachFilterEvents() {
+      // Category buttons
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(function(btn) {
+        btn.removeEventListener('click', handleFilterClick);
+        btn.addEventListener('click', handleFilterClick);
+      });
+
+      // Search, price, sort, reset
+      document.getElementById('searchInput').removeEventListener('input', handleFilterChange);
+      document.getElementById('searchInput').addEventListener('input', handleFilterChange);
+      document.getElementById('priceMin').removeEventListener('input', handleFilterChange);
+      document.getElementById('priceMin').addEventListener('input', handleFilterChange);
+      document.getElementById('priceMax').removeEventListener('input', handleFilterChange);
+      document.getElementById('priceMax').addEventListener('input', handleFilterChange);
+      document.getElementById('sortSelect').removeEventListener('change', handleFilterChange);
+      document.getElementById('sortSelect').addEventListener('change', handleFilterChange);
+      document.getElementById('resetFilters').removeEventListener('click', resetFilters);
+      document.getElementById('resetFilters').addEventListener('click', resetFilters);
+    }
+
+    function handleFilterClick(e) {
+      const btn = e.currentTarget;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (allItems.length) filterAndRender(allItems);
+    }
+
+    function handleFilterChange() {
+      if (allItems.length) filterAndRender(allItems);
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('priceMin').value = '';
+      document.getElementById('priceMax').value = '';
+      document.getElementById('sortSelect').value = 'default';
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+      if (allItems.length) filterAndRender(allItems);
+    }
+
+    // ── Lightbox ──
+    (function() {
+      const lightbox = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lb-img');
+      const lbCat = document.getElementById('lb-cat');
+      const lbName = document.getElementById('lb-name');
+      const lbDesc = document.getElementById('lb-desc');
+      const closeBtn = document.getElementById('lb-close');
+      const prevBtn = document.getElementById('lb-prev');
+      const nextBtn = document.getElementById('lb-next');
+      let currentItems = [];
+      let currentIndex = 0;
+
+      function openLightbox(items, index) {
+        currentItems = items;
+        currentIndex = index;
+        updateLightbox();
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function updateLightbox() {
+        const item = currentItems[currentIndex];
+        if (!item) return;
+        const img = item.querySelector('img');
+        const cat = item.querySelector('.cat');
+        const name = item.querySelector('h3, .name');
+        const desc = item.querySelector('.desc');
+        lbImg.src = img ? img.src : '';
+        lbImg.alt = img ? img.alt : '';
+        lbCat.textContent = cat ? cat.textContent : '';
+        lbName.textContent = name ? name.textContent : '';
+        lbDesc.textContent = desc ? desc.textContent : '';
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function prevItem() {
+        if (currentItems.length === 0) return;
+        currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
+        updateLightbox();
+      }
+
+      function nextItem() {
+        if (currentItems.length === 0) return;
+        currentIndex = (currentIndex + 1) % currentItems.length;
+        updateLightbox();
+      }
+
+      function attachItemEvents() {
+        const items = document.querySelectorAll('.collection-card, .featured-card');
+        items.forEach(function(item) {
+          item.removeEventListener('click', itemClickHandler);
+          item.addEventListener('click', itemClickHandler);
+        });
+      }
+
+      function itemClickHandler(e) {
+        const allItems = document.querySelectorAll('.collection-card, .featured-card');
+        const visibleItems = Array.from(allItems).filter(function(el) {
+          return el.style.display !== 'none';
+        });
+        const index = visibleItems.indexOf(this);
+        if (index !== -1) {
+          openLightbox(visibleItems, index);
+        }
+      }
+
+      attachItemEvents();
+
+      const observer = new MutationObserver(function() {
+        attachItemEvents();
+      });
+      const containers = [document.getElementById('collections-grid'), document.getElementById('featured-grid')];
+      containers.forEach(function(c) {
+        if (c) observer.observe(c, { childList: true });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      prevBtn.addEventListener('click', prevItem);
+      nextBtn.addEventListener('click', nextItem);
+      document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') prevItem();
+        if (e.key === 'ArrowRight') nextItem();
+      });
+      lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) closeLightbox();
+      });
+    })();
+
+    // ── Load from Firebase with REAL-TIME updates ──
+    (function() {
+      const fallbackData = [
+        { id: '1', title: 'The Bridal Atelier', category: 'bridal', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop', isNew: true, description: 'Elegance redefined for the modern bride – each gown is a couture masterpiece.', price: 850000 },
+        { id: '2', title: 'Executive Authority', category: 'menswear', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sharp, tailored suits that command respect and exude confidence.', price: 450000 },
+        { id: '3', title: 'Heritage Agbada', category: 'traditional', image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Aso-oke and gold embroidery – a celebration of culture and royalty.', price: 620000 },
+        { id: '4', title: 'Evening Glamour', category: 'evening', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Sequined silk and dramatic silhouettes for unforgettable nights.', price: 390000 },
+        { id: '5', title: 'Casual Luxury', category: 'casual', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop', isNew: false, description: 'Effortless style with premium fabrics and relaxed tailoring.', price: 280000 }
+      ];
+
+      const ref = db.ref('collections');
+      ref.on('value', function(snapshot) {
+        const data = snapshot.val();
+        let items = [];
+        if (data) {
+          items = Object.entries(data).map(([key, val]) => ({ id: key, ...val }));
+          items.sort((a, b) => (a.order || 0) - (b.order || 0));
+        } else {
+          console.log('📂 No collections in Firebase, using fallback data');
+          items = fallbackData;
+        }
+        allItems = items;
+        attachFilterEvents();
+        filterAndRender(items);
+      }, function(error) {
+        console.error('❌ Firebase error:', error);
+        allItems = fallbackData;
+        attachFilterEvents();
+        filterAndRender(fallbackData);
+      });
+    })();
+
+    console.log('✅ Collections page loaded with advanced search & filters.');
+  </script>
 </body>
 </html>
