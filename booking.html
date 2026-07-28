@@ -211,6 +211,18 @@
       .progress-step .label { font-size:.45rem }
     }
     @media(prefers-reduced-motion:reduce){ * { animation-duration:.01ms !important; transition-duration:.01ms !important } }
+
+    /* ── Additional styles for material selection ── */
+    .material-summary-box { background:rgba(255,255,255,.02); padding:1rem; border:1px solid rgba(201,168,76,.15); border-radius:4px; margin-top:.5rem; }
+    .material-summary-box .summary-row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; }
+    .material-summary-box .summary-row .label { font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(245,240,232,.4); }
+    .material-summary-box .summary-row .actions { display:flex; gap:.6rem; flex-wrap:wrap; }
+    .material-summary-box .summary-row .actions button { font-size:.55rem; padding:.3rem 1rem; cursor:pointer; border-radius:2px; }
+    .material-summary-box .summary-list { margin-top:.5rem; font-size:.85rem; color:rgba(245,240,232,.6); }
+    .material-summary-box .summary-list .item { display:flex; justify-content:space-between; padding:.2rem 0; border-bottom:1px solid rgba(245,240,232,.04); }
+    .material-summary-box .summary-list .item .qty { color:var(--gold); }
+    .material-summary-box .total { font-family:var(--font-display); font-size:1.1rem; color:var(--gold); margin-top:.3rem; text-align:right; }
+    .material-summary-box .total span { font-weight:400; }
   </style>
 </head>
 <body>
@@ -244,6 +256,7 @@
       <li><a href="about">About</a></li>
       <li><a href="services">Services</a></li>
       <li><a href="collections">Collections</a></li>
+      <li><a href="materials.html">Materials</a></li>
       <li><a href="portfolio">Portfolio</a></li>
       <li><a href="booking" class="active">Book</a></li>
       <li><a href="reviews">Reviews</a></li>
@@ -263,6 +276,7 @@
     <a href="about" class="mob-link">About</a>
     <a href="services" class="mob-link">Services</a>
     <a href="collections" class="mob-link">Collections</a>
+    <a href="materials.html" class="mob-link">Materials</a>
     <a href="portfolio" class="mob-link">Portfolio</a>
     <a href="booking" class="mob-link">Book</a>
     <a href="reviews" class="mob-link">Reviews</a>
@@ -386,10 +400,10 @@
         </div>
       </div>
 
-      <!-- Step 3: Personal Details + Style + Fabric + Image -->
+      <!-- Step 3: Personal Details + Style + Fabric + Image + Material Selection -->
       <div class="form-step" data-step="3">
         <h2 class="step-title">Your <em>Details</em> &amp; Vision</h2>
-        <p class="step-desc">Tell us about yourself, your style inspiration, and fabric preferences. Upload a reference image if you have one.</p>
+        <p class="step-desc">Tell us about yourself, your style inspiration, and fabric preferences. Also choose whether you have your own fabric or need to purchase from us.</p>
 
         <div class="form-row">
           <div class="form-group"><label for="clientName">Full Name <span class="required">*</span></label><input type="text" id="clientName" placeholder="Your full name" required /></div>
@@ -403,6 +417,32 @@
         <div class="form-row">
           <div class="form-group"><label for="eventType">Event Type</label><select id="eventType"><option value="">Select event type…</option><option value="Wedding">Wedding</option><option value="Engagement">Engagement</option><option value="Gala / Black Tie">Gala / Black Tie</option><option value="Corporate / Business">Corporate / Business</option><option value="Casual / Everyday">Casual / Everyday</option><option value="Other">Other</option></select></div>
           <div class="form-group"><label for="budgetRange">Budget Range (₦)</label><select id="budgetRange"><option value="">Select budget range…</option><option value="50,000 - 200,000">50,000 – 200,000</option><option value="200,000 - 500,000">200,000 – 500,000</option><option value="500,000 - 1,000,000">500,000 – 1,000,000</option><option value="1,000,000 - 2,000,000">1,000,000 – 2,000,000</option><option value="2,000,000+">2,000,000+</option></select></div>
+        </div>
+
+        <!-- ─── FABRIC SOURCE ─── -->
+        <div class="form-group">
+          <label>Fabric Source <span class="required">*</span></label>
+          <div style="display:flex;gap:2rem;margin-top:.5rem;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;">
+              <input type="radio" name="fabricSource" value="own" checked /> I have my own fabric
+            </label>
+            <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;">
+              <input type="radio" name="fabricSource" value="store" /> I want to purchase from Goke Couture
+            </label>
+          </div>
+        </div>
+
+        <!-- ─── MATERIAL SELECTION SUMMARY ─── -->
+        <div id="materialSummaryContainer" style="display:none;" class="material-summary-box">
+          <div class="summary-row">
+            <span class="label">Selected Materials</span>
+            <div class="actions">
+              <span id="materialTotalDisplay" style="font-family:var(--font-display);font-size:1.1rem;color:var(--gold);">₦0</span>
+              <button class="btn-outline-gold" id="browseMaterialsBtn" style="font-size:.55rem;padding:.3rem 1rem;cursor:pointer;">Browse Materials</button>
+              <button class="btn-ghost" id="clearMaterialsBtn" style="font-size:.55rem;padding:.3rem 1rem;border-color:rgba(245,240,232,.15);color:rgba(245,240,232,.3);cursor:pointer;">Clear</button>
+            </div>
+          </div>
+          <div id="materialSummaryList" class="summary-list">No materials selected.</div>
         </div>
 
         <div class="form-row">
@@ -450,8 +490,10 @@
             <div><strong style="color:var(--gold);">Fitting Date:</strong> <span id="reviewDate">—</span></div>
             <div><strong style="color:var(--gold);">Event:</strong> <span id="reviewEvent">—</span></div>
             <div><strong style="color:var(--gold);">Budget:</strong> <span id="reviewBudget">—</span></div>
+            <div><strong style="color:var(--gold);">Fabric Source:</strong> <span id="reviewFabricSource">—</span></div>
             <div><strong style="color:var(--gold);">Fabric:</strong> <span id="reviewFabric">—</span></div>
             <div><strong style="color:var(--gold);">Colour/Style:</strong> <span id="reviewColour">—</span></div>
+            <div><strong style="color:var(--gold);">Materials:</strong> <span id="reviewMaterials">—</span></div>
             <div><strong style="color:var(--gold);">Measurements:</strong> <span id="reviewMeasurements">—</span></div>
           </div>
           <div style="margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(245,240,232,.06);">
@@ -518,6 +560,7 @@
         <a href="about.html">About Us</a>
         <a href="services.html">Services</a>
         <a href="collections.html">Collections</a>
+        <a href="materials.html">Materials</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="reviews.html">Reviews</a>
         <a href="booking.html">Book a Fitting</a>
@@ -545,7 +588,7 @@
   </footer>
 
   <!-- ═══════════════════════════════════════════════
-     JAVASCRIPT (fixed version with sanitization)
+     JAVASCRIPT
   ═══════════════════════════════════════════════ -->
   <script>
     // ── Firebase Config ──
@@ -654,6 +697,15 @@
         document.getElementById('reviewFabric').textContent = document.getElementById('fabricType').value || '—';
         document.getElementById('reviewColour').textContent = document.getElementById('colourPreference').value || '—';
 
+        // Fabric source
+        const fabricSource = document.querySelector('input[name="fabricSource"]:checked');
+        document.getElementById('reviewFabricSource').textContent = fabricSource ? (fabricSource.value === 'store' ? 'Purchase from Goke' : 'Own fabric') : '—';
+
+        // Materials
+        const selection = getMaterialSelection();
+        const matList = selection.map(m => `${m.name} ×${m.quantity}`).join(', ') || 'None';
+        document.getElementById('reviewMaterials').textContent = matList;
+
         const measurements = [];
         const chest = document.getElementById('measureChest').value;
         const waist = document.getElementById('measureWaist').value;
@@ -709,8 +761,94 @@
     document.getElementById('step3Next').addEventListener('click', function() { goToStep(4); });
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
-    // ── SUBMIT BOOKING (FIXED) ──
+    // ─── MATERIALS LOGIC ──────────────────────────────
+    // Load selection from localStorage
+    function getMaterialSelection() {
+      try {
+        const saved = localStorage.getItem('goke_material_selection');
+        if (saved) {
+          const selectionObj = JSON.parse(saved);
+          // We need to fetch material details to display names and prices
+          // But we can store the full details in localStorage as well.
+          // We'll store an array of objects with {id, name, price, quantity}
+          // The materials page saves that structure.
+          return selectionObj; // array of {id, name, price, quantity}
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function updateMaterialSummary() {
+      const selection = getMaterialSelection();
+      const container = document.getElementById('materialSummaryContainer');
+      const list = document.getElementById('materialSummaryList');
+      const totalSpan = document.getElementById('materialTotalDisplay');
+
+      if (!container || selection.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+
+      container.style.display = 'block';
+      let total = 0;
+      let html = '';
+      selection.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        html += `<div class="item"><span>${item.name} ×${item.quantity}</span><span class="qty">₦${subtotal.toLocaleString()}</span></div>`;
+      });
+      list.innerHTML = html || 'No materials selected.';
+      totalSpan.textContent = '₦' + total.toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+      // Also store the total for later use
+      window._materialTotal = total;
+    }
+
+    // ─── Toggle material summary based on fabric source ──
+    document.querySelectorAll('input[name="fabricSource"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const container = document.getElementById('materialSummaryContainer');
+        if (this.value === 'store') {
+          // Show summary and load materials
+          updateMaterialSummary();
+          // Also store that the user wants to purchase
+        } else {
+          container.style.display = 'none';
+          // Optionally clear selection? We'll keep it but hide.
+        }
+      });
+    });
+
+    // ─── Browse Materials button ──
+    document.getElementById('browseMaterialsBtn').addEventListener('click', function() {
+      // Save current booking page URL so materials page can return here
+      sessionStorage.setItem('goke_booking_return_url', window.location.href);
+      window.location.href = 'materials.html';
+    });
+
+    // ─── Clear Materials button ──
+    document.getElementById('clearMaterialsBtn').addEventListener('click', function() {
+      if (confirm('Clear all selected materials?')) {
+        localStorage.removeItem('goke_material_selection');
+        updateMaterialSummary();
+        document.getElementById('materialSummaryContainer').style.display = 'none';
+      }
+    });
+
+    // ─── On page load, check fabric source and load materials ──
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectedRadio = document.querySelector('input[name="fabricSource"]:checked');
+      if (selectedRadio && selectedRadio.value === 'store') {
+        updateMaterialSummary();
+      } else {
+        document.getElementById('materialSummaryContainer').style.display = 'none';
+      }
+    });
+
+    // ─── SUBMIT BOOKING ──
     document.getElementById('step4Submit').addEventListener('click', function() {
+      const fabricSource = document.querySelector('input[name="fabricSource"]:checked')?.value || 'own';
+
       const bookingData = {
         service: document.getElementById('selectedService').value,
         name: document.getElementById('clientName').value.trim(),
@@ -723,6 +861,7 @@
         colourPreference: document.getElementById('colourPreference').value.trim(),
         notes: document.getElementById('clientNotes').value.trim(),
         image: uploadedImageData || '',
+        fabricSource: fabricSource,
         measurements: {
           chest: document.getElementById('measureChest').value || '',
           waist: document.getElementById('measureWaist').value || '',
@@ -739,6 +878,17 @@
         paymentStatus: 'pending'
       };
 
+      // ─── Materials ───
+      let selectedMaterials = [];
+      if (fabricSource === 'store') {
+        selectedMaterials = getMaterialSelection();
+        bookingData.materials = selectedMaterials;
+        bookingData.materialTotal = selectedMaterials.reduce((sum, m) => sum + (m.price * m.quantity), 0);
+      } else {
+        bookingData.materials = [];
+        bookingData.materialTotal = 0;
+      }
+
       if (window.collectionData) {
         bookingData.collectionId = window.collectionData.id;
         bookingData.collectionTitle = window.collectionData.title;
@@ -754,21 +904,18 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
 
-      // ── Generate order ID ──
       const orderId = 'BOOK-' + Date.now().toString().slice(-8);
       bookingData.orderId = orderId;
 
       console.log('📤 Booking data:', bookingData);
 
-      // ── Robust sanitizer ──
       function sanitize(str) {
         if (typeof str !== 'string') return 'None';
-        // Remove all newlines, carriage returns, and collapse multiple spaces
-        return str.replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim() || 'None';
+        return str.replace(/[\r\n\t]+/g, ' ').replace(/\s{2,}/g, ' ').trim() || 'None';
       }
 
-      // ── Prepare baseParams for BOTH emails ──
-      const baseParams = {
+      // ─── Admin params ───
+      const adminParams = {
         client_name: sanitize(bookingData.name),
         client_email: bookingData.email,
         phone: sanitize(bookingData.phone || 'Not provided'),
@@ -777,10 +924,10 @@
         date: sanitize(bookingData.date || 'Not specified'),
         event_type: sanitize(bookingData.eventType || 'Not specified'),
         budget: sanitize(bookingData.budgetRange || 'Not specified'),
+        fabric_source: fabricSource === 'store' ? 'Purchase from Goke' : 'Own fabric',
         fabric: sanitize(bookingData.fabricType || 'Not specified'),
         colour: sanitize(bookingData.colourPreference || 'Not specified'),
         notes: sanitize(bookingData.notes),
-        // image NOT included to avoid corruption
         chest: sanitize(bookingData.measurements.chest),
         waist: sanitize(bookingData.measurements.waist),
         hips: sanitize(bookingData.measurements.hips),
@@ -789,29 +936,34 @@
         length: sanitize(bookingData.measurements.length),
         neck: sanitize(bookingData.measurements.neck),
         inseam: sanitize(bookingData.measurements.inseam),
-        height: sanitize(bookingData.measurements.height)
+        height: sanitize(bookingData.measurements.height),
+        materials_list: bookingData.materials.length > 0 ? bookingData.materials.map(m => `${m.name} ×${m.quantity} (₦${(m.price*m.quantity).toLocaleString()})`).join(', ') : 'None',
+        material_total: bookingData.materialTotal > 0 ? '₦' + bookingData.materialTotal.toLocaleString() : '₦0'
       };
 
-      // ── Save to Firebase ──
+      // ─── Client params (minimal) ───
+      const clientParams = {
+        client_email: bookingData.email,
+        client_name: bookingData.name,
+        order_id: orderId
+      };
+
+      // ─── Save to Firebase ───
       db.ref('public-bookings/' + orderId).set(bookingData)
         .then(function() {
           console.log('✅ Firebase saved with key:', orderId);
-          // 1. Send client email
           console.log('📧 Sending client confirmation...');
-          return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', baseParams);
+          return emailjs.send('service_n4rqpwc', 'template_0ch8bnw', clientParams);
         })
         .then(function(response) {
           console.log('✅ Client email sent:', response);
-          // 2. Send admin email (same sanitized params)
           console.log('📧 Sending admin notification...');
-          return emailjs.send('service_n4rqpwc', 'template_m9ua74n', baseParams);
+          return emailjs.send('service_n4rqpwc', 'template_m9ua74n', adminParams);
         })
         .then(function(response) {
           console.log('✅ Admin email sent:', response);
-          // Show success and redirect
           document.querySelector('.form-step[data-step="4"]').style.display = 'none';
           document.getElementById('successMessage').classList.add('show');
-
           setTimeout(function() {
             window.location.href = 'checkout.html?order=' + orderId;
           }, 2000);
