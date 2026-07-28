@@ -762,17 +762,11 @@
     document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
 
     // ─── MATERIALS LOGIC ──────────────────────────────
-    // Load selection from localStorage
     function getMaterialSelection() {
       try {
         const saved = localStorage.getItem('goke_material_selection');
         if (saved) {
-          const selectionObj = JSON.parse(saved);
-          // We need to fetch material details to display names and prices
-          // But we can store the full details in localStorage as well.
-          // We'll store an array of objects with {id, name, price, quantity}
-          // The materials page saves that structure.
-          return selectionObj; // array of {id, name, price, quantity}
+          return JSON.parse(saved);
         }
       } catch (e) {}
       return [];
@@ -799,34 +793,25 @@
       });
       list.innerHTML = html || 'No materials selected.';
       totalSpan.textContent = '₦' + total.toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-
-      // Also store the total for later use
       window._materialTotal = total;
     }
 
-    // ─── Toggle material summary based on fabric source ──
     document.querySelectorAll('input[name="fabricSource"]').forEach(radio => {
       radio.addEventListener('change', function() {
         const container = document.getElementById('materialSummaryContainer');
         if (this.value === 'store') {
-          // Show summary and load materials
           updateMaterialSummary();
-          // Also store that the user wants to purchase
         } else {
           container.style.display = 'none';
-          // Optionally clear selection? We'll keep it but hide.
         }
       });
     });
 
-    // ─── Browse Materials button ──
     document.getElementById('browseMaterialsBtn').addEventListener('click', function() {
-      // Save current booking page URL so materials page can return here
       sessionStorage.setItem('goke_booking_return_url', window.location.href);
       window.location.href = 'materials.html';
     });
 
-    // ─── Clear Materials button ──
     document.getElementById('clearMaterialsBtn').addEventListener('click', function() {
       if (confirm('Clear all selected materials?')) {
         localStorage.removeItem('goke_material_selection');
@@ -835,7 +820,6 @@
       }
     });
 
-    // ─── On page load, check fabric source and load materials ──
     document.addEventListener('DOMContentLoaded', function() {
       const selectedRadio = document.querySelector('input[name="fabricSource"]:checked');
       if (selectedRadio && selectedRadio.value === 'store') {
@@ -878,7 +862,6 @@
         paymentStatus: 'pending'
       };
 
-      // ─── Materials ───
       let selectedMaterials = [];
       if (fabricSource === 'store') {
         selectedMaterials = getMaterialSelection();
@@ -914,6 +897,9 @@
         return str.replace(/[\r\n\t]+/g, ' ').replace(/\s{2,}/g, ' ').trim() || 'None';
       }
 
+      // ─── Build measurements JSON ──────────────────────
+      const measurementsJSON = JSON.stringify(bookingData.measurements, null, 2);
+
       // ─── Admin params ───
       const adminParams = {
         client_name: sanitize(bookingData.name),
@@ -928,6 +914,9 @@
         fabric: sanitize(bookingData.fabricType || 'Not specified'),
         colour: sanitize(bookingData.colourPreference || 'Not specified'),
         notes: sanitize(bookingData.notes),
+        // Measurements as JSON string
+        measurements_json: measurementsJSON,
+        // Individual measurement fields (as fallback)
         chest: sanitize(bookingData.measurements.chest),
         waist: sanitize(bookingData.measurements.waist),
         hips: sanitize(bookingData.measurements.hips),
@@ -937,8 +926,11 @@
         neck: sanitize(bookingData.measurements.neck),
         inseam: sanitize(bookingData.measurements.inseam),
         height: sanitize(bookingData.measurements.height),
+        // Materials
         materials_list: bookingData.materials.length > 0 ? bookingData.materials.map(m => `${m.name} ×${m.quantity} (₦${(m.price*m.quantity).toLocaleString()})`).join(', ') : 'None',
-        material_total: bookingData.materialTotal > 0 ? '₦' + bookingData.materialTotal.toLocaleString() : '₦0'
+        material_total: bookingData.materialTotal > 0 ? '₦' + bookingData.materialTotal.toLocaleString() : '₦0',
+        // Image flag
+        has_image: bookingData.image ? 'yes' : 'no'
       };
 
       // ─── Client params (minimal) ───
