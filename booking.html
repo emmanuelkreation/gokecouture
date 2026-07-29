@@ -19,6 +19,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
     /* ── All existing styles (unchanged) ── */
+    /* (kept from your previous version) */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -119,36 +120,20 @@
     .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem }
 
     /* ── Fabric Source & Materials ── */
-    .radio-group { display:flex; gap:2rem; margin-top:.3rem }
+    .radio-group { display:flex; gap:2rem; margin-top:.3rem; flex-wrap:wrap; }
     .radio-group label { display:flex; align-items:center; gap:.6rem; font-size:.85rem; cursor:pointer; color:rgba(245,240,232,.8) }
     .radio-group input[type="radio"] { width:auto; margin:0; accent-color:var(--gold) }
-    .material-selection { margin-top:.8rem; padding:1rem; background:rgba(255,255,255,.03); border:1px solid rgba(245,240,232,.06); border-radius:4px; transition:opacity .4s, max-height .4s; overflow:hidden }
-    .material-selection.hidden { opacity:0; max-height:0; padding:0; margin:0; border:none }
-    .selected-materials { display:flex; flex-wrap:wrap; gap:.4rem; margin:.6rem 0 .4rem }
+    .material-section { margin-top:.8rem; padding:1rem; background:rgba(255,255,255,.03); border:1px solid rgba(245,240,232,.06); border-radius:4px; transition:opacity .4s, max-height .4s, padding .3s; overflow:hidden; }
+    .material-section.hidden { opacity:0; max-height:0; padding:0; margin:0; border:none; pointer-events:none; }
+    .selected-materials { display:flex; flex-wrap:wrap; gap:.4rem; margin:.6rem 0 .4rem; }
     .material-tag { display:inline-flex; align-items:center; gap:.4rem; background:rgba(201,168,76,.12); color:var(--gold); padding:.2rem .8rem; border-radius:20px; font-size:.7rem; border:1px solid rgba(201,168,76,.2) }
-    .material-tag .remove { cursor:pointer; font-size:.6rem; opacity:.6; transition:opacity .3s }
-    .material-tag .remove:hover { opacity:1 }
-    .btn-browse { background:rgba(201,168,76,.1); color:var(--gold); border:1px solid rgba(201,168,76,.3); padding:.4rem 1.2rem; font-size:.7rem; border-radius:3px; transition:background .3s; cursor:pointer }
-    .btn-browse:hover { background:rgba(201,168,76,.2) }
-    .material-count { font-size:.7rem; color:rgba(245,240,232,.3); margin-left:.4rem }
-
-    /* ── Modal ── */
-    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(10,10,10,.85); z-index:2000; align-items:center; justify-content:center; padding:2rem }
-    .modal-overlay.open { display:flex }
-    .modal-box { background:#111; border:1px solid rgba(201,168,76,.2); max-width:700px; width:100%; max-height:80vh; padding:2rem; overflow-y:auto; border-radius:4px }
-    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; border-bottom:1px solid rgba(245,240,232,.06); padding-bottom:.8rem }
-    .modal-header h3 { font-family:var(--font-display); font-size:1.3rem; font-weight:300; color:var(--ivory) }
-    .modal-header h3 em { color:var(--gold); font-style:italic }
-    .modal-close { font-size:1.5rem; color:rgba(245,240,232,.3); transition:color .3s; cursor:pointer; background:none; border:none }
-    .modal-close:hover { color:var(--ivory) }
-    .material-list { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin:1rem 0 }
-    .material-check { display:flex; align-items:center; gap:.8rem; padding:.5rem .8rem; background:rgba(255,255,255,.02); border:1px solid rgba(245,240,232,.06); border-radius:4px; transition:border-color .3s, background .3s; cursor:pointer }
-    .material-check:hover { border-color:rgba(201,168,76,.3); background:rgba(255,255,255,.04) }
-    .material-check input[type="checkbox"] { width:auto; margin:0; accent-color:var(--gold) }
-    .material-check .name { font-size:.85rem; color:var(--ivory) }
-    .material-check .price { font-size:.7rem; color:rgba(245,240,232,.4); margin-left:auto }
-    .modal-actions { display:flex; justify-content:flex-end; gap:.8rem; margin-top:1.2rem; padding-top:1rem; border-top:1px solid rgba(245,240,232,.06) }
-    .modal-actions .btn-primary { padding:.5rem 1.5rem; font-size:.7rem }
+    .material-tag .remove { cursor:pointer; font-size:.6rem; opacity:.6; transition:opacity .3s; margin-left:2px; }
+    .material-tag .remove:hover { opacity:1; }
+    .material-actions { display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
+    .btn-browse { background:rgba(201,168,76,.1); color:var(--gold); border:1px solid rgba(201,168,76,.3); padding:.4rem 1.2rem; font-size:.7rem; border-radius:3px; transition:background .3s; cursor:pointer; }
+    .btn-browse:hover { background:rgba(201,168,76,.2); }
+    .material-summary { font-size:.7rem; color:rgba(245,240,232,.4); }
+    .material-summary strong { color:var(--gold); font-weight:400; }
 
     .service-cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-top:.5rem }
     .service-card-option { background:rgba(255,255,255,.02); border:2px solid rgba(245,240,232,.06); padding:1.5rem; text-align:center; cursor:pointer; transition:all .4s var(--slow) }
@@ -229,7 +214,6 @@
       .form-nav .btn-primary, .form-nav .btn-ghost { min-width:auto; width:100%; justify-content:center }
       .image-upload-wrap { flex-direction:column; align-items:stretch }
       .image-upload-wrap .preview-area { flex:0 0 200px; width:100% }
-      .material-list { grid-template-columns:1fr }
       .radio-group { flex-direction:column; gap:.5rem }
     }
     @media(max-width:480px){
@@ -249,13 +233,11 @@
 </head>
 <body>
 
-  <!-- Cursor, WhatsApp, Nav, Mobile Nav – same as before -->
+  <!-- Cursor, Scroll Bar, WhatsApp Float – unchanged -->
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
   <div id="scroll-bar"></div>
-  <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20book%20a%20fitting%20with%20Goke%20Couture." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <i class="fab fa-whatsapp" style="font-size:1.8rem;color:white;"></i>
-  </a>
+  <a id="wa-float" href="https://wa.me/2348057059898?text=Hello%2C%20I%20would%20like%20to%20book%20a%20fitting%20with%20Goke%20Couture." target="_blank" rel="noopener"><i class="fab fa-whatsapp" style="font-size:1.8rem;color:white;"></i></a>
 
   <!-- ── NAVIGATION ── -->
   <nav id="nav" role="navigation" aria-label="Main navigation">
@@ -412,7 +394,7 @@
         </div>
       </div>
 
-      <!-- Step 3: Details + Fabric Source + Materials -->
+      <!-- Step 3: Personal Details + Style + Fabric + Materials -->
       <div class="form-step" data-step="3">
         <h2 class="step-title">Your <em>Details</em> &amp; Vision</h2>
         <p class="step-desc">Tell us about yourself, your style inspiration, and fabric preferences. Upload a reference image if you have one.</p>
@@ -436,7 +418,7 @@
           <div class="form-group"><label for="colourPreference">Colour / Style Preference</label><input type="text" id="colourPreference" placeholder="e.g. Ivory, navy, gold embroidery" /></div>
         </div>
 
-        <!-- ─── NEW: Fabric Source & Materials ─── -->
+        <!-- ─── FABRIC SOURCE & MATERIALS ─── -->
         <div class="form-group">
           <label>Fabric Source <span class="required">*</span></label>
           <div class="radio-group" id="fabricSourceGroup">
@@ -445,14 +427,17 @@
           </div>
         </div>
 
-        <div class="form-group material-selection hidden" id="materialSelection">
-          <label>Select Materials <span class="required" id="materialRequired">*</span></label>
-          <div class="selected-materials" id="selectedMaterialsContainer"></div>
-          <div style="display:flex; align-items:center; gap:.6rem;">
-            <button type="button" class="btn-browse" id="browseMaterialsBtn"><i class="fas fa-th-list"></i> Browse Materials</button>
-            <span class="material-count" id="materialCount">0 selected</span>
+        <div class="form-group material-section hidden" id="materialSection">
+          <label>Selected Materials <span class="required" id="materialRequired">*</span></label>
+          <div class="selected-materials" id="selectedMaterialsContainer">
+            <span style="font-size:.8rem;color:rgba(245,240,232,.3);">No materials selected</span>
           </div>
-          <div style="font-size:.7rem;color:rgba(245,240,232,.3);margin-top:.3rem;">Select at least one material if you're purchasing from us.</div>
+          <div class="material-actions">
+            <a href="materials.html" class="btn-browse" id="browseMaterialsBtn"><i class="fas fa-th-list"></i> Browse Materials</a>
+            <button type="button" class="btn-ghost" id="clearMaterialsBtn" style="font-size:.7rem;padding:.3rem 1rem;border-color:rgba(139,0,0,.3);color:var(--danger);">Clear All</button>
+            <span class="material-summary" id="materialSummary">Total: <strong>₦0</strong></span>
+          </div>
+          <div style="font-size:.7rem;color:rgba(245,240,232,.3);margin-top:.3rem;">Select at least one material from the materials page.</div>
         </div>
 
         <!-- ─── Style Image ─── -->
@@ -531,23 +516,6 @@
     </div>
   </section>
 
-  <!-- ── MATERIALS MODAL ── -->
-  <div class="modal-overlay" id="materialsModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Select <em>Materials</em></h3>
-        <button class="modal-close" id="modalCloseBtn">&times;</button>
-      </div>
-      <div id="modalMaterialsList" class="material-list">
-        <!-- Fetched from Firebase -->
-      </div>
-      <div class="modal-actions">
-        <button class="btn-ghost" id="modalCancelBtn">Cancel</button>
-        <button class="btn-primary" id="modalConfirmBtn">Confirm Selection</button>
-      </div>
-    </div>
-  </div>
-
   <!-- ── PARALLAX DIVIDER & FOOTER (unchanged) ── -->
   <div class="parallax-divider" style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80&auto=format&fit=crop');">
     <div class="content">
@@ -557,7 +525,53 @@
   </div>
 
   <footer>
-    <!-- ... same footer as before ... -->
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" aria-label="Goke Couture Home">
+          <svg viewBox="0 0 56 56" fill="none" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1" y="1" width="54" height="54" stroke="#C9A84C" stroke-width=".8"/>
+            <rect x="4" y="4" width="48" height="48" stroke="#C9A84C" stroke-width=".3" opacity=".4"/>
+            <text x="28" y="36" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="22" font-weight="400" fill="#F5F0E8" letter-spacing="1">GC</text>
+          </svg>
+          <div class="logo-wordmark">Goke Couture<span>Ibadan · Oyo, Nigeria</span></div>
+        </a>
+        <p>Premium bespoke tailoring crafted for those who understand that true elegance is in the details. Every garment, a masterpiece.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="https://instagram.com/gokecouture" class="soc-btn" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://tiktok.com/@gokecouture" class="soc-btn" aria-label="TikTok" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://wa.me/2348057059898" class="soc-btn" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="collections.html">Collections</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="booking.html">Book a Fitting</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="services.html">Bridal Couture</a>
+        <a href="services.html">Agbada & Traditional</a>
+        <a href="services.html">Suits & Corporate</a>
+        <a href="services.html">Casual Luxury</a>
+        <a href="services.html">Alterations</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-line"><i class="fas fa-phone"></i><a href="tel:+2348057059898">+234 805 705 9898</a></div>
+        <div class="footer-contact-line"><i class="fas fa-envelope"></i><a href="mailto:info@gokecouture.com">info@gokecouture.com</a></div>
+        <div class="footer-contact-line"><i class="fas fa-map-marker-alt"></i><span style="font-size:.78rem;line-height:1.4;">Seventh day road, opposite Omi Tuntun New Shopping complex, Iyaganku, Ibadan, Oyo State.</span></div>
+        <div class="footer-contact-line" style="margin-top:.4rem"><i class="far fa-clock"></i><span>Mon – Sat: 9am – 7pm</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Goke Couture. All rights reserved.</p>
+      <p class="footer-credit">Designed & Built by <a href="https://www.kreationdigitals.com" target="_blank" rel="noopener">Kreation Digitals</a></p>
+    </div>
   </footer>
 
   <!-- ═══════════════════════════════════════════════
@@ -645,7 +659,7 @@
       fileInput.value = '';
     });
 
-    // ── Navigation ──
+    // ── Navigation (unchanged) ──
     function goToStep(step) {
       if (step < 1 || step > totalSteps) return;
       if (step === 2 && !selectedServiceInput.value) {
@@ -653,7 +667,6 @@
         return;
       }
       if (step === 4) {
-        // Validate required fields for review
         const name = document.getElementById('clientName').value.trim();
         const email = document.getElementById('clientEmail').value.trim();
         if (!name || !email) {
@@ -662,14 +675,10 @@
         }
         // Validate fabric source & materials
         const source = document.querySelector('input[name="fabricSource"]:checked');
-        if (source) {
-          const fabricSource = source.value;
-          if (fabricSource === 'purchase' && selectedMaterials.length === 0) {
-            alert('Please select at least one material from our collection.');
-            return;
-          }
+        if (source && source.value === 'purchase' && selectedMaterials.length === 0) {
+          alert('Please select at least one material from our collection.');
+          return;
         }
-        // Update review fields...
         updateReview();
       }
 
@@ -687,6 +696,144 @@
       window.scrollTo({ top: document.getElementById('booking-form-section').offsetTop - 100, behavior: 'smooth' });
     }
 
+    document.getElementById('step1Next').addEventListener('click', function() { goToStep(2); });
+    document.getElementById('step2Back').addEventListener('click', function() { goToStep(1); });
+    document.getElementById('step2Next').addEventListener('click', function() { goToStep(3); });
+    document.getElementById('step3Back').addEventListener('click', function() { goToStep(2); });
+    document.getElementById('step3Next').addEventListener('click', function() {
+      // Validate before going to review
+      const source = document.querySelector('input[name="fabricSource"]:checked');
+      if (source && source.value === 'purchase' && selectedMaterials.length === 0) {
+        alert('Please select at least one material from our collection.');
+        return;
+      }
+      goToStep(4);
+    });
+    document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
+
+    // ── Fabric Source toggle ──
+    const fabricRadios = document.querySelectorAll('input[name="fabricSource"]');
+    const materialSection = document.getElementById('materialSection');
+    const materialRequired = document.getElementById('materialRequired');
+
+    fabricRadios.forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        if (this.value === 'purchase') {
+          materialSection.classList.remove('hidden');
+          materialRequired.style.display = 'inline';
+        } else {
+          materialSection.classList.add('hidden');
+          materialRequired.style.display = 'none';
+        }
+        // Update review if on step 4
+        if (currentStep === 4) {
+          updateReview();
+        }
+      });
+    });
+
+    // ── Materials state ──
+    let selectedMaterials = []; // array of { id, name, price, quantity }
+
+    // ── Load materials from localStorage on return ──
+    function restoreMaterialsFromLocalStorage() {
+      const stored = localStorage.getItem('materialSelectionsData');
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          if (data.materials && data.materials.length > 0) {
+            selectedMaterials = data.materials;
+            // Auto-select the "purchase" radio
+            const purchaseRadio = document.querySelector('input[name="fabricSource"][value="purchase"]');
+            if (purchaseRadio) purchaseRadio.checked = true;
+            purchaseRadio.dispatchEvent(new Event('change'));
+            // Clear the stored data so it's not reused on refresh
+            // localStorage.removeItem('materialSelectionsData');
+            updateMaterialUI();
+            return true;
+          }
+        } catch(e) { console.error('Error restoring materials:', e); }
+      }
+      return false;
+    }
+
+    // ── Update materials UI ──
+    function updateMaterialUI() {
+      const container = document.getElementById('selectedMaterialsContainer');
+      const summarySpan = document.getElementById('materialSummary');
+      container.innerHTML = '';
+      if (selectedMaterials.length === 0) {
+        container.innerHTML = '<span style="font-size:.8rem;color:rgba(245,240,232,.3);">No materials selected</span>';
+        summarySpan.innerHTML = 'Total: <strong>₦0</strong>';
+        return;
+      }
+      let total = 0;
+      selectedMaterials.forEach(function(mat) {
+        const qty = mat.quantity || 1;
+        const cost = mat.price * qty;
+        total += cost;
+        const tag = document.createElement('span');
+        tag.className = 'material-tag';
+        tag.innerHTML = `${mat.name} × ${qty} <span style="color:var(--gold-lt);margin-left:4px;">₦${cost.toLocaleString()}</span> <span class="remove" data-id="${mat.id}">&times;</span>`;
+        tag.querySelector('.remove').addEventListener('click', function(e) {
+          e.stopPropagation();
+          const id = this.dataset.id;
+          selectedMaterials = selectedMaterials.filter(m => m.id !== id);
+          // Also remove from localStorage
+          const stored = localStorage.getItem('materialSelectionsData');
+          if (stored) {
+            try {
+              const data = JSON.parse(stored);
+              data.materials = data.materials.filter(m => m.id !== id);
+              data.total = data.materials.reduce((sum, m) => sum + (m.price * (m.quantity || 1)), 0);
+              localStorage.setItem('materialSelectionsData', JSON.stringify(data));
+            } catch(e) {}
+          }
+          updateMaterialUI();
+          // If all materials are removed, switch to "own fabric" automatically
+          if (selectedMaterials.length === 0) {
+            const ownRadio = document.querySelector('input[name="fabricSource"][value="own"]');
+            if (ownRadio) ownRadio.checked = true;
+            ownRadio.dispatchEvent(new Event('change'));
+          }
+        });
+        container.appendChild(tag);
+      });
+      summarySpan.innerHTML = `Total: <strong>₦${total.toLocaleString()}</strong>`;
+      // Update any review fields if on review step
+      if (currentStep === 4) {
+        updateReview();
+      }
+    }
+
+    // ── Clear materials ──
+    document.getElementById('clearMaterialsBtn').addEventListener('click', function() {
+      if (selectedMaterials.length === 0) return;
+      if (!confirm('Clear all selected materials?')) return;
+      selectedMaterials = [];
+      localStorage.removeItem('materialSelectionsData');
+      updateMaterialUI();
+      // Switch to own fabric
+      const ownRadio = document.querySelector('input[name="fabricSource"][value="own"]');
+      if (ownRadio) ownRadio.checked = true;
+      ownRadio.dispatchEvent(new Event('change'));
+    });
+
+    // ── Check for return from materials page ──
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromMaterials = urlParams.get('fromMaterials');
+      if (fromMaterials) {
+        const restored = restoreMaterialsFromLocalStorage();
+        if (restored) {
+          console.log('✅ Materials restored from materials page.');
+          // Remove the query param
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    })();
+
+    // ── Update review fields (including materials) ──
     function updateReview() {
       const name = document.getElementById('clientName').value.trim();
       const email = document.getElementById('clientEmail').value.trim();
@@ -700,16 +847,14 @@
       document.getElementById('reviewFabric').textContent = document.getElementById('fabricType').value || '—';
       document.getElementById('reviewColour').textContent = document.getElementById('colourPreference').value || '—';
 
-      // Fabric source
       const source = document.querySelector('input[name="fabricSource"]:checked');
       const sourceLabel = source ? (source.value === 'own' ? 'I have my own fabric' : 'Purchase from Goke Couture') : '—';
       document.getElementById('reviewFabricSource').textContent = sourceLabel;
 
-      // Materials
       if (selectedMaterials.length === 0) {
         document.getElementById('reviewMaterials').textContent = 'None selected';
       } else {
-        const names = selectedMaterials.map(m => m.name).join(', ');
+        const names = selectedMaterials.map(m => m.name + ' ×' + (m.quantity || 1)).join(', ');
         document.getElementById('reviewMaterials').textContent = names;
       }
 
@@ -748,161 +893,6 @@
       }
     }
 
-    document.getElementById('step1Next').addEventListener('click', function() { goToStep(2); });
-    document.getElementById('step2Back').addEventListener('click', function() { goToStep(1); });
-    document.getElementById('step2Next').addEventListener('click', function() { goToStep(3); });
-    document.getElementById('step3Back').addEventListener('click', function() { goToStep(2); });
-    document.getElementById('step3Next').addEventListener('click', function() {
-      // Validate before going to review
-      const source = document.querySelector('input[name="fabricSource"]:checked');
-      if (source && source.value === 'purchase' && selectedMaterials.length === 0) {
-        alert('Please select at least one material from our collection.');
-        return;
-      }
-      goToStep(4);
-    });
-    document.getElementById('step4Back').addEventListener('click', function() { goToStep(3); });
-
-    // ── Fabric Source toggle ──
-    const fabricRadios = document.querySelectorAll('input[name="fabricSource"]');
-    const materialSection = document.getElementById('materialSelection');
-    const materialRequired = document.getElementById('materialRequired');
-
-    fabricRadios.forEach(function(radio) {
-      radio.addEventListener('change', function() {
-        if (this.value === 'purchase') {
-          materialSection.classList.remove('hidden');
-          materialRequired.style.display = 'inline';
-        } else {
-          materialSection.classList.add('hidden');
-          materialRequired.style.display = 'none';
-        }
-      });
-    });
-
-    // ── Materials Modal ──
-    let selectedMaterials = [];
-    const modal = document.getElementById('materialsModal');
-    const modalList = document.getElementById('modalMaterialsList');
-    const browseBtn = document.getElementById('browseMaterialsBtn');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
-    const modalCancelBtn = document.getElementById('modalCancelBtn');
-    const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-
-    // Load materials from Firebase
-    let allMaterials = [];
-
-    function loadMaterials() {
-      db.ref('materials').once('value')
-        .then(function(snapshot) {
-          const data = snapshot.val();
-          if (data) {
-            allMaterials = Object.keys(data).map(function(key) {
-              const item = data[key];
-              return { id: key, name: item.name || 'Unnamed', price: item.price || 0 };
-            });
-            // Sort by name
-            allMaterials.sort((a, b) => a.name.localeCompare(b.name));
-          }
-          renderMaterialModal();
-        })
-        .catch(function(err) {
-          console.error('Error loading materials:', err);
-          // Fallback empty
-          allMaterials = [];
-          renderMaterialModal();
-        });
-    }
-
-    function renderMaterialModal() {
-      modalList.innerHTML = '';
-      if (allMaterials.length === 0) {
-        modalList.innerHTML = '<p style="color:rgba(245,240,232,.4);font-size:.9rem;">No materials available at the moment.</p>';
-        return;
-      }
-      allMaterials.forEach(function(mat) {
-        const checked = selectedMaterials.some(s => s.id === mat.id);
-        const div = document.createElement('div');
-        div.className = 'material-check';
-        div.innerHTML = `
-          <input type="checkbox" value="${mat.id}" ${checked ? 'checked' : ''} />
-          <span class="name">${mat.name}</span>
-          <span class="price">₦${mat.price.toLocaleString()}</span>
-        `;
-        div.addEventListener('click', function(e) {
-          // Toggle checkbox when clicking the whole div
-          if (e.target.tagName !== 'INPUT') {
-            const cb = this.querySelector('input[type="checkbox"]');
-            cb.checked = !cb.checked;
-            cb.dispatchEvent(new Event('change'));
-          }
-        });
-        modalList.appendChild(div);
-      });
-    }
-
-    function openModal() {
-      modal.classList.add('open');
-      // Refresh selection state
-      renderMaterialModal();
-    }
-
-    function closeModal() {
-      modal.classList.remove('open');
-    }
-
-    browseBtn.addEventListener('click', openModal);
-    modalCloseBtn.addEventListener('click', closeModal);
-    modalCancelBtn.addEventListener('click', closeModal);
-    modalConfirmBtn.addEventListener('click', function() {
-      // Gather selected checkboxes
-      const checks = modalList.querySelectorAll('input[type="checkbox"]:checked');
-      selectedMaterials = [];
-      checks.forEach(function(cb) {
-        const id = cb.value;
-        const mat = allMaterials.find(m => m.id === id);
-        if (mat) selectedMaterials.push(mat);
-      });
-      // Update UI
-      updateMaterialUI();
-      closeModal();
-    });
-
-    function updateMaterialUI() {
-      const container = document.getElementById('selectedMaterialsContainer');
-      const countSpan = document.getElementById('materialCount');
-      container.innerHTML = '';
-      if (selectedMaterials.length === 0) {
-        container.innerHTML = '<span style="font-size:.8rem;color:rgba(245,240,232,.3);">No materials selected</span>';
-        countSpan.textContent = '0 selected';
-        return;
-      }
-      selectedMaterials.forEach(function(mat) {
-        const tag = document.createElement('span');
-        tag.className = 'material-tag';
-        tag.innerHTML = `${mat.name} <span class="remove" data-id="${mat.id}">&times;</span>`;
-        tag.querySelector('.remove').addEventListener('click', function(e) {
-          e.stopPropagation();
-          const id = this.dataset.id;
-          selectedMaterials = selectedMaterials.filter(m => m.id !== id);
-          updateMaterialUI();
-        });
-        container.appendChild(tag);
-      });
-      countSpan.textContent = selectedMaterials.length + ' selected';
-    }
-
-    // Click outside modal to close
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) closeModal();
-    });
-
-    // Load materials on page load
-    loadMaterials();
-
-    // ── Navigation buttons ──
-    // Already defined above
-
     // ── SUBMIT BOOKING ──
     document.getElementById('step4Submit').addEventListener('click', function() {
       const bookingData = {
@@ -929,7 +919,8 @@
           height: document.getElementById('measureHeight').value || ''
         },
         fabricSource: document.querySelector('input[name="fabricSource"]:checked')?.value || '',
-        materials: selectedMaterials.map(m => ({ name: m.name, price: m.price })),
+        materials: selectedMaterials.map(m => ({ name: m.name, price: m.price, quantity: m.quantity || 1 })),
+        materialTotal: selectedMaterials.reduce((sum, m) => sum + (m.price * (m.quantity || 1)), 0),
         timestamp: new Date().toISOString(),
         status: 'new',
         paymentStatus: 'pending'
@@ -979,7 +970,8 @@
         colour: sanitize(bookingData.colourPreference || 'Not specified'),
         notes: sanitize(bookingData.notes),
         fabric_source: bookingData.fabricSource === 'own' ? 'I have my own fabric' : 'Purchase from Goke Couture',
-        materials: bookingData.materials.length > 0 ? bookingData.materials.map(m => m.name).join(', ') : 'None',
+        materials: bookingData.materials.length > 0 ? bookingData.materials.map(m => m.name + ' ×' + m.quantity + ' (₦' + (m.price * m.quantity).toLocaleString() + ')').join('; ') : 'None',
+        material_total: '₦' + bookingData.materialTotal.toLocaleString(),
         chest: sanitize(bookingData.measurements.chest),
         waist: sanitize(bookingData.measurements.waist),
         hips: sanitize(bookingData.measurements.hips),
@@ -1034,7 +1026,7 @@
         });
     });
 
-    // ── Collection pre-population ──
+    // ── Collection pre-population (unchanged) ──
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
       const collectionId = urlParams.get('collectionId');
@@ -1103,9 +1095,21 @@
         });
     })();
 
+    // ── Initialize material UI ──
+    // If we already restored from localStorage, update UI
+    // (the restore function already called updateMaterialUI)
+    if (!document.querySelector('input[name="fabricSource"][value="purchase"]:checked')) {
+      // If no materials restored, ensure own fabric is selected and material section hidden
+      const ownRadio = document.querySelector('input[name="fabricSource"][value="own"]');
+      if (ownRadio) {
+        ownRadio.checked = true;
+        ownRadio.dispatchEvent(new Event('change'));
+      }
+    }
+    updateMaterialUI();
+
     // ── Cursor, scroll, nav, mobile menu, hero slides ──
-    // (keep all the helper functions exactly as they were in your original)
-    // I'm including them for completeness, but they're unchanged.
+    // (all unchanged from your original, kept for completeness)
     (function() {
       const dot = document.getElementById('cursor-dot');
       const ring = document.getElementById('cursor-ring');
@@ -1201,10 +1205,7 @@
       }, 5000);
     })();
 
-    // ── Initialize material UI ──
-    updateMaterialUI();
-
-    console.log('✅ Booking page with integrated materials loaded.');
+    console.log('✅ Booking page with integrated materials (standalone page) loaded.');
   </script>
 </body>
 </html>
