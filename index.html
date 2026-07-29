@@ -245,27 +245,13 @@
       opacity: 1;
       transform: none
     }
-    #mobile-nav.open .mob-link:nth-child(1) {
-      transition-delay: .05s
-    }
-    #mobile-nav.open .mob-link:nth-child(2) {
-      transition-delay: .12s
-    }
-    #mobile-nav.open .mob-link:nth-child(3) {
-      transition-delay: .19s
-    }
-    #mobile-nav.open .mob-link:nth-child(4) {
-      transition-delay: .26s
-    }
-    #mobile-nav.open .mob-link:nth-child(5) {
-      transition-delay: .33s
-    }
-    #mobile-nav.open .mob-link:nth-child(6) {
-      transition-delay: .40s
-    }
-    #mobile-nav.open .mob-link:nth-child(7) {
-      transition-delay: .47s
-    }
+    #mobile-nav.open .mob-link:nth-child(1) { transition-delay: .05s }
+    #mobile-nav.open .mob-link:nth-child(2) { transition-delay: .12s }
+    #mobile-nav.open .mob-link:nth-child(3) { transition-delay: .19s }
+    #mobile-nav.open .mob-link:nth-child(4) { transition-delay: .26s }
+    #mobile-nav.open .mob-link:nth-child(5) { transition-delay: .33s }
+    #mobile-nav.open .mob-link:nth-child(6) { transition-delay: .40s }
+    #mobile-nav.open .mob-link:nth-child(7) { transition-delay: .47s }
     .mob-link:hover {
       color: var(--gold)
     }
@@ -578,18 +564,9 @@
       animation: scroll-line 2.2s var(--slow) infinite;
     }
     @keyframes scroll-line {
-      0% {
-        width: 0;
-        opacity: 0
-      }
-      50% {
-        width: 40px;
-        opacity: 1
-      }
-      100% {
-        width: 40px;
-        opacity: 0
-      }
+      0% { width: 0; opacity: 0 }
+      50% { width: 40px; opacity: 1 }
+      100% { width: 40px; opacity: 0 }
     }
 
     /* ═══════════════════════════════════════════════
@@ -878,12 +855,8 @@
       font-size: .9rem
     }
     @keyframes marquee {
-      0% {
-        transform: translateX(0)
-      }
-      100% {
-        transform: translateX(-50%)
-      }
+      0% { transform: translateX(0) }
+      100% { transform: translateX(-50%) }
     }
 
     /* ═══════════════════════════════════════════════
@@ -1910,17 +1883,12 @@
       box-shadow: 0 8px 32px rgba(37, 211, 102, .5)
     }
     @keyframes wa-pulse {
-      0%,
-      100% {
-        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
-      }
-      50% {
-        box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0)
-      }
+      0%, 100% { box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3) }
+      50% { box-shadow: 0 4px 24px rgba(37, 211, 102, .35), 0 0 0 12px rgba(37, 211, 102, 0) }
     }
 
     /* ═══════════════════════════════════════════════
-       RESPONSIVE
+       RESPONSIVE (enhanced)
     ═══════════════════════════════════════════════ */
     @media(max-width:1024px) {
       #about {
@@ -1943,7 +1911,8 @@
       .coll-item:first-child {
         grid-row: span 1
       }
-      .coll-item:first-child .coll-img {
+      .coll-item:first-child .coll-img,
+      .coll-item:not(:first-child) .coll-img {
         height: 310px
       }
       .process-inner {
@@ -1989,8 +1958,7 @@
       #nav.scrolled {
         height: 56px;
       }
-      .nav-links,
-      .nav-cta {
+      .nav-links, .nav-cta {
         display: none
       }
       .nav-hamburger {
@@ -2178,6 +2146,29 @@
       .hero-stat-divider {
         height: 20px;
       }
+
+      /* Carousel on mobile */
+      .swiper-slide .slide-overlay {
+        padding: 1.2rem;
+      }
+      .swiper-slide .slide-overlay .category {
+        font-size: .55rem;
+      }
+      .swiper-slide .slide-overlay h3 {
+        font-size: 1.2rem;
+      }
+      .swiper-slide .slide-overlay .desc {
+        font-size: .8rem;
+        max-width: 100%;
+        -webkit-line-clamp: 1;
+      }
+      .swiper-pagination {
+        bottom: 10px;
+      }
+      .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+      }
     }
 
     @media(max-width:480px) {
@@ -2338,6 +2329,25 @@
       }
       .hero-stat-divider {
         height: 16px;
+      }
+      /* Carousel very small */
+      .swiper-slide .slide-overlay {
+        padding: 0.8rem;
+      }
+      .swiper-slide .slide-overlay h3 {
+        font-size: 1rem;
+      }
+      .swiper-slide .slide-overlay .desc {
+        font-size: .7rem;
+        margin-bottom: .4rem;
+      }
+      .swiper-slide .slide-overlay .btn-outline-gold {
+        font-size: .5rem;
+        padding: .2rem 1rem;
+      }
+      .swiper-button-next,
+      .swiper-button-prev {
+        display: none !important;
       }
     }
 
@@ -2523,7 +2533,7 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════
-       🆕 COLLECTIONS CAROUSEL (NEW SECTION)
+       COLLECTIONS CAROUSEL
   ═══════════════════════════════════════════════ -->
   <section class="carousel-section" aria-label="Featured collections carousel">
     <div class="carousel-header reveal">
@@ -3112,7 +3122,7 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- ═══════════════════════════════════════════════
-     JAVASCRIPT
+     JAVASCRIPT (unchanged – only CSS enhanced)
   ═══════════════════════════════════════════════ -->
   <script>
     // ── Firebase Configuration ──
