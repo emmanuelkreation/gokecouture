@@ -12,7 +12,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <style>
     /* ── Same styles as before ── */
-    /* (all styles remain unchanged) */
+    /* (all styles remain unchanged except responsive additions) */
     :root {
       --ink: #0A0A0A;
       --ivory: #F5F0E8;
@@ -1011,6 +1011,7 @@
         width: 70px;
       }
     }
+
     @media(max-width:768px) {
       #nav {
         padding: 0 1.2rem;
@@ -1043,6 +1044,11 @@
       }
       .filter-bar {
         justify-content: flex-start;
+        gap: 0.4rem;
+      }
+      .filter-btn {
+        font-size: 0.55rem;
+        padding: 0.3rem 1rem;
       }
       .featured-card .overlay h3 {
         font-size: 1.4rem;
@@ -1056,13 +1062,139 @@
       .filter-controls .price-input input {
         width: 60px;
       }
+      .filter-controls .filter-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: .4rem;
+      }
+      .filter-controls .filter-group .filter-label {
+        width: 100%;
+        margin-bottom: .2rem;
+      }
     }
+
     @media(max-width:480px) {
       .collections-hero .content h1 {
         font-size: 2.2rem;
       }
       .collections-hero .content .quote {
         font-size: 1rem;
+      }
+      .collections-hero .content .eyebrow {
+        font-size: 0.6rem;
+        margin-bottom: 0.8rem;
+      }
+      .expertise-badge {
+        font-size: 0.55rem;
+        padding: 0.3rem 1.2rem;
+        margin-top: 1.2rem;
+      }
+      .featured-header h2 {
+        font-size: 1.8rem;
+      }
+      .featured-card .overlay {
+        padding: 1.2rem;
+      }
+      .featured-card .overlay h3 {
+        font-size: 1.2rem;
+      }
+      .featured-card .overlay p {
+        font-size: 0.8rem;
+        max-width: 100%;
+      }
+      .featured-card .overlay .price {
+        font-size: 0.9rem;
+      }
+      .featured-card .overlay .btn-outline-gold {
+        font-size: 0.55rem;
+        padding: 0.3rem 1rem;
+      }
+      .collection-card .card-body {
+        padding: 1rem;
+      }
+      .collection-card .card-body h3 {
+        font-size: 1rem;
+      }
+      .collection-card .card-body .desc {
+        font-size: 0.8rem;
+      }
+      .collection-card .card-body .price {
+        font-size: 0.9rem;
+      }
+      .collection-card .card-body .btn-outline-gold {
+        font-size: 0.5rem;
+        padding: 0.2rem 0.8rem;
+      }
+      .filter-btn {
+        font-size: 0.5rem;
+        padding: 0.2rem 0.8rem;
+      }
+      .section-header h2 {
+        font-size: 1.4rem;
+      }
+      .cta-section h2 {
+        font-size: 1.6rem !important;
+      }
+      .cta-section p {
+        font-size: 0.9rem;
+        margin: 1rem 0 1.5rem;
+      }
+      .btn-primary {
+        font-size: 0.65rem;
+        padding: 0.7rem 1.8rem;
+      }
+      .filter-controls {
+        padding: 0.8rem;
+      }
+      .filter-controls .search-box {
+        min-width: 0;
+        width: 100%;
+      }
+      .filter-controls .search-box input {
+        font-size: .8rem;
+        padding: .5rem .5rem .5rem 2rem;
+      }
+      .filter-controls .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: .4rem;
+        width: 100%;
+      }
+      .filter-controls .filter-group .filter-label {
+        width: auto;
+      }
+      .filter-controls .price-input {
+        justify-content: flex-start;
+        gap: .4rem;
+      }
+      .filter-controls .price-input input {
+        width: 70px;
+        flex: 1;
+      }
+      .filter-controls .sort-select {
+        width: 100%;
+        padding: .5rem;
+      }
+      .filter-controls .btn-reset {
+        width: 100%;
+        text-align: center;
+        padding: .5rem;
+      }
+      .lightbox .nav-btn {
+        font-size: 1.5rem;
+        padding: 0.5rem;
+      }
+      .lightbox .close {
+        font-size: 2rem;
+        top: 1rem;
+        right: 1rem;
+      }
+      .lightbox .lightbox-info .lb-name {
+        font-size: 1.2rem;
+      }
+      .lightbox .lightbox-info .lb-desc {
+        font-size: 0.75rem;
       }
       #cursor-dot,
       #cursor-ring {
@@ -1076,12 +1208,53 @@
       .filter-btn {
         cursor: auto;
       }
-      .filter-controls .filter-group {
-        flex-direction: column;
-        align-items: stretch;
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 5vw 1.5rem;
       }
-      .filter-controls .price-input {
-        justify-content: flex-start;
+      .footer-brand p {
+        max-width: 100%;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+      }
+    }
+
+    /* Extra small phones */
+    @media(max-width:360px) {
+      .collections-hero .content h1 {
+        font-size: 1.8rem;
+      }
+      .collections-hero .content .quote {
+        font-size: 0.85rem;
+      }
+      .featured-card .overlay h3 {
+        font-size: 1rem;
+      }
+      .featured-card .overlay p {
+        font-size: 0.7rem;
+      }
+      .featured-card .overlay .price {
+        font-size: 0.8rem;
+      }
+      .collection-card .card-body h3 {
+        font-size: 0.9rem;
+      }
+      .collection-card .card-body .desc {
+        font-size: 0.7rem;
+      }
+      .collection-card .card-body .price {
+        font-size: 0.8rem;
+      }
+      .filter-btn {
+        font-size: 0.45rem;
+        padding: 0.2rem 0.6rem;
+      }
+      .filter-controls .price-input input {
+        width: 60px;
       }
     }
   </style>
@@ -1302,7 +1475,7 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════
-     JAVASCRIPT
+     JAVASCRIPT (unchanged)
   ═══════════════════════════════════════════════ -->
   <script>
     // ── Firebase Config ──
